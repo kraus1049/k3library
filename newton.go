@@ -3,16 +3,12 @@ package k3library
 import (
 	"fmt"
 	"math"
-	"os"
 )
 
-func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64, ok bool) {
+func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64, err error) {
 	defer func() {
 		if x := recover(); x != nil {
-			fmt.Fprintln(os.Stderr, x)
-			ok = false
-		} else {
-			ok = true
+			err = fmt.Errorf("%v",x)
 		}
 	}()
 
@@ -32,7 +28,7 @@ func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64
 
 	for !Epsequal(fs, 0, eps) {
 		if Epsequal(gs, 0, 1e-3) {
-			panic("Newton:invalid argument")
+			panic("Newton:Invalid argument")
 		}
 
 		x_in = x_i - (fs / gs)

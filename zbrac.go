@@ -3,19 +3,17 @@ package k3library
 import (
 	"fmt"
 	"math"
-	"os"
 )
 
-func Zbrac(start, end float64, f func(float64) float64) (x1, x2 float64, ok bool) {
+func Zbrac(start, end float64, f func(float64) float64) (x1, x2 float64, err error) {
 	defer func() {
 		if x := recover(); x != nil {
-			fmt.Fprintln(os.Stderr, x)
-			ok = false
+			err = fmt.Errorf("%v",x)
 		}
 	}()
 
 	if start == end {
-		panic("Zbrac: Bad initial range")
+		panic("Zbrac:Invalid argument")
 	} else if start > end {
 		start, end = end, start
 	}
@@ -28,7 +26,6 @@ func Zbrac(start, end float64, f func(float64) float64) (x1, x2 float64, ok bool
 
 	for i := 0; i <= ITERATE; i++ {
 		if fs*fe < 0 {
-			ok = true
 			return
 		}
 		if math.Abs(fs) < math.Abs(fe) {

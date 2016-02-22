@@ -1,11 +1,13 @@
 package k3library
 
-func Sgn(x float64) (ans float64, ok bool) {
+import (
+	"fmt"
+)
+
+func Sgn(x float64) (ans float64, err error) {
 	defer func() {
 		if x := recover(); x != nil {
-			ok = false
-		} else {
-			ok = true
+			err = fmt.Errorf("%v", x)
 		}
 	}()
 

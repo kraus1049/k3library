@@ -6,24 +6,24 @@ import (
 
 type sgnTest struct {
 	x, expected float64
-	ok          bool
+	err         error
 }
 
 func TestSgn(t *testing.T) {
 	var testsgn = []sgnTest{
-		{2, 1, true},
-		{0, 0, true},
-		{-3, -1, true},
+		{2, 1, nil},
+		{0, 0, nil},
+		{-3, -1, nil},
 	}
 
 	for i := range testsgn {
 		test := &testsgn[i]
-		actual, ok := Sgn(test.x)
+		actual, err := Sgn(test.x)
 
 		if actual != test.expected {
 			t.Errorf("%v:actual = %v,expected = %v\n", actual, test.expected)
-		} else if ok != test.ok {
-			t.Errorf("%v:actual = %v,expected = %v\n", ok, test.ok)
+		} else if err != test.err {
+			t.Errorf("%v:actual = %v,expected = %v\n", err, test.err)
 		}
 	}
 

@@ -1,6 +1,7 @@
 package k3library
 
 import (
+	"errors"
 	"math"
 	"testing"
 )
@@ -8,7 +9,7 @@ import (
 type bisectTest struct {
 	f                              func(float64) float64
 	start, end, num, eps, expected float64
-	err                            interface{}
+	err                            error
 }
 
 func TestBisect(t *testing.T) {
@@ -43,16 +44,16 @@ func TestBisectInvalidArgument(t *testing.T) {
 	testbisectinvalidargument := []bisectTest{
 		{func(x float64) float64 { return x - 1 },
 			2, 3, 0, 1e-15, 0,
-			"Bisect:Invalid argument"},
+			errors.New("Bisect:Invalid argument")},
 		{func(x float64) float64 { return 1 / (x - 5) },
 			0, 10, 0, 1e-15, 0,
-			"Bisect:Infinite loop"},
+			errors.New("Bisect:Infinite loop")},
 	}
 
 	for i := range testbisectinvalidargument {
 		test := &testbisectinvalidargument[i]
 		_, err := Bisect(test.start, test.end, test.f, test.num, test.eps)
-		if err.Error() != test.err {
+		if err.Error() != test.err.Error() {
 			t.Errorf("%v:actual = %v, expected %v\n", i, err, test.err)
 		}
 	}

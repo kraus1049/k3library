@@ -1,15 +1,11 @@
 package k3library
 
-import (
-	"fmt"
-)
-
 func Secant(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {
-	defer func() {
-		if x := recover(); x != nil {
-			err = fmt.Errorf("%v", x)
-		}
-	}()
+	// defer func() {
+	// 	if x := recover(); x != nil {
+	// 		err = fmt.Errorf("%v", x)
+	// 	}
+	// }()
 
 	f := func(x float64) float64 { return g(x) - num }
 	var fs, fe float64
@@ -22,6 +18,8 @@ func Secant(start, end float64, g func(float64) float64, num, eps float64) (ans 
 			return
 		} else {
 			panic("Secant:Invalid argument")
+			err = ErrInvalid
+			return
 		}
 	} else if start > end {
 		start, end = end, start

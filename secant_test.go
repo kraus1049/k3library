@@ -1,7 +1,6 @@
 package k3library
 
 import (
-	"errors"
 	"math"
 	"testing"
 )
@@ -42,7 +41,7 @@ func testSecantinvalidargument(t *testing.T) {
 	testsecantinvalidargument := []secantTest{
 		{func(x float64) float64 { return x },
 			1, 1, 0, 1e-15, 0,
-			errors.New("Secant:Invalid argument")},
+			ErrInvalid},
 	}
 
 	for i := range testsecantinvalidargument {
@@ -50,7 +49,7 @@ func testSecantinvalidargument(t *testing.T) {
 
 		_, err := Secant(test.start, test.end, test.f, test.num, test.eps)
 
-		if err.Error() != test.err.Error() {
+		if err != test.err {
 			t.Errorf("actual = %v,expected = %v", err, test.err)
 		}
 	}

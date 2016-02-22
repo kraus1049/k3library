@@ -1,7 +1,6 @@
 package k3library
 
 import (
-	"errors"
 	"math"
 	"testing"
 )
@@ -10,7 +9,7 @@ type regula_falsaTest struct {
 	f                    func(float64) float64
 	start, end, num, eps float64
 	expected             float64
-	err                   error
+	err                  error
 }
 
 func TestRegula_falsa(t *testing.T) {
@@ -42,10 +41,10 @@ func TestRegula_falsaInvalidArgument(t *testing.T) {
 	testregula_falsainvalidargument := []regula_falsaTest{
 		{func(x float64) float64 { return x },
 			1, 1, 0, 1e-15, 0,
-			errors.New("Regula_falsa:Invalid argument")},
+			ErrInvalid},
 		{func(x float64) float64 { return math.Pow(x, 2) - 1 },
 			2, 3, 0, 1e-15, 0,
-			errors.New("Regula_falsa:Invalid argument")},
+			ErrInvalid},
 	}
 
 	for i := range testregula_falsainvalidargument {
@@ -53,7 +52,7 @@ func TestRegula_falsaInvalidArgument(t *testing.T) {
 
 		_, err := Regula_falsa(test.start, test.end, test.f, test.num, test.eps)
 
-		if err.Error() != test.err.Error() {
+		if err != test.err {
 			t.Errorf("actual = %v,expected = %v", err, test.err)
 		}
 	}

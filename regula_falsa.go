@@ -1,15 +1,11 @@
 package k3library
 
-import (
-	"fmt"
-)
-
 func Regula_falsa(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {
-	defer func() {
-		if x := recover(); x != nil {
-			err = fmt.Errorf("%v",x)
-		}
-	}()
+	// defer func() {
+	// 	if x := recover(); x != nil {
+	// 		err = fmt.Errorf("%v",x)
+	// 	}
+	// }()
 
 	f := func(x float64) float64 { return g(x) - num }
 	var mid, pre_mid, fs, fe, fm float64
@@ -23,7 +19,8 @@ func Regula_falsa(start, end float64, g func(float64) float64, num, eps float64)
 			ans = start
 			return
 		} else {
-			panic("Regula_falsa:Invalid argument")
+			err = ErrInvalid
+			return
 		}
 	} else if start > end {
 		start, end = end, start
@@ -31,10 +28,11 @@ func Regula_falsa(start, end float64, g func(float64) float64, num, eps float64)
 	}
 
 	if fs*fm > 0 {
-		panic("Regula_falsa:Invalid argument")
+		err = ErrInvalid
+		return
 	}
 
-	for !Epsequal(pre_mid, mid, eps) || !Epsequal(fm,0,eps) {
+	for !Epsequal(pre_mid, mid, eps) || !Epsequal(fm, 0, eps) {
 		if fs*fm < 0 {
 			end = mid
 			fe = f(end)

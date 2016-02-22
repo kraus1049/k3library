@@ -2,12 +2,6 @@ package k3library
 
 func Zbrak(start, end, num float64, div_n int, g func(float64) float64) (ans [][2]float64, err error) {
 
-	// defer func() {
-	// 	if x := recover(); x != nil {
-	// 		err = fmt.Errorf("%v", x)
-	// 	}
-	// }()
-
 	if start > end {
 		start, end = end, start
 	} else if start == end || div_n <= 0 {

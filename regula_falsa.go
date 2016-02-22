@@ -1,11 +1,6 @@
 package k3library
 
 func Regula_falsa(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {
-	// defer func() {
-	// 	if x := recover(); x != nil {
-	// 		err = fmt.Errorf("%v",x)
-	// 	}
-	// }()
 
 	f := func(x float64) float64 { return g(x) - num }
 	var mid, pre_mid, fs, fe, fm float64

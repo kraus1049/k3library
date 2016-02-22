@@ -5,11 +5,6 @@ import (
 )
 
 func Zbrac(start, end float64, f func(float64) float64) (x1, x2 float64, err error) {
-	// defer func() {
-	// 	if x := recover(); x != nil {
-	// 		err = fmt.Errorf("%v",x)
-	// 	}
-	// }()
 
 	if start == end {
 		err = ErrInvalid

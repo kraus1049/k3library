@@ -5,11 +5,6 @@ import (
 )
 
 func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64, err error) {
-	// defer func() {
-	// 	if x := recover(); x != nil {
-	// 		err = fmt.Errorf("%v",x)
-	// 	}
-	// }()
 
 	fs := f(start)
 

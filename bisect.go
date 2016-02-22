@@ -6,12 +6,6 @@ import (
 
 func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {
 
-	// defer func() {
-	// 	if x := recover(); x != nil {
-	// 		err = fmt.Errorf("%v",x)
-	// 	}
-	// }()
-
 	f := func(x float64) float64 { return g(x) - num }
 
 	fs := f(start)
@@ -26,7 +20,6 @@ func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans 
 	}
 
 	if fs*fe > 0 {
-		// panic("Bisect:Invalid argument")
 		err = ErrInvalid
 		return
 	} else if start > end {
@@ -51,7 +44,6 @@ func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans 
 		fm = f(mid)
 
 		if cnt--; cnt <= 0 {
-			// panic("Bisect:Infinite loop")
 			err = ErrInfiniteLoop
 			return
 		}

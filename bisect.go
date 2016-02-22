@@ -3,17 +3,14 @@ package k3library
 import (
 	"fmt"
 	"math"
-	"os"
 )
 
-func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans float64, ok bool) {
+func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {
 
 	defer func() {
 		if x := recover(); x != nil {
-			fmt.Fprintln(os.Stderr, x)
-			ok = false
-		} else {
-			ok = true
+			// fmt.Fprintln(os.Stderr, x)
+			err = fmt.Errorf("%v",x)
 		}
 	}()
 
@@ -54,7 +51,7 @@ func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans 
 		fm = f(mid)
 
 		if cnt--;cnt <= 0{
-			panic("Bisect:Infinite roop")
+			panic("Bisect:Infinite loop")
 		}
 	}
 	ans = mid

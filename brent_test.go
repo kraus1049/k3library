@@ -1,7 +1,6 @@
 package k3library
 
 import (
-	"errors"
 	"math"
 	"testing"
 )
@@ -38,14 +37,14 @@ func TestBrentInvalidArgument(t *testing.T) {
 	var testbrentinvalidargument = []brentTest{
 		{func(x float64) float64 { return x },
 			1, 2, 0, 1e-15, 0,
-			errors.New("Brent:Invalid argument")},
+			ErrInvalid},
 	}
 
 	for i := range testbrentinvalidargument {
 		test := &testbrentinvalidargument[i]
 		_, err := Brent(test.start, test.end, test.f, test.num, test.eps)
 
-		if err.Error() != test.err.Error() {
+		if err != test.err {
 			t.Errorf("%v:actual = %v,expected = %v\n", i, err, test.err)
 		}
 	}

@@ -1,6 +1,7 @@
 package k3library
 
 import (
+	"errors"
 	"math"
 	"testing"
 )
@@ -11,29 +12,29 @@ type zbrakTest struct {
 	num        float64
 	div_n      int
 	expected   []float64
-	ok         bool
+	err        error
 }
 
 func TestZbrak(t *testing.T) {
-	// f,start, end , num, div_n,expected ok
+	// f,start, end , num, div_n,expected err
 	testzbrak := []zbrakTest{
 		{func(x float64) float64 { return x },
 			-5, 5, 0, 10,
 			[]float64{0},
-			true},
+			nil},
 		{func(x float64) float64 { return math.Sin(x) },
 			-2*math.Pi - 1, 2*math.Pi + 1, 0, 100000,
 			[]float64{-2 * math.Pi, -math.Pi, 0, math.Pi, 2 * math.Pi},
-			true},
+			nil},
 	}
 
 	for i := range testzbrak {
 		test := &testzbrak[i]
 
-		actual, ok := Zbrak(test.start, test.end, test.num, test.div_n, test.f)
+		actual, err := Zbrak(test.start, test.end, test.num, test.div_n, test.f)
 
-		if ok != test.ok {
-			t.Errorf("actual = %v,expected = %v\n", ok, test.ok)
+		if err != test.err {
+			t.Errorf("actual = %v,expected = %v\n", err, test.err)
 		}
 
 		if len(actual) != len(test.expected) {
@@ -55,22 +56,22 @@ func TestZbrak(t *testing.T) {
 }
 
 func TestZbrakInvalidArgument(t *testing.T) {
-	// f,start, end , num, div_n,expected ok
+	// f,start, end , num, div_n,expected err
 	testzbrakinvalidargument := []zbrakTest{
 		{func(x float64) float64 { return x },
 			1, 1, 0, 100, []float64{},
-			false},
+			errors.New("Zbrak:Invalid argument")},
 		{func(x float64) float64 { return x },
 			1, 2, 0, -10, []float64{},
-			false},
+			errors.New("Zbrak:Invalid argument")},
 	}
 
 	for i := range testzbrakinvalidargument {
 		test := &testzbrakinvalidargument[i]
-		_, ok := Zbrak(test.start, test.end, test.num, test.div_n, test.f)
+		_, err := Zbrak(test.start, test.end, test.num, test.div_n, test.f)
 
-		if ok != test.ok {
-			t.Errorf("actual = %v,expected = %v\n", ok, test.ok)
+		if err.Error() != test.err.Error() {
+			t.Errorf("actual = %v,expected = %v\n", err, test.err)
 		}
 	}
 }

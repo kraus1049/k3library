@@ -1,0 +1,32 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Bisect	bisect.go	/^func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans float64, ok bool) {$/;"	f
+Epsequal	eps_equal.go	/^func Epsequal(x, y, eps float64) (result bool) {$/;"	f
+Newton	newton.go	/^func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64, ok bool) {$/;"	f
+TestBisect	bisect_test.go	/^func TestBisect(t *testing.T) {$/;"	f
+TestBisectInvalidArgument	bisect_test.go	/^func TestBisectInvalidArgument(t *testing.T) {$/;"	f
+TestEpsequal	eps_equal_test.go	/^func TestEpsequal(t *testing.T) {$/;"	f
+TestNewton	newton_test.go	/^func TestNewton(t *testing.T) {$/;"	f
+TestNewtonInvalidArgument	newton_test.go	/^func TestNewtonInvalidArgument(t *testing.T) {$/;"	f
+TestZbrac	zbrac_test.go	/^func TestZbrac(t *testing.T) {$/;"	f
+TestZbracBadInitialRange	zbrac_test.go	/^func TestZbracBadInitialRange(t *testing.T) {$/;"	f
+TestZbrak	zbrak_test.go	/^func TestZbrak(t *testing.T){$/;"	f
+Zbrac	zbrac.go	/^func Zbrac(start, end float64, f func(float64) float64) (x1, x2 float64, ok bool) {$/;"	f
+bisectTest	bisect_test.go	/^type bisectTest struct {$/;"	t
+epsequalTest	eps_equal_test.go	/^type epsequalTest struct {$/;"	t
+k3library	bisect.go	/^package k3library$/;"	p
+k3library	bisect_test.go	/^package k3library$/;"	p
+k3library	eps_equal.go	/^package k3library$/;"	p
+k3library	eps_equal_test.go	/^package k3library$/;"	p
+k3library	newton.go	/^package k3library$/;"	p
+k3library	newton_test.go	/^package k3library$/;"	p
+k3library	zbrac.go	/^package k3library$/;"	p
+k3library	zbrac_test.go	/^package k3library$/;"	p
+k3library	zbrak_test.go	/^package k3library$/;"	p
+newtonTest	newton_test.go	/^type newtonTest struct {$/;"	t
+zbracTest	zbrac_test.go	/^type zbracTest struct {$/;"	t
+zbrakTest	zbrak_test.go	/^type zbrakTest struct{$/;"	t

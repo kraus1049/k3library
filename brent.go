@@ -3,16 +3,12 @@ package k3library
 import (
 	"fmt"
 	"math"
-	"os"
 )
 
-func Brent(start, end float64, g func(float64) float64, num, eps float64) (ans float64, ok bool) {
+func Brent(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {
 	defer func() {
 		if x := recover(); x != nil {
-			fmt.Fprintln(os.Stderr, x)
-			ok = false
-		} else {
-			ok = true
+			err = fmt.Errorf("%v", x)
 		}
 	}()
 
@@ -31,7 +27,7 @@ func Brent(start, end float64, g func(float64) float64, num, eps float64) (ans f
 	)
 
 	if fa*fb > 0 {
-		panic("Brent: invalid Argument")
+		panic("Brent:Invalid argument")
 	}
 
 	for i := 1; i <= N; i++ {

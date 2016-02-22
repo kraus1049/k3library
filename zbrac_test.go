@@ -1,7 +1,6 @@
 package k3library
 
 import (
-	"errors"
 	"math"
 	"testing"
 )
@@ -10,7 +9,7 @@ type zbracTest struct {
 	f          func(float64) float64
 	start, end float64
 	expected   float64
-	err         error
+	err        error
 }
 
 func TestZbrac(t *testing.T) {
@@ -42,15 +41,15 @@ func TestZbracBadInitialRange(t *testing.T) {
 	// f start, end expected  err
 	testzbracbadinitialrange := []zbracTest{
 		{func(x float64) float64 { return math.Tanh(x) },
-	1,1,0,
-	errors.New("Zbrac:Invalid argument")},
+			1, 1, 0,
+			ErrInvalid},
 	}
 
 	for i := range testzbracbadinitialrange {
 		test := &testzbracbadinitialrange[i]
 		_, _, err := Zbrac(test.start, test.end, test.f)
 
-		if err.Error() != test.err.Error() {
+		if err != test.err {
 			t.Errorf("%v:actual = %v,expected = %v\n", err, test.err)
 		}
 	}

@@ -1,16 +1,15 @@
 package k3library
 
 import (
-	"fmt"
 	"math"
 )
 
 func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64, err error) {
-	defer func() {
-		if x := recover(); x != nil {
-			err = fmt.Errorf("%v",x)
-		}
-	}()
+	// defer func() {
+	// 	if x := recover(); x != nil {
+	// 		err = fmt.Errorf("%v",x)
+	// 	}
+	// }()
 
 	fs := f(start)
 
@@ -28,7 +27,8 @@ func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64
 
 	for !Epsequal(fs, 0, eps) {
 		if Epsequal(gs, 0, 1e-3) {
-			panic("Newton:Invalid argument")
+			err = ErrInvalid
+			return
 		}
 
 		x_in = x_i - (fs / gs)
@@ -40,7 +40,8 @@ func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64
 		}
 
 		if cnt > 10000 {
-			panic("Newton:loop detection")
+			err = ErrInfiniteLoop
+			return
 		}
 
 		diff = math.Abs(x_in - x_i)

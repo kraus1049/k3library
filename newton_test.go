@@ -1,7 +1,6 @@
 package k3library
 
 import (
-	"errors"
 	"math"
 	"testing"
 )
@@ -10,7 +9,7 @@ type newtonTest struct {
 	f                    func(float64) float64
 	g                    func(float64) float64
 	start, eps, expected float64
-	err                   error
+	err                  error
 }
 
 func TestNewton(t *testing.T) {
@@ -44,18 +43,18 @@ func TestNewtonInvalidArgument(t *testing.T) {
 		{func(x float64) float64 { return math.Sin(x) },
 			func(x float64) float64 { return math.Cos(x) },
 			math.Pi / 2.0, 1e-15, 0,
-			errors.New("Newton:Invalid argument")},
+			ErrInvalid},
 		{func(x float64) float64 { return math.Tanh(x) },
 			func(x float64) float64 { return 1 / (1 + math.Pow(x, 2)) },
 			1.6, 1e-15, 0,
-			errors.New("Newton:Invalid argument")},
+			ErrInvalid},
 	}
 
 	for i := range testnewtoninvalidargument {
 		test := &testnewtoninvalidargument[i]
 		_, err := Newton(test.start, test.f, test.g, test.eps)
 
-		if err.Error() != test.err.Error() {
+		if err != test.err {
 			t.Errorf("%v:actual = %v,expected = %v", i, err, test.err)
 		}
 	}

@@ -2,16 +2,12 @@ package k3library
 
 import (
 	"fmt"
-	"os"
 )
 
-func Regula_falsa(start, end float64, g func(float64) float64, num, eps float64) (ans float64, ok bool) {
+func Regula_falsa(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {
 	defer func() {
 		if x := recover(); x != nil {
-			fmt.Fprintln(os.Stderr, x)
-			ok = false
-		} else {
-			ok = true
+			err = fmt.Errorf("%v",x)
 		}
 	}()
 
@@ -27,7 +23,7 @@ func Regula_falsa(start, end float64, g func(float64) float64, num, eps float64)
 			ans = start
 			return
 		} else {
-			panic("Regula_falsa: Invalid Argument")
+			panic("Regula_falsa:Invalid argument")
 		}
 	} else if start > end {
 		start, end = end, start
@@ -35,7 +31,7 @@ func Regula_falsa(start, end float64, g func(float64) float64, num, eps float64)
 	}
 
 	if fs*fm > 0 {
-		panic("Regula_falsa: Invalid Argument")
+		panic("Regula_falsa:Invalid argument")
 	}
 
 	for !Epsequal(pre_mid, mid, eps) || !Epsequal(fm,0,eps) {

@@ -1,7 +1,6 @@
 package k3library
 
 import (
-	"errors"
 	"math"
 	"testing"
 )
@@ -60,17 +59,17 @@ func TestZbrakInvalidArgument(t *testing.T) {
 	testzbrakinvalidargument := []zbrakTest{
 		{func(x float64) float64 { return x },
 			1, 1, 0, 100, []float64{},
-			errors.New("Zbrak:Invalid argument")},
+			ErrInvalid},
 		{func(x float64) float64 { return x },
 			1, 2, 0, -10, []float64{},
-			errors.New("Zbrak:Invalid argument")},
+			ErrInvalid},
 	}
 
 	for i := range testzbrakinvalidargument {
 		test := &testzbrakinvalidargument[i]
 		_, err := Zbrak(test.start, test.end, test.num, test.div_n, test.f)
 
-		if err.Error() != test.err.Error() {
+		if err != test.err {
 			t.Errorf("actual = %v,expected = %v\n", err, test.err)
 		}
 	}

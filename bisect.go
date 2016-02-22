@@ -1,18 +1,16 @@
 package k3library
 
 import (
-	"fmt"
 	"math"
 )
 
 func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {
 
-	defer func() {
-		if x := recover(); x != nil {
-			// fmt.Fprintln(os.Stderr, x)
-			err = fmt.Errorf("%v",x)
-		}
-	}()
+	// defer func() {
+	// 	if x := recover(); x != nil {
+	// 		err = fmt.Errorf("%v",x)
+	// 	}
+	// }()
 
 	f := func(x float64) float64 { return g(x) - num }
 
@@ -28,7 +26,9 @@ func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans 
 	}
 
 	if fs*fe > 0 {
-		panic("Bisect:Invalid argument")
+		// panic("Bisect:Invalid argument")
+		err = ErrInvalid
+		return
 	} else if start > end {
 		start, end = end, start
 
@@ -37,9 +37,9 @@ func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans 
 
 	mid := (start + end) / 2.0
 	fm := f(mid)
-	cnt := (int)(math.Ceil(math.Log2((end - start)/eps)) * 2)
+	cnt := (int)(math.Ceil(math.Log2((end-start)/eps)) * 2)
 
-	for !Epsequal(fm,0,eps){
+	for !Epsequal(fm, 0, eps) {
 		if fs*fm < 0 {
 			end = mid
 		} else {
@@ -50,8 +50,10 @@ func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans 
 		fs = f(start)
 		fm = f(mid)
 
-		if cnt--;cnt <= 0{
-			panic("Bisect:Infinite loop")
+		if cnt--; cnt <= 0 {
+			// panic("Bisect:Infinite loop")
+			err = ErrInfiniteLoop
+			return
 		}
 	}
 	ans = mid

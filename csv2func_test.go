@@ -17,7 +17,7 @@ func TestCsv2func(t *testing.T) {
 		{"./testdata/F0000CH1.CSV",
 			goscilloscope.GOscilloscope,
 			[][2]float64{{-0.0000543, -0.04}},
-			error{nil},
+			[]error{nil},
 		},
 	}
 

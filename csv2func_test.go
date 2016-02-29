@@ -10,21 +10,42 @@ type csv2funcTest struct {
 	parser      func(string) (map[string]string, [][2]float64, error)
 	expected_xy [][2]float64
 	errs        []error
+	func_err    error
 }
 
 func TestCsv2func(t *testing.T) {
 	var testcsv2func = []csv2funcTest{
 		{"./testdata/F0000CH1.CSV",
 			goscilloscope.GOscilloscope,
-			[][2]float64{{-0.0000543, -0.04}},
-			[]error{nil},
+			[][2]float64{
+				{-0.000055, -0.04},
+				{-0.0000543, -0.04},
+				{-0.0000454, -0.08},
+				{0.0000145, 4.24},
+				{0.00002483, 5.0},
+				{0.0001924, -0.04},
+				{0.0001949, -0.04},
+			},
+			[]error{nil,
+				nil,
+				nil,
+				nil,
+				nil,
+				nil,
+				nil,
+			},
+			nil,
 		},
 	}
 
 	for i := range testcsv2func {
 		test := &testcsv2func[i]
 
-		f, _ := Csv2func(test.filepath, test.parser)
+		f, func_err := Csv2func(test.filepath, test.parser)
+
+		if func_err != test.func_err {
+			t.Errorf("func_err,%v: actual %v,expected %v", i, func_err, test.func_err)
+		}
 
 		for j := range test.expected_xy {
 			tmp := test.expected_xy[j]

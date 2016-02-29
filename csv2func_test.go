@@ -61,3 +61,27 @@ func TestCsv2func(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkCsv2func(b *testing.B) {
+	f, _ := Csv2func("./testdata/F0000CH1.CSV", goscilloscope.GOscilloscope)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		f(-0.000055)
+		f(-0.000044)
+		f(-0.000033)
+		f(-0.000022)
+		f(-0.000011)
+		f(0)
+		f(0.000011)
+		f(0.000022)
+		f(0.000033)
+		f(0.000044)
+		f(0.000055)
+		f(0.000066)
+		f(0.000077)
+		f(0.000088)
+		f(0.000099)
+		f(0.000111)
+	}
+}

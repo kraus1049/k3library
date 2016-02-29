@@ -24,10 +24,11 @@ func TestCsv2func(t *testing.T) {
 	for i := range testcsv2func {
 		test := &testcsv2func[i]
 
-		f, func_err := Csv2func(test.filepath, test.parser)
+		f, _ := Csv2func(test.filepath, test.parser)
 
 		for j := range test.expected_xy {
-			x, y := expected_xy[j]
+			tmp := test.expected_xy[j]
+			x, y := tmp[0], tmp[1]
 
 			actual_y, err := f(x)
 

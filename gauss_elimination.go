@@ -1,9 +1,5 @@
 package k3library
 
-import (
-	"math"
-)
-
 func GaussElimination(a [][]float64, b []float64) (x []float64, err error) {
 	if !IsSquareMat(a) || (len(a) != len(b)) {
 		err = ErrInvalid
@@ -72,17 +68,4 @@ func GaussElimination(a [][]float64, b []float64) (x []float64, err error) {
 	}
 
 	return
-}
-
-func max(x []float64) (float64, int) {
-	ans := x[0]
-	idx := 0
-	for i := 1; i < len(x); i++ {
-		if math.Abs(x[i]) > math.Abs(ans) {
-			ans = x[i]
-			idx = i
-		}
-	}
-
-	return ans, idx
 }

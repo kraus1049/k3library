@@ -13,7 +13,7 @@ type regula_falsaTest struct {
 	err                  error
 }
 
-func TestRegula_falsa(t *testing.T) {
+func TestRegulaFalsa(t *testing.T) {
 	// f, start, end, num, eps, expected ,err
 	testregula_falsa := []regula_falsaTest{
 		{func(x float64) float64 { return x },
@@ -27,9 +27,9 @@ func TestRegula_falsa(t *testing.T) {
 	for i := range testregula_falsa {
 		test := &testregula_falsa[i]
 
-		actual, err := Regula_falsa(test.start, test.end, test.f, test.num, test.eps)
+		actual, err := RegulaFalsa(test.start, test.end, test.f, test.num, test.eps)
 
-		if !Epsequal(actual, test.expected, test.eps) {
+		if !EpsEqual(actual, test.expected, test.eps) {
 			t.Errorf("actual = %v,expected = %v", actual, test.expected)
 		} else if err != test.err {
 			t.Errorf("actual = %v,expected = %v", err, test.err)
@@ -37,7 +37,7 @@ func TestRegula_falsa(t *testing.T) {
 	}
 }
 
-func TestRegula_falsaInvalidArgument(t *testing.T) {
+func TestRegulaFalsaInvalidArgument(t *testing.T) {
 	// f, start, end, num, eps, expected ,err
 	testregula_falsainvalidargument := []regula_falsaTest{
 		{func(x float64) float64 { return x },
@@ -51,7 +51,7 @@ func TestRegula_falsaInvalidArgument(t *testing.T) {
 	for i := range testregula_falsainvalidargument {
 		test := &testregula_falsainvalidargument[i]
 
-		_, err := Regula_falsa(test.start, test.end, test.f, test.num, test.eps)
+		_, err := RegulaFalsa(test.start, test.end, test.f, test.num, test.eps)
 
 		if err != test.err {
 			t.Errorf("actual = %v,expected = %v", err, test.err)

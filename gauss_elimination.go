@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-func Gauss_elimination(a [][]float64, b []float64) (x []float64, err error) {
+func GaussElimination(a [][]float64, b []float64) (x []float64, err error) {
 	if !IsSquareMat(a) || (len(a) != len(b)) {
 		err = ErrInvalid
 		return
@@ -16,8 +16,8 @@ func Gauss_elimination(a [][]float64, b []float64) (x []float64, err error) {
 		idx[i] = i
 	}
 
-	a_ := Mat_copy(a)
-	x_ := Vec_copy(b)
+	a_ := MatCopy(a)
+	x_ := VecCopy(b)
 	x = make([]float64, len(x_))
 
 	for i := range a_ {

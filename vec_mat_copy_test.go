@@ -24,7 +24,7 @@ func TestVecCopy(t *testing.T) {
 
 	for i := range testveccopy {
 		test := &testveccopy[i]
-		actual := Vec_copy(test.vec)
+		actual := VecCopy(test.vec)
 
 		test.vec[0] = 100
 
@@ -44,7 +44,7 @@ func TestMatCopy(t *testing.T) {
 
 	for i := range testmatcopy {
 		test := &testmatcopy[i]
-		actual := Mat_copy(test.mat)
+		actual := MatCopy(test.mat)
 
 		test.mat[0][0] = 100
 

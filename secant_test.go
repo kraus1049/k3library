@@ -29,7 +29,7 @@ func TestSecant(t *testing.T) {
 
 		actual, err := Secant(test.start, test.end, test.f, test.num, test.eps)
 
-		if !Epsequal(actual, test.expected, test.eps) {
+		if !EpsEqual(actual, test.expected, test.eps) {
 			t.Errorf("actual = %v,expected = %v", actual, test.expected)
 		} else if err != test.err {
 			t.Errorf("actual = %v,expected = %v", err, test.err)

@@ -30,7 +30,7 @@ func TestBisect(t *testing.T) {
 		test := &testbisect[i]
 		actual, err := Bisect(test.start, test.end, test.f, test.num, test.eps)
 
-		if !Epsequal(actual, test.expected, test.eps) {
+		if !EpsEqual(actual, test.expected, test.eps) {
 			t.Errorf("%v:actual = %v, expected %v\n", i, actual, test.expected)
 		} else if err != test.err {
 			t.Errorf("%v:actual = %v, expected %v\n", i, err, test.err)

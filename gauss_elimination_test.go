@@ -11,7 +11,7 @@ type gauss_eliminationTest struct {
 	err         error
 }
 
-func TestGauss_elimination(t *testing.T) {
+func TestGaussElimination(t *testing.T) {
 	var testgauss_elimination = []gauss_eliminationTest{
 		{[][]float64{{2, 1}, {1, -1}},
 			[]float64{7, -1},
@@ -33,7 +33,7 @@ func TestGauss_elimination(t *testing.T) {
 
 	for i := range testgauss_elimination {
 		test := &testgauss_elimination[i]
-		actual, err := Gauss_elimination(test.a, test.b)
+		actual, err := GaussElimination(test.a, test.b)
 
 		if !slice_epsequal(test.expected, actual, 1e-8) {
 			t.Errorf("%v:actual = %v, expected = %v\n", i, actual, test.expected)
@@ -43,7 +43,7 @@ func TestGauss_elimination(t *testing.T) {
 	}
 }
 
-func TestGauss_eliminationInvalidArgument(t *testing.T) {
+func TestGaussEliminationInvalidArgument(t *testing.T) {
 	var testgauss_elimination_invalidargument = []gauss_eliminationTest{
 		{[][]float64{{1, 2}, {3, 4, 5}},
 			[]float64{1, 2, 3},
@@ -61,7 +61,7 @@ func TestGauss_eliminationInvalidArgument(t *testing.T) {
 
 	for i := range testgauss_elimination_invalidargument {
 		test := &testgauss_elimination_invalidargument[i]
-		_, err := Gauss_elimination(test.a, test.b)
+		_, err := GaussElimination(test.a, test.b)
 
 		if err != test.err {
 			t.Errorf("%v:actual = %v, expected = %v\n", i, err, test.err)
@@ -69,8 +69,8 @@ func TestGauss_eliminationInvalidArgument(t *testing.T) {
 	}
 }
 
-func TestGauss_eliminationCannotSolve(t *testing.T) {
-	var testGauss_elimination_cannotsolve = []gauss_eliminationTest{
+func TestGaussEliminationCannotSolve(t *testing.T) {
+	var testGaussElimination_cannotsolve = []gauss_eliminationTest{
 		{[][]float64{{1, 1}, {2, 2}},
 			[]float64{1, 2},
 			[]float64{1, 1},
@@ -81,9 +81,9 @@ func TestGauss_eliminationCannotSolve(t *testing.T) {
 			ErrCannotSolve},
 	}
 
-	for i := range testGauss_elimination_cannotsolve {
-		test := &testGauss_elimination_cannotsolve[i]
-		_, err := Gauss_elimination(test.a, test.b)
+	for i := range testGaussElimination_cannotsolve {
+		test := &testGaussElimination_cannotsolve[i]
+		_, err := GaussElimination(test.a, test.b)
 
 		if err != test.err {
 			t.Errorf("%v:actual = %v, expected = %v\n", i, err, test.err)
@@ -93,7 +93,7 @@ func TestGauss_eliminationCannotSolve(t *testing.T) {
 
 func slice_epsequal(x, y []float64, eps float64) bool {
 	for i := range x {
-		if !Epsequal(x[i], y[i], eps) {
+		if !EpsEqual(x[i], y[i], eps) {
 			return false
 		}
 	}

@@ -8,7 +8,7 @@ func Secant(start, end float64, g func(float64) float64, num, eps float64) (ans 
 	fs, fe = f(start), f(end)
 
 	if start == end {
-		if Epsequal(fs, 0, eps) {
+		if EpsEqual(fs, 0, eps) {
 			ans = start
 			return
 		} else {
@@ -21,7 +21,7 @@ func Secant(start, end float64, g func(float64) float64, num, eps float64) (ans 
 		fs, fe = fe, fs
 	}
 
-	for !Epsequal(start, end, eps) {
+	for !EpsEqual(start, end, eps) {
 		start, end = start-(fs*((end-start)/(fe-fs))), start
 		fs, fe = f(start), f(end)
 	}

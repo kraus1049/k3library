@@ -11,10 +11,10 @@ func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans 
 	fs := f(start)
 	fe := f(end)
 
-	if Epsequal(fs, 0, eps) {
+	if EpsEqual(fs, 0, eps) {
 		ans = start
 		return
-	} else if Epsequal(fe, 0, eps) {
+	} else if EpsEqual(fe, 0, eps) {
 		ans = end
 		return
 	}
@@ -32,7 +32,7 @@ func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans 
 	fm := f(mid)
 	cnt := (int)(math.Ceil(math.Log2((end-start)/eps)) * 2)
 
-	for !Epsequal(fm, 0, eps) {
+	for !EpsEqual(fm, 0, eps) {
 		if fs*fm < 0 {
 			end = mid
 		} else {

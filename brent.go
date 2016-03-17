@@ -41,7 +41,7 @@ func Brent(start, end float64, g func(float64) float64, num, eps float64) (ans f
 		eps1 = 2*eps*math.Abs(b) + 0.5*eps
 		xm = (c - b) / 2
 
-		if math.Abs(xm) < eps1 || Epsequal(fb, 0, eps) {
+		if math.Abs(xm) < eps1 || EpsEqual(fb, 0, eps) {
 			ans = b
 			return
 		}

@@ -8,7 +8,7 @@ func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64
 
 	fs := f(start)
 
-	if Epsequal(fs, 0, eps) {
+	if EpsEqual(fs, 0, eps) {
 		ans = start
 		return
 	}
@@ -20,8 +20,8 @@ func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64
 	var x_in float64
 	diff := math.MaxFloat64
 
-	for !Epsequal(fs, 0, eps) {
-		if Epsequal(gs, 0, 1e-3) {
+	for !EpsEqual(fs, 0, eps) {
+		if EpsEqual(gs, 0, 1e-3) {
 			err = ErrInvalid
 			return
 		}
@@ -30,7 +30,7 @@ func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64
 
 		diff_now := math.Abs(x_in - x_i)
 
-		if Epsequal(diff, diff_now, eps) {
+		if EpsEqual(diff, diff_now, eps) {
 			cnt++
 		}
 

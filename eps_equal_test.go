@@ -10,7 +10,7 @@ type epsequalTest struct {
 	expected  bool
 }
 
-func TestEpsequal(t *testing.T) {
+func TestEpsEqual(t *testing.T) {
 
 	// a,b,eps expected
 	testepsequall := []epsequalTest{
@@ -23,7 +23,7 @@ func TestEpsequal(t *testing.T) {
 
 	for i := range testepsequall {
 		test := &testepsequall[i]
-		actual := Epsequal(test.a, test.b, test.eps)
+		actual := EpsEqual(test.a, test.b, test.eps)
 
 		if actual != test.expected {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)

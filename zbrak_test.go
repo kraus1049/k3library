@@ -1,6 +1,7 @@
-package k3library
+package k3library_test
 
 import (
+	. "github.com/kraus1049/k3library"
 	"math"
 	"testing"
 )

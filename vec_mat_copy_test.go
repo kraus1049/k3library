@@ -1,6 +1,7 @@
-package k3library
+package k3library_test
 
 import (
+	. "github.com/kraus1049/k3library"
 	"reflect"
 	"testing"
 )
@@ -29,7 +30,7 @@ func TestVecCopy(t *testing.T) {
 
 		if !reflect.DeepEqual(actual, test.expected) {
 			t.Errorf("%v:actual = %v,expected = %v\n", i, actual, test.expected)
-		}else if reflect.DeepEqual(actual,test.vec){
+		} else if reflect.DeepEqual(actual, test.vec) {
 			t.Errorf("%v:I want actual = %v is not equal expected = %v\n", i, actual, test.vec)
 		}
 	}
@@ -49,8 +50,8 @@ func TestMatCopy(t *testing.T) {
 
 		if !reflect.DeepEqual(actual, test.expected) {
 			t.Errorf("%v:actual = %v,expected = %v\n", i, actual, test.expected)
-		}else if reflect.DeepEqual(actual,test.mat){
-			t.Errorf("%v:I want actual = %v is not equal expected = %v\n",i,actual,test.mat)
+		} else if reflect.DeepEqual(actual, test.mat) {
+			t.Errorf("%v:I want actual = %v is not equal expected = %v\n", i, actual, test.mat)
 		}
 	}
 }

@@ -1,7 +1,8 @@
-package k3library
+package k3library_test
 
 import (
 	"github.com/kraus1049/goscilloscope"
+	. "github.com/kraus1049/k3library"
 	"testing"
 )
 

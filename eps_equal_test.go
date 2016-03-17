@@ -1,6 +1,9 @@
-package k3library
+package k3library_test
 
-import "testing"
+import (
+	. "github.com/kraus1049/k3library"
+	"testing"
+)
 
 type epsequalTest struct {
 	a, b, eps float64

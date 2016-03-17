@@ -24,14 +24,14 @@ func GaussJordan(a [][]float64, b []float64) (x []float64, err error) {
 				return
 			}
 
-			tmp := make([]float64,0)
-			for j:=i+1;j<len(a_);j++{
-				tmp = append(tmp,a_[idx[j]][i])
+			tmp := make([]float64, 0)
+			for j := i + 1; j < len(a_); j++ {
+				tmp = append(tmp, a_[idx[j]][i])
 			}
 
-			if maxnum,maxidx:= max(tmp);maxnum != 0{
-				idx[i],idx[maxidx+i+1] = idx[maxidx+i+1],idx[i]
-			}else{
+			if maxnum, maxidx := max(tmp); maxnum != 0 {
+				idx[i], idx[maxidx+i+1] = idx[maxidx+i+1], idx[i]
+			} else {
 				err = ErrCannotSolve
 				return
 			}

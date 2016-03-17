@@ -35,7 +35,7 @@ func TestGaussElimination(t *testing.T) {
 		test := &testgauss_elimination[i]
 		actual, err := GaussElimination(test.a, test.b)
 
-		if !slice_epsequal(test.expected, actual, 1e-8) {
+		if !SliceEpsEqual(test.expected, actual, 1e-8) {
 			t.Errorf("%v:actual = %v, expected = %v\n", i, actual, test.expected)
 		} else if err != test.err {
 			t.Errorf("%v:actual = %v,expected = %v\n", i, err, test.err)
@@ -89,14 +89,4 @@ func TestGaussEliminationCannotSolve(t *testing.T) {
 			t.Errorf("%v:actual = %v, expected = %v\n", i, err, test.err)
 		}
 	}
-}
-
-func slice_epsequal(x, y []float64, eps float64) bool {
-	for i := range x {
-		if !EpsEqual(x[i], y[i], eps) {
-			return false
-		}
-	}
-
-	return true
 }

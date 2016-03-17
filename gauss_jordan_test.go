@@ -35,7 +35,7 @@ func TestGaussJordan(t *testing.T) {
 		test := &testgauss_jordan[i]
 		actual, err := GaussJordan(test.a, test.b)
 
-		if !slice_epsequal(test.expected, actual, 1e-8) {
+		if !SliceEpsEqual(test.expected, actual, 1e-8) {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
 		} else if err != test.err {
 			t.Errorf("%v:actual = %v,expected = %v\n", i, err, test.err)

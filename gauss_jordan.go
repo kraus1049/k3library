@@ -6,11 +6,7 @@ func GaussJordan(a [][]float64, b []float64) (x []float64, err error) {
 		return
 	}
 
-	idx := make([]int, len(a))
-
-	for i := range idx {
-		idx[i] = i
-	}
+	idx := serialNum(len(a))
 
 	a_ := MatCopy(a)
 	b_ := VecCopy(b)

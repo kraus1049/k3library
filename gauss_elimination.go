@@ -6,11 +6,7 @@ func GaussElimination(a [][]float64, b []float64) (x []float64, err error) {
 		return
 	}
 
-	idx := make([]int, len(a))
-
-	for i := range a {
-		idx[i] = i
-	}
+	idx := serialNum(len(a))
 
 	a_ := MatCopy(a)
 	x_ := VecCopy(b)

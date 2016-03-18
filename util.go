@@ -26,6 +26,10 @@ func backSubIdx(a [][]float64, b []float64, idx []int) ([]float64, error) {
 	return BackSub(a_, b_)
 }
 
+func canSimultaneousEquSolve(a [][]float64, b []float64) bool {
+	return IsSquareMat(a) && (len(a) == len(b))
+}
+
 func forwardDelIdx(a [][]float64, b []float64, idx []int) error {
 	for i := 0; i < len(a); i++ {
 

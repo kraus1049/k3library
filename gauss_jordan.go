@@ -1,7 +1,7 @@
 package k3library
 
 func GaussJordan(a [][]float64, b []float64) (x []float64, err error) {
-	if !IsSquareMat(a) || (len(a) != len(b)) {
+	if !canSimultaneousEquSolve(a, b) {
 		err = ErrInvalid
 		return
 	}

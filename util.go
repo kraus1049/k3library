@@ -26,6 +26,38 @@ func backSubIdx(a [][]float64, b []float64, idx []int) ([]float64, error) {
 	return BackSub(a_, b_)
 }
 
+func forwardDelIdx(a [][]float64, b []float64, idx []int) error {
+	for i := 0; i < len(a); i++ {
+
+		if a[idx[i]][i] == 0 {
+			if i == len(a)-1 {
+				return ErrCannotSolve
+			}
+
+			tmp := make([]float64, 0)
+			for j := i + 1; j < len(a); j++ {
+				tmp = append(tmp, a[idx[j]][i])
+			}
+
+			if maxnum, maxidx := max(tmp); maxnum != 0 {
+				idx[i], idx[maxidx+i+1] = idx[maxidx+i+1], idx[i]
+			} else {
+				return ErrCannotSolve
+			}
+		}
+
+		for j := i + 1; j < len(a); j++ {
+			per := a[idx[j]][i] / a[idx[i]][i]
+			for k := i; k < len(a); k++ {
+				a[idx[j]][k] -= per * a[idx[i]][k]
+			}
+
+			b[idx[j]] -= per * b[idx[i]]
+		}
+	}
+	return nil
+}
+
 func max(x []float64) (float64, int) {
 	ans := x[0]
 	idx := 0

@@ -20,3 +20,13 @@ func SliceEpsEqual(x, y []float64, eps float64) bool {
 
 	return true
 }
+
+func MatEpsEqual(x, y [][]float64, eps float64) bool {
+	for i := range x {
+		if !SliceEpsEqual(x[i], y[i], eps) {
+			return false
+		}
+	}
+
+	return true
+}

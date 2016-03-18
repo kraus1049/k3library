@@ -10,7 +10,6 @@ func GaussJordan(a [][]float64, b []float64) (x []float64, err error) {
 
 	a_ := MatCopy(a)
 	b_ := VecCopy(b)
-	x = make([]float64, len(b))
 
 	for i := 0; i < len(a_); i++ {
 
@@ -43,13 +42,7 @@ func GaussJordan(a [][]float64, b []float64) (x []float64, err error) {
 		}
 	}
 
-	for i := len(a_) - 1; i >= 0; i-- {
-		sgm := 0.0
-		for j := len(a_) - 1; j > i; j-- {
-			sgm += a_[idx[i]][j] * x[j]
-		}
-		x[i] = (b_[idx[i]] - sgm) / a_[idx[i]][i]
-	}
+	x, _ = backSubIdx(a_, b_, idx)
 
 	return
 }

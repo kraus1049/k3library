@@ -1,18 +1,18 @@
 package k3library
 
-func LUDecomp(a [][]float64) ([][]float64, [][]float64, error) {
+func LUDecomp(a [][]float64) ([][]float64, [][]float64, []int, int, error) {
+
+	idx := serialNum(len(a))
 
 	if !IsSquareMat(a) {
-		return a, a, ErrInvalid
+		return a, a, idx, 1, ErrInvalid
 	}
+
+	var sgn int = 1
 
 	l := make([][]float64, len(a))
 	for i := range l {
 		l[i] = make([]float64, len(a[i]))
-	}
-
-	for i := range l {
-		l[i][i] = 1
 	}
 
 	u := make([][]float64, len(a))
@@ -21,30 +21,44 @@ func LUDecomp(a [][]float64) ([][]float64, [][]float64, error) {
 	}
 
 	for i := range a {
-		for j := i; j < len(a[i]); j++ {
-			sgm := 0.0
+		flag := false
+		for h := i; h < len(a); h++ {
+			for j := i; j < len(a[i]); j++ {
+				sgm := 0.0
 
-			for k := 0; k < i; k++ {
-				sgm += l[i][k] * u[k][j]
+				for k := 0; k < i; k++ {
+					sgm += l[idx[i]][k] * u[k][j]
+				}
+
+				u[i][j] = a[idx[i]][j] - sgm
 			}
 
-			u[i][j] = a[i][j] - sgm
+			if u[i][i] == 0 && h+1 < len(a) {
+				idx[i], idx[h+1] = idx[h+1], idx[i]
+				flag = true
+			} else {
+				break
+			}
+
 		}
 
-		if u[i][i] == 0 {
-			return l, u, ErrCannotSolve
+		if flag {
+			sgn = -sgn
 		}
+
+		l[idx[i]][i] = 1
 
 		for j := i + 1; j < len(a); j++ {
 			sgm := 0.0
 
 			for k := 0; k < i; k++ {
-				sgm += l[j][k] * u[k][i]
+				sgm += l[idx[j]][k] * u[k][i]
 			}
-			l[j][i] = (a[j][i] - sgm) / u[i][i]
+			l[idx[j]][i] = (a[idx[j]][i] - sgm) / u[i][i]
+
 		}
 
 	}
 
-	return l, u, nil
+	return swapMatIdx(l, idx), u, idx, sgn, nil
 }

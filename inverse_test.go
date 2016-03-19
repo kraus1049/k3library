@@ -23,7 +23,7 @@ func TestInverse(t *testing.T) {
 
 		actual, err := Inverse(test.mat)
 
-		if MatEpsEqual(actual, test.expected, 1e-8) {
+		if !MatEpsEqual(actual, test.expected, 1e-8) {
 			t.Errorf("%v: actual = %v,expected = %v\n", i, actual, test.expected)
 		} else if err != test.err {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)

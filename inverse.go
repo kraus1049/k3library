@@ -3,10 +3,7 @@ package k3library
 func Inverse(a [][]float64) ([][]float64, error) {
 
 	l, u, idx, _, err := LUDecomp(a)
-	ans := make([][]float64, len(a))
-	for i := range ans {
-		ans[i] = make([]float64, len(a[i]))
-	}
+	ans := makeMat(len(a), len(a[0]))
 
 	if err != nil {
 		return l, ErrInvalid

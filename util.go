@@ -75,6 +75,14 @@ func max(x []float64) (float64, int) {
 	return ans, idx
 }
 
+func makeMat(col, row int) [][]float64 {
+	mat := make([][]float64, col)
+	for i := range mat {
+		mat[i] = make([]float64, row)
+	}
+	return mat
+}
+
 func swapMatIdx(x [][]float64, idx []int) [][]float64 {
 	x_ := make([][]float64, len(x))
 

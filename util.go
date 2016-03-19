@@ -83,6 +83,14 @@ func makeMat(col, row int) [][]float64 {
 	return mat
 }
 
+func makeIdentityMat(n int) [][]float64 {
+	mat := makeMat(n, n)
+	for i := range mat {
+		mat[i][i] = 1
+	}
+	return mat
+}
+
 func swapMatIdx(x [][]float64, idx []int) [][]float64 {
 	x_ := make([][]float64, len(x))
 

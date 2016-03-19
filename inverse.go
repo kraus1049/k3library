@@ -9,19 +9,16 @@ func Inverse(a [][]float64) ([][]float64, error) {
 		return l, ErrInvalid
 	}
 
+	e := makeIdentityMat(len(a))
+
 	for i := range a {
-
-		e := make([]float64, len(a))
-		e[i] = 1
-
-		x, err2 := Solve(l, u, e, idx)
+		x, err2 := Solve(l, u, e[i], idx)
 
 		if err2 != nil {
 			return l, ErrInvalid
 		}
 
 		ans[i] = x
-
 	}
 
 	return Transpose(ans), nil

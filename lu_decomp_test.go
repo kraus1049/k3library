@@ -29,3 +29,12 @@ func TestLUDecomp(t *testing.T) {
 		}
 	}
 }
+
+func swapMatIdx(x [][]float64, idx []int) [][]float64 {
+	x_ := make([][]float64, len(x))
+
+	for i, v := range idx {
+		x_[i] = x[v]
+	}
+	return x_
+}

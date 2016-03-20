@@ -27,7 +27,7 @@ func MPro(x, y [][]float64) ([][]float64, error) {
 
 	for i := range x {
 		for j := range y[0] {
-			for k := range x[j] {
+			for k := range x[0] {
 				ans[i][j] += x[i][k] * y[k][j]
 			}
 		}

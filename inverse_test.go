@@ -32,6 +32,20 @@ func TestInverse(t *testing.T) {
 
 }
 
+func BenchmarkInverse(b *testing.B) {
+	mat := make([][]float64, 5)
+	for i := range mat {
+		for j := range mat[i] {
+			mat[i][j] = float64(i + j)
+		}
+	}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		Inverse(mat)
+	}
+}
+
 func isIdentityMat(mat [][]float64, eps float64) bool {
 	if !IsSquareMat(mat) {
 		return false

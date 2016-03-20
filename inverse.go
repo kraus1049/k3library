@@ -1,7 +1,6 @@
 package k3library
 
 func Inverse(a [][]float64) ([][]float64, error) {
-
 	l, u, idx, _, err := LUDecomp(a)
 	ans := makeMat(len(a), len(a[0]))
 
@@ -12,12 +11,7 @@ func Inverse(a [][]float64) ([][]float64, error) {
 	e := makeIdentityMat(len(a))
 
 	for i := range a {
-		x, err2 := Solve(l, u, e[i], idx)
-
-		if err2 != nil {
-			return l, ErrInvalid
-		}
-
+		x, _ := Solve(l, u, e[i], idx)
 		ans[i] = x
 	}
 

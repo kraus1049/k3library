@@ -5,7 +5,7 @@ func LUDecomp(a [][]float64) ([][]float64, [][]float64, []int, int, error) {
 	idx := serialNum(len(a))
 
 	if !IsSquareMat(a) {
-		return a, a, idx, 1, ErrInvalid
+		return nil, nil, nil, -1, ErrInvalid
 	}
 
 	var sgn int = 1

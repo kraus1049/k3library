@@ -5,7 +5,7 @@ func Inverse(a [][]float64) ([][]float64, error) {
 	ans := makeMat(len(a), len(a[0]))
 
 	if err != nil {
-		return l, ErrInvalid
+		return nil, ErrInvalid
 	}
 
 	e := makeIdentityMat(len(a))

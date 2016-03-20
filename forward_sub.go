@@ -5,7 +5,7 @@ func ForwardSub(a [][]float64, b []float64) ([]float64, error) {
 
 	for i := range a {
 		if a[i][i] == 0 {
-			return x, ErrCannotSolve
+			return nil, ErrCannotSolve
 		}
 		sgm := 0.0
 		for j := 0; j < i; j++ {

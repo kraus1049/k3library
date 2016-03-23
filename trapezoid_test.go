@@ -27,7 +27,7 @@ func TestTrapezoid(t *testing.T) {
 
 	for i := range testTrapezoid {
 		test := &testTrapezoid[i]
-		actual, err := Trapezoid(test.f, test.a, test.b, test.eps)
+		actual, err := Trapezoid(Lift(test.f), test.a, test.b, test.eps)
 
 		if err != test.err {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
@@ -49,7 +49,7 @@ func TestTrapezoidInvalidArgument(t *testing.T) {
 
 	for i := range testTrapezoidInvalidArgument {
 		test := &testTrapezoidInvalidArgument[i]
-		_, err := Trapezoid(test.f, test.a, test.b, test.eps)
+		_, err := Trapezoid(Lift(test.f), test.a, test.b, test.eps)
 
 		if err != test.err {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)

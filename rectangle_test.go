@@ -27,7 +27,7 @@ func TestRectangle(t *testing.T) {
 
 	for i := range testRectangle {
 		test := &testRectangle[i]
-		actual, err := Rectangle(test.f, test.a, test.b, test.eps)
+		actual, err := Rectangle(Lift(test.f), test.a, test.b, test.eps)
 
 		if err != test.err {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
@@ -50,7 +50,7 @@ func TestRectangleInvalidArgument(t *testing.T) {
 
 	for i := range testRectangleInvalidArgument {
 		test := &testRectangleInvalidArgument[i]
-		_, err := Rectangle(test.f, test.a, test.b, test.eps)
+		_, err := Rectangle(Lift(test.f), test.a, test.b, test.eps)
 
 		if err != test.err {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)

@@ -27,7 +27,7 @@ func TestSimpson(t *testing.T) {
 
 	for i := range testSimpson {
 		test := &testSimpson[i]
-		actual, err := Simpson(test.f, test.a, test.b, test.eps)
+		actual, err := Simpson(Lift(test.f), test.a, test.b, test.eps)
 
 		if err != test.err {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
@@ -49,7 +49,7 @@ func TestSimpsonInvalidArgument(t *testing.T) {
 
 	for i := range testSimpsonInvalidArgument {
 		test := &testSimpsonInvalidArgument[i]
-		_, err := Simpson(test.f, test.a, test.b, test.eps)
+		_, err := Simpson(Lift(test.f), test.a, test.b, test.eps)
 
 		if err != test.err {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)

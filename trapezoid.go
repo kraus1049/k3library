@@ -1,7 +1,7 @@
 package k3library
 
 func Trapezoid(f func(float64) float64, a, b, eps float64) (float64, error) {
-	if a > b {
+	if a >= b {
 		return -1, ErrInvalid
 	}
 

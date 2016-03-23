@@ -42,6 +42,9 @@ func TestSimpsonInvalidArgument(t *testing.T) {
 		{func(x float64) float64 { return x },
 			10, 0, 1e-6, 50,
 			ErrInvalid},
+		{func(x float64) float64 { return 10 },
+			5, 5, 1e-5, 50,
+			ErrInvalid},
 	}
 
 	for i := range testSimpsonInvalidArgument {

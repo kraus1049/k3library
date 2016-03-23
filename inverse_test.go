@@ -24,7 +24,7 @@ func TestInverse(t *testing.T) {
 		actual, err := Inverse(test.mat)
 
 		if pro, _ := MPro(actual, test.mat); !isIdentityMat(pro, 1e-8) {
-			t.Errorf("%v:want pro = %v is IdentityMat",i,pro)
+			t.Errorf("%v:want pro = %v is IdentityMat", i, pro)
 		} else if err != test.err {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
 		}

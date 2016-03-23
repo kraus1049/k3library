@@ -4,29 +4,172 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-Bisect	bisect.go	/^func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans float64, ok bool) {$/;"	f
-Epsequal	eps_equal.go	/^func Epsequal(x, y, eps float64) (result bool) {$/;"	f
-Newton	newton.go	/^func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64, ok bool) {$/;"	f
+BackSub	back_sub.go	/^func BackSub(a [][]float64, b []float64) ([]float64, error) {$/;"	f
+BenchmarkCsv2func	csv2func_test.go	/^func BenchmarkCsv2func(b *testing.B) {$/;"	f
+BenchmarkInverse	inverse_test.go	/^func BenchmarkInverse(b *testing.B) {$/;"	f
+Bisect	bisect.go	/^func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {$/;"	f
+Brent	brent.go	/^func Brent(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {$/;"	f
+Csv2func	csv2func.go	/^func Csv2func(filepath string, parser func(string) (map[string]string, [][2]float64, error)) (f func(float64) (float64, error), err error) {$/;"	f
+Det	det.go	/^func Det(u [][]float64, sgn int) float64 {$/;"	f
+DetTest	det_test.go	/^type DetTest struct {$/;"	t
+EpsEqual	eps_equal.go	/^func EpsEqual(x, y, eps float64) (result bool) {$/;"	f
+ErrCannotSolve	err_struct.go	/^	ErrOutOfRange   = errors.New("Out of range")$/;"	v
+ErrInfiniteLoop	err_struct.go	/^	ErrInvalid      = errors.New("Invalid argument")$/;"	v
+ErrInvalid	err_struct.go	/^var ($/;"	v
+ErrOutOfRange	err_struct.go	/^	ErrInfiniteLoop = errors.New("Infinite loop")$/;"	v
+ForwardSub	forward_sub.go	/^func ForwardSub(a [][]float64, b []float64) ([]float64, error) {$/;"	f
+GaussElimination	gauss_elimination.go	/^func GaussElimination(a [][]float64, b []float64) (x []float64, err error) {$/;"	f
+GaussJordan	gauss_jordan.go	/^func GaussJordan(a [][]float64, b []float64) (x []float64, err error) {$/;"	f
+Inverse	inverse.go	/^func Inverse(a [][]float64) ([][]float64, error) {$/;"	f
+IsSquareMat	is_squaremat.go	/^func IsSquareMat(mat [][]float64) bool {$/;"	f
+LUDecomp	lu_decomp.go	/^func LUDecomp(a [][]float64) ([][]float64, [][]float64, []int, int, error) {$/;"	f
+MPro	calc_vec_mat.go	/^func MPro(x, y [][]float64) ([][]float64, error) {$/;"	f
+MatCopy	vec_mat_copy.go	/^func MatCopy(mat [][]float64) [][]float64 {$/;"	f
+MatEpsEqual	eps_equal.go	/^func MatEpsEqual(x, y [][]float64, eps float64) bool {$/;"	f
+Newton	newton.go	/^func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64, err error) {$/;"	f
+ProveSolve	solve.go	/^func ProveSolve(a [][]float64, b []float64, eps float64) ([]float64, error) {$/;"	f
+Rectangle	rectangle.go	/^func Rectangle(f func(float64) float64, a, b, eps float64) (float64, error) {$/;"	f
+RegulaFalsa	regula_falsa.go	/^func RegulaFalsa(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {$/;"	f
+Secant	secant.go	/^func Secant(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {$/;"	f
+Sgn	sgn.go	/^func Sgn(x float64) (ans float64, err error) {$/;"	f
+SliceEpsEqual	eps_equal.go	/^func SliceEpsEqual(x, y []float64, eps float64) bool {$/;"	f
+Solve	solve.go	/^func Solve(l, u [][]float64, b []float64, idx []int) ([]float64, error) {$/;"	f
+TestBackSub	back_sub_test.go	/^func TestBackSub(t *testing.T) {$/;"	f
+TestBackSubCannotSolve	back_sub_test.go	/^func TestBackSubCannotSolve(t *testing.T) {$/;"	f
 TestBisect	bisect_test.go	/^func TestBisect(t *testing.T) {$/;"	f
 TestBisectInvalidArgument	bisect_test.go	/^func TestBisectInvalidArgument(t *testing.T) {$/;"	f
-TestEpsequal	eps_equal_test.go	/^func TestEpsequal(t *testing.T) {$/;"	f
+TestBrent	brent_test.go	/^func TestBrent(t *testing.T) {$/;"	f
+TestBrentInvalidArgument	brent_test.go	/^func TestBrentInvalidArgument(t *testing.T) {$/;"	f
+TestCsv2func	csv2func_test.go	/^func TestCsv2func(t *testing.T) {$/;"	f
+TestDet	det_test.go	/^func TestDet(t *testing.T) {$/;"	f
+TestEpsEqual	eps_equal_test.go	/^func TestEpsEqual(t *testing.T) {$/;"	f
+TestForwardSub	forward_sub_test.go	/^func TestForwardSub(t *testing.T) {$/;"	f
+TestForwardSubCannotSolve	forward_sub_test.go	/^func TestForwardSubCannotSolve(t *testing.T) {$/;"	f
+TestGaussElimination	gauss_elimination_test.go	/^func TestGaussElimination(t *testing.T) {$/;"	f
+TestGaussEliminationCannotSolve	gauss_elimination_test.go	/^func TestGaussEliminationCannotSolve(t *testing.T) {$/;"	f
+TestGaussEliminationInvalidArgument	gauss_elimination_test.go	/^func TestGaussEliminationInvalidArgument(t *testing.T) {$/;"	f
+TestGaussJordan	gauss_jordan_test.go	/^func TestGaussJordan(t *testing.T) {$/;"	f
+TestGaussJordanCannotSolve	gauss_jordan_test.go	/^func TestGaussJordanCannotSolve(t *testing.T) {$/;"	f
+TestGaussJordanInvalidArgument	gauss_jordan_test.go	/^func TestGaussJordanInvalidArgument(t *testing.T) {$/;"	f
+TestInverse	inverse_test.go	/^func TestInverse(t *testing.T) {$/;"	f
+TestIsSquareMat	is_squaremat_test.go	/^func TestIsSquareMat(t *testing.T) {$/;"	f
+TestLUDecomp	lu_decomp_test.go	/^func TestLUDecomp(t *testing.T) {$/;"	f
+TestMPro	calc_vec_mat_test.go	/^func TestMPro(t *testing.T) {$/;"	f
+TestMProInvalid	calc_vec_mat_test.go	/^func TestMProInvalid(t *testing.T) {$/;"	f
+TestMatCopy	vec_mat_copy_test.go	/^func TestMatCopy(t *testing.T) {$/;"	f
 TestNewton	newton_test.go	/^func TestNewton(t *testing.T) {$/;"	f
 TestNewtonInvalidArgument	newton_test.go	/^func TestNewtonInvalidArgument(t *testing.T) {$/;"	f
+TestProveSolve	solve_test.go	/^func TestProveSolve(t *testing.T) {$/;"	f
+TestRectangle	rectangle_test.go	/^func TestRectangle(t *testing.T) {$/;"	f
+TestRectangleInvalidArgument	rectangle_test.go	/^func TestRectangleInvalidArgument(t *testing.T) {$/;"	f
+TestRegulaFalsa	regula_falsa_test.go	/^func TestRegulaFalsa(t *testing.T) {$/;"	f
+TestRegulaFalsaInvalidArgument	regula_falsa_test.go	/^func TestRegulaFalsaInvalidArgument(t *testing.T) {$/;"	f
+TestSecant	secant_test.go	/^func TestSecant(t *testing.T) {$/;"	f
+TestSgn	sgn_test.go	/^func TestSgn(t *testing.T) {$/;"	f
+TestSolve	solve_test.go	/^func TestSolve(t *testing.T) {$/;"	f
+TestTranspose	transpose_test.go	/^func TestTranspose(t *testing.T) {$/;"	f
+TestTrapezoid	trapezoid_test.go	/^func TestTrapezoid(t *testing.T) {$/;"	f
+TestTrapezoidInvalidArgument	trapezoid_test.go	/^func TestTrapezoidInvalidArgument(t *testing.T) {$/;"	f
+TestVSub	calc_vec_mat_test.go	/^func TestVSub(t *testing.T) {$/;"	f
+TestVecCopy	vec_mat_copy_test.go	/^func TestVecCopy(t *testing.T) {$/;"	f
 TestZbrac	zbrac_test.go	/^func TestZbrac(t *testing.T) {$/;"	f
 TestZbracBadInitialRange	zbrac_test.go	/^func TestZbracBadInitialRange(t *testing.T) {$/;"	f
-TestZbrak	zbrak_test.go	/^func TestZbrak(t *testing.T){$/;"	f
-Zbrac	zbrac.go	/^func Zbrac(start, end float64, f func(float64) float64) (x1, x2 float64, ok bool) {$/;"	f
+TestZbrak	zbrak_test.go	/^func TestZbrak(t *testing.T) {$/;"	f
+TestZbrakInvalidArgument	zbrak_test.go	/^func TestZbrakInvalidArgument(t *testing.T) {$/;"	f
+Transpose	transpose.go	/^func Transpose(a [][]float64) [][]float64 {$/;"	f
+Trapezoid	trapezoid.go	/^func Trapezoid(f func(float64) float64, a, b, eps float64) (float64, error) {$/;"	f
+VSub	calc_vec_mat.go	/^func VSub(x, y []float64) ([]float64, error) {$/;"	f
+VecCopy	vec_mat_copy.go	/^func VecCopy(vec []float64) []float64 {$/;"	f
+Zbrac	zbrac.go	/^func Zbrac(start, end float64, f func(float64) float64) (x1, x2 float64, err error) {$/;"	f
+Zbrak	zbrak.go	/^func Zbrak(start, end, num float64, div_n int, g func(float64) float64) (ans [][2]float64, err error) {$/;"	f
+backSubIdx	util.go	/^func backSubIdx(a [][]float64, b []float64, idx []int) ([]float64, error) {$/;"	f
+backSubTest	back_sub_test.go	/^type backSubTest struct {$/;"	t
 bisectTest	bisect_test.go	/^type bisectTest struct {$/;"	t
+brentTest	brent_test.go	/^type brentTest struct {$/;"	t
+canSimultaneousEquSolve	util.go	/^func canSimultaneousEquSolve(a [][]float64, b []float64) bool {$/;"	f
+csv2funcTest	csv2func_test.go	/^type csv2funcTest struct {$/;"	t
 epsequalTest	eps_equal_test.go	/^type epsequalTest struct {$/;"	t
+forwardDelIdx	util.go	/^func forwardDelIdx(a [][]float64, b []float64, idx []int) error {$/;"	f
+forwardSubTest	forward_sub_test.go	/^type forwardSubTest struct {$/;"	t
+gauss_eliminationTest	gauss_elimination_test.go	/^type gauss_eliminationTest struct {$/;"	t
+gauss_jordanTest	gauss_jordan_test.go	/^type gauss_jordanTest struct {$/;"	t
+inverseTest	inverse_test.go	/^type inverseTest struct {$/;"	t
+isIdentityMat	inverse_test.go	/^func isIdentityMat(mat [][]float64, eps float64) bool {$/;"	f
+is_squarematTest	is_squaremat_test.go	/^type is_squarematTest struct {$/;"	t
+k3library	back_sub.go	/^package k3library$/;"	p
 k3library	bisect.go	/^package k3library$/;"	p
-k3library	bisect_test.go	/^package k3library$/;"	p
+k3library	brent.go	/^package k3library$/;"	p
+k3library	calc_vec_mat.go	/^package k3library$/;"	p
+k3library	csv2func.go	/^package k3library$/;"	p
+k3library	det.go	/^package k3library$/;"	p
 k3library	eps_equal.go	/^package k3library$/;"	p
-k3library	eps_equal_test.go	/^package k3library$/;"	p
+k3library	err_struct.go	/^package k3library$/;"	p
+k3library	forward_sub.go	/^package k3library$/;"	p
+k3library	gauss_elimination.go	/^package k3library$/;"	p
+k3library	gauss_jordan.go	/^package k3library$/;"	p
+k3library	inverse.go	/^package k3library$/;"	p
+k3library	is_squaremat.go	/^package k3library$/;"	p
+k3library	lu_decomp.go	/^package k3library$/;"	p
 k3library	newton.go	/^package k3library$/;"	p
-k3library	newton_test.go	/^package k3library$/;"	p
+k3library	rectangle.go	/^package k3library$/;"	p
+k3library	regula_falsa.go	/^package k3library$/;"	p
+k3library	secant.go	/^package k3library$/;"	p
+k3library	sgn.go	/^package k3library$/;"	p
+k3library	solve.go	/^package k3library$/;"	p
+k3library	transpose.go	/^package k3library$/;"	p
+k3library	trapezoid.go	/^package k3library$/;"	p
+k3library	util.go	/^package k3library$/;"	p
+k3library	vec_mat_copy.go	/^package k3library$/;"	p
 k3library	zbrac.go	/^package k3library$/;"	p
-k3library	zbrac_test.go	/^package k3library$/;"	p
-k3library	zbrak_test.go	/^package k3library$/;"	p
+k3library	zbrak.go	/^package k3library$/;"	p
+k3library_test	back_sub_test.go	/^package k3library_test$/;"	p
+k3library_test	bisect_test.go	/^package k3library_test$/;"	p
+k3library_test	brent_test.go	/^package k3library_test$/;"	p
+k3library_test	calc_vec_mat_test.go	/^package k3library_test$/;"	p
+k3library_test	csv2func_test.go	/^package k3library_test$/;"	p
+k3library_test	det_test.go	/^package k3library_test$/;"	p
+k3library_test	eps_equal_test.go	/^package k3library_test$/;"	p
+k3library_test	forward_sub_test.go	/^package k3library_test$/;"	p
+k3library_test	gauss_elimination_test.go	/^package k3library_test$/;"	p
+k3library_test	gauss_jordan_test.go	/^package k3library_test$/;"	p
+k3library_test	inverse_test.go	/^package k3library_test$/;"	p
+k3library_test	is_squaremat_test.go	/^package k3library_test$/;"	p
+k3library_test	lu_decomp_test.go	/^package k3library_test$/;"	p
+k3library_test	newton_test.go	/^package k3library_test$/;"	p
+k3library_test	rectangle_test.go	/^package k3library_test$/;"	p
+k3library_test	regula_falsa_test.go	/^package k3library_test$/;"	p
+k3library_test	secant_test.go	/^package k3library_test$/;"	p
+k3library_test	sgn_test.go	/^package k3library_test$/;"	p
+k3library_test	solve_test.go	/^package k3library_test$/;"	p
+k3library_test	transpose_test.go	/^package k3library_test$/;"	p
+k3library_test	trapezoid_test.go	/^package k3library_test$/;"	p
+k3library_test	vec_mat_copy_test.go	/^package k3library_test$/;"	p
+k3library_test	zbrac_test.go	/^package k3library_test$/;"	p
+k3library_test	zbrak_test.go	/^package k3library_test$/;"	p
+luDecompTest	lu_decomp_test.go	/^type luDecompTest struct {$/;"	t
+mPro	memo/jikken.go	/^func mPro(x, y [][]float64) [][]float64 {$/;"	f
+mProTest	calc_vec_mat_test.go	/^type mProTest struct {$/;"	t
+main	memo/jikken.go	/^func main() {$/;"	f
+main	memo/jikken.go	/^package main$/;"	p
+mat_copyTest	vec_mat_copy_test.go	/^type mat_copyTest struct {$/;"	t
+max	util.go	/^func max(x []float64) (float64, int) {$/;"	f
 newtonTest	newton_test.go	/^type newtonTest struct {$/;"	t
+rectangle	rectangle.go	/^func rectangle(f func(float64) float64, a, b float64, n *int, pre_ans float64) float64 {$/;"	f
+rectangle1	rectangle.go	/^func rectangle1(f func(float64) float64, a, b float64, n *int) float64 {$/;"	f
+rectangleTest	rectangle_test.go	/^type rectangleTest struct {$/;"	t
+regula_falsaTest	regula_falsa_test.go	/^type regula_falsaTest struct {$/;"	t
+secantTest	secant_test.go	/^type secantTest struct {$/;"	t
+serialNum	util.go	/^func serialNum(l int) []int {$/;"	f
+sgnTest	sgn_test.go	/^type sgnTest struct {$/;"	t
+solveTest	solve_test.go	/^type solveTest struct {$/;"	t
+swapMatIdx	lu_decomp_test.go	/^func swapMatIdx(x [][]float64, idx []int) [][]float64 {$/;"	f
+swapMatIdx	util.go	/^func swapMatIdx(x [][]float64, idx []int) [][]float64 {$/;"	f
+testSecantinvalidargument	secant_test.go	/^func testSecantinvalidargument(t *testing.T) {$/;"	f
+transposeTest	transpose_test.go	/^type transposeTest struct {$/;"	t
+trapezoid	trapezoid.go	/^func trapezoid(f func(float64) float64, a, b float64, n *int, pre_ans float64) float64 {$/;"	f
+trapezoid1	trapezoid.go	/^func trapezoid1(f func(float64) float64, a, b float64, n *int) float64 {$/;"	f
+trapezoidTest	trapezoid_test.go	/^type trapezoidTest struct {$/;"	t
+vTest	calc_vec_mat_test.go	/^type vTest struct {$/;"	t
+vec_copyTest	vec_mat_copy_test.go	/^type vec_copyTest struct {$/;"	t
 zbracTest	zbrac_test.go	/^type zbracTest struct {$/;"	t
-zbrakTest	zbrak_test.go	/^type zbrakTest struct{$/;"	t
+zbrakTest	zbrak_test.go	/^type zbrakTest struct {$/;"	t

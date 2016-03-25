@@ -10,12 +10,12 @@ func Solve(l, u [][]float64, b []float64, idx []int) ([]float64, error) {
 
 	v, err1 := ForwardSub(l, b_)
 	if err1 != nil {
-		return v, ErrCannotSolve
+		return nil, ErrCannotSolve
 	}
 
 	x, err2 := BackSub(u, v)
 	if err2 != nil {
-		return x, ErrCannotSolve
+		return nil, ErrCannotSolve
 	}
 
 	return x, nil

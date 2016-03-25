@@ -20,10 +20,7 @@ func MPro(x, y [][]float64) ([][]float64, error) {
 		return nil, ErrInvalid
 	}
 
-	ans := make([][]float64, len(x))
-	for i := range ans {
-		ans[i] = make([]float64, len(y[0]))
-	}
+	ans := makeMat(len(x), len(y[0]))
 
 	for i := range x {
 		for j := range y[0] {

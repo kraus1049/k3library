@@ -5,7 +5,7 @@ func BackSub(a [][]float64, b []float64) ([]float64, error) {
 
 	for i := len(a) - 1; i >= 0; i-- {
 		if a[i][i] == 0 {
-			return x, ErrCannotSolve
+			return nil, ErrCannotSolve
 		}
 		sgm := 0.0
 		for j := len(a) - 1; j > i; j-- {

@@ -5,20 +5,13 @@ func LUDecomp(a [][]float64) ([][]float64, [][]float64, []int, int, error) {
 	idx := serialNum(len(a))
 
 	if !IsSquareMat(a) {
-		return a, a, idx, 1, ErrInvalid
+		return nil, nil, nil, -1, ErrInvalid
 	}
 
 	var sgn int = 1
 
-	l := make([][]float64, len(a))
-	for i := range l {
-		l[i] = make([]float64, len(a[i]))
-	}
-
-	u := make([][]float64, len(a))
-	for i := range u {
-		u[i] = make([]float64, len(a[i]))
-	}
+	l := makeMat(len(a), len(a[0]))
+	u := makeMat(len(a), len(a[0]))
 
 	for i := range a {
 		flag := false

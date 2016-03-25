@@ -41,7 +41,7 @@ func trapezoid1(f func(float64) (float64, error), a, b float64, n *int) (float64
 
 	sum := 0.0
 
-	for i := 1; i < *n; i++ {
+	for i := 0; i <= *n; i++ {
 		if tmp, err := f(a + float64(i)*h); err == nil {
 			sum += tmp
 		} else {

@@ -4,13 +4,12 @@ import (
 	"math"
 )
 
-func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64, err error) {
+func Newton(start float64, f, g func(float64) float64, eps float64) (float64, error) {
 
 	fs := f(start)
 
 	if EpsEqual(fs, 0, eps) {
-		ans = start
-		return
+		return start, nil
 	}
 
 	gs := g(start)
@@ -22,8 +21,7 @@ func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64
 
 	for !EpsEqual(fs, 0, eps) {
 		if EpsEqual(gs, 0, 1e-3) {
-			err = ErrInvalid
-			return
+			return -1, ErrInvalid
 		}
 
 		x_in = x_i - (fs / gs)
@@ -35,8 +33,7 @@ func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64
 		}
 
 		if cnt > 10000 {
-			err = ErrInfiniteLoop
-			return
+			return -1, ErrInfiniteLoop
 		}
 
 		diff = math.Abs(x_in - x_i)
@@ -45,7 +42,6 @@ func Newton(start float64, f, g func(float64) float64, eps float64) (ans float64
 		gs = g(x_i)
 
 	}
-	ans = x_in
 
-	return
+	return x_in, nil
 }

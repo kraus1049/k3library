@@ -1,23 +1,21 @@
 package k3library
 
-func GaussElimination(a [][]float64, b []float64) (x []float64, err error) {
+func GaussElimination(a [][]float64, b []float64) ([]float64, error) {
 	if !canSimultaneousEquSolve(a, b) {
-		err = ErrInvalid
-		return
+		return nil, ErrInvalid
 	}
 
 	idx := serialNum(len(a))
 
 	a_ := MatCopy(a)
 	x_ := VecCopy(b)
-	x = make([]float64, len(x_))
+	x := make([]float64, len(x_))
 
 	for i := range a_ {
 
 		if a_[idx[i]][i] == 0 {
 			if i == len(a_)-1 {
-				err = ErrCannotSolve
-				return
+				return nil, ErrCannotSolve
 			}
 
 			tmp := make([]float64, 0)
@@ -29,8 +27,7 @@ func GaussElimination(a [][]float64, b []float64) (x []float64, err error) {
 			if maxnum, maxidx := max(tmp); maxnum != 0 {
 				idx[i], idx[maxidx+i+1] = idx[maxidx+i+1], idx[i]
 			} else {
-				err = ErrCannotSolve
-				return
+				return nil, ErrCannotSolve
 			}
 		}
 
@@ -63,5 +60,5 @@ func GaussElimination(a [][]float64, b []float64) (x []float64, err error) {
 		x[changed] = x_[i]
 	}
 
-	return
+	return x, nil
 }

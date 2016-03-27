@@ -1,9 +1,8 @@
 package k3library
 
-func GaussJordan(a [][]float64, b []float64) (x []float64, err error) {
+func GaussJordan(a [][]float64, b []float64) ([]float64, error) {
 	if !canSimultaneousEquSolve(a, b) {
-		err = ErrInvalid
-		return
+		return nil, ErrInvalid
 	}
 
 	idx := serialNum(len(a))
@@ -11,12 +10,11 @@ func GaussJordan(a [][]float64, b []float64) (x []float64, err error) {
 	a_ := MatCopy(a)
 	b_ := VecCopy(b)
 
-	if e := forwardDelIdx(a_, b_, idx); e != nil {
-		err = e
-		return
+	if err := forwardDelIdx(a_, b_, idx); err != nil {
+		return nil, err
 	}
 
-	x, _ = backSubIdx(a_, b_, idx)
+	x, _ := backSubIdx(a_, b_, idx)
 
-	return
+	return x, nil
 }

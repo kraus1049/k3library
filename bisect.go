@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {
+func Bisect(start, end float64, g func(float64) float64, num, eps float64) (float64, error) {
 
 	f := func(x float64) float64 { return g(x) - num }
 
@@ -12,19 +12,15 @@ func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans 
 	fe := f(end)
 
 	if EpsEqual(fs, 0, eps) {
-		ans = start
-		return
+		return start, nil
 	} else if EpsEqual(fe, 0, eps) {
-		ans = end
-		return
+		return end, nil
 	}
 
 	if fs*fe > 0 {
-		err = ErrInvalid
-		return
+		return -1, ErrInvalid
 	} else if start > end {
 		start, end = end, start
-
 		fs, fe = fe, fs
 	}
 
@@ -44,10 +40,8 @@ func Bisect(start, end float64, g func(float64) float64, num, eps float64) (ans 
 		fm = f(mid)
 
 		if cnt--; cnt <= 0 {
-			err = ErrInfiniteLoop
-			return
+			return -1, ErrInfiniteLoop
 		}
 	}
-	ans = mid
-	return
+	return mid, nil
 }

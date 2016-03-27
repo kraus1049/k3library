@@ -21,8 +21,7 @@ func Brent(start, end float64, g func(float64) float64, num, eps float64) (ans f
 	)
 
 	if fa*fb > 0 {
-		err = ErrInvalid
-		return
+		return -1, ErrInvalid
 	}
 
 	for i := 1; i <= N; i++ {
@@ -42,8 +41,7 @@ func Brent(start, end float64, g func(float64) float64, num, eps float64) (ans f
 		xm = (c - b) / 2
 
 		if math.Abs(xm) < eps1 || EpsEqual(fb, 0, eps) {
-			ans = b
-			return
+			return b, nil
 		}
 
 		if math.Abs(e) >= eps1 && math.Abs(fa) > math.Abs(fb) {
@@ -94,5 +92,5 @@ func Brent(start, end float64, g func(float64) float64, num, eps float64) (ans f
 		fb = f(b)
 	}
 
-	return
+	return -1, ErrInfiniteLoop
 }

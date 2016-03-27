@@ -1,6 +1,6 @@
 package k3library
 
-func Secant(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {
+func Secant(start, end float64, g func(float64) float64, num, eps float64) (float64, error) {
 
 	f := func(x float64) float64 { return g(x) - num }
 	var fs, fe float64
@@ -9,12 +9,9 @@ func Secant(start, end float64, g func(float64) float64, num, eps float64) (ans 
 
 	if start == end {
 		if EpsEqual(fs, 0, eps) {
-			ans = start
-			return
+			return start, nil
 		} else {
-			panic("Secant:Invalid argument")
-			err = ErrInvalid
-			return
+			return -1, ErrInvalid
 		}
 	} else if start > end {
 		start, end = end, start
@@ -26,6 +23,5 @@ func Secant(start, end float64, g func(float64) float64, num, eps float64) (ans 
 		fs, fe = f(start), f(end)
 	}
 
-	ans = end
-	return
+	return end, nil
 }

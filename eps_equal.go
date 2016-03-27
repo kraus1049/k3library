@@ -2,13 +2,12 @@ package k3library
 
 import "math"
 
-func EpsEqual(x, y, eps float64) (result bool) {
+func EpsEqual(x, y, eps float64) bool {
+	var result bool
 	if math.Abs(x-y) < eps {
 		result = true
-	} else {
-		result = false
 	}
-	return
+	return result
 }
 
 func SliceEpsEqual(x, y []float64, eps float64) bool {

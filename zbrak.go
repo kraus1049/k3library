@@ -1,15 +1,15 @@
 package k3library
 
-func Zbrak(start, end, num float64, div_n int, g func(float64) float64) (ans [][2]float64, err error) {
+func Zbrak(start, end, num float64, div_n int, g func(float64) float64) ([][2]float64, error) {
 
 	if start > end {
 		start, end = end, start
 	} else if start == end || div_n <= 0 {
-		err = ErrInvalid
-		return
+		return nil, ErrInvalid
 	}
 
 	f := func(x float64) float64 { return g(x) - num }
+	ans := make([][2]float64, 0)
 
 	var (
 		x  float64 = start
@@ -35,5 +35,5 @@ func Zbrak(start, end, num float64, div_n int, g func(float64) float64) (ans [][
 		}
 	}
 
-	return
+	return ans, nil
 }

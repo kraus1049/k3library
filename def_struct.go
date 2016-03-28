@@ -59,3 +59,26 @@ func (m Mat) String() string {
 
 	return str
 }
+
+func (v *Vec) Set(x []float64) {
+	if len(x) < v.Row {
+		zero := make([]float64, v.Row-len(x))
+		x = append(x, zero...)
+	}
+
+	v.V = x[0:v.Row]
+}
+
+func (m *Mat) Set(x [][]float64) {
+
+	if len(x) >= m.Col {
+		for i := 0; i < m.Col; i++ {
+			m.M[i].Set(x[i])
+		}
+	} else {
+		for i := 0; i < len(x); i++ {
+			m.M[i].Set(x[i])
+		}
+	}
+
+}

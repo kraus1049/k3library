@@ -2,7 +2,26 @@ package k3library
 
 import (
 	"math"
+	"reflect"
 )
+
+func allTypeEqual(a ...interface{}) bool {
+	r := reflect.ValueOf(a[0])
+	if r.IsValid() {
+
+		for i := 1; i < len(a); i++ {
+			rr := reflect.ValueOf(a[i])
+
+			if rr.IsValid() {
+				if r.Kind() != rr.Kind() {
+					return false
+				}
+			}
+		}
+	}
+
+	return true
+}
 
 func serialNum(l int) []int {
 	vec := make([]int, l)

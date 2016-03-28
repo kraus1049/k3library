@@ -42,11 +42,15 @@ func (v Vec) String() string {
 func (m Mat) String() string {
 	str := ""
 	for i, v := range m.M {
-		str += "|"
+		if i == 0 {
+			str += "\n|"
+		} else {
+			str += "|"
+		}
 		for _, item := range v.V {
 			str += fmt.Sprintf(" %v", item)
 		}
-		if i != m.Col {
+		if i != m.Col-1 {
 			str += " |\n"
 		} else {
 			str += " |"

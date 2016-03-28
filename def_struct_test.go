@@ -38,6 +38,7 @@ func ExamplePrintVec() {
 	v := NewVec(3)
 	fmt.Print(v)
 	// Output:
+	//
 	// [0 0 0]
 }
 
@@ -45,8 +46,8 @@ func ExampleMat1() {
 	m := NewMat(3, 3)
 	fmt.Print(m)
 	// Output:
+	//
 	// | 0 0 0 |
 	// | 0 0 0 |
 	// | 0 0 0 |
-
 }

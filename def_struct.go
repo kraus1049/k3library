@@ -90,3 +90,40 @@ func (v *Vec) At(i int) float64 {
 func (m *Mat) At(i, j int) float64 {
 	return m.M[i].V[j]
 }
+
+func (v *Vec) Write(i int, num float64) {
+	if i >= 0 {
+		v.V[i] = num
+	} else {
+		for j := 0; j < v.Row; j++ {
+			v.V[j] = num
+		}
+	}
+}
+
+func (m *Mat) Write(i, j int, num float64) {
+	if i >= 0 {
+		if j >= 0 {
+			m.M[i].V[j] = num
+		} else {
+			m.M[i].Write(-1, num)
+		}
+	} else {
+		if j >= 0 {
+			for k := 0; k < m.Col; k++ {
+				m.M[k].V[j] = num
+			}
+		} else {
+			idx := 0
+			if m.Col < m.Row {
+				idx = m.Col
+			} else {
+				idx = m.Row
+			}
+
+			for k := 0; k < idx; k++ {
+				m.M[k].V[k] = num
+			}
+		}
+	}
+}

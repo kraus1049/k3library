@@ -19,6 +19,18 @@ type mSetTest struct {
 	expected [][]float64
 }
 
+type vWriteTest struct {
+	len, idx int
+	num      float64
+	expected []float64
+}
+
+type mWriteTest struct {
+	col, row, i, j int
+	num            float64
+	expected       [][]float64
+}
+
 func TestNewVec(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		v := NewVec(i)
@@ -152,6 +164,55 @@ func TestMAt(t *testing.T) {
 	if flag {
 		t.Errorf("actual = %v, expected = %v", actual, expected)
 	}
+}
+
+func TestVWrite(t *testing.T) {
+	var testVWrite = []vWriteTest{
+		{5, 0, 1, []float64{1, 0, 0, 0, 0}},
+		{5, 3, 2, []float64{0, 0, 0, 2, 0}},
+		{5, -1, 3, []float64{3, 3, 3, 3, 3}},
+	}
+
+	for i := range testVWrite {
+		test := &testVWrite[i]
+		v := NewVec(test.len)
+		v.Write(test.idx, test.num)
+
+		if !reflect.DeepEqual(test.expected, v.V) {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, v.V, test.expected)
+		}
+
+	}
+}
+
+func TestMWrite(t *testing.T) {
+	var testMWrite = []mWriteTest{
+		{2, 3, 0, 0, 1, [][]float64{{1, 0, 0}, {0, 0, 0}}},
+		{2, 3, -1, 0, 1, [][]float64{{1, 0, 0}, {1, 0, 0}}},
+		{2, 3, 0, -1, 1, [][]float64{{1, 1, 1}, {0, 0, 0}}},
+		{2, 3, -1, -1, 1, [][]float64{{1, 0, 0}, {0, 1, 0}}},
+		{3, 3, -1, -1, 1, [][]float64{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}},
+	}
+
+	for i := range testMWrite {
+		test := &testMWrite[i]
+		m := NewMat(test.col, test.row)
+		m.Write(test.i, test.j, test.num)
+
+		flag := false
+		for j := 0; j < m.Col; j++ {
+			if !reflect.DeepEqual(m.M[j].V, test.expected[j]) {
+				flag = true
+				break
+			}
+		}
+
+		if flag {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, m.M, test.expected)
+		}
+
+	}
+
 }
 
 func ExamplePrintVec() {

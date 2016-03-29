@@ -23,6 +23,12 @@ func NewVec(row int) Vec {
 	return Vec{v, row}
 }
 
+func NewVecSet(xs []float64) Vec {
+	v := NewVec(len(xs))
+	v.Set(xs)
+	return v
+}
+
 func NewMat(col, row int) Mat {
 	if col <= 0 {
 		col = 1
@@ -33,6 +39,12 @@ func NewMat(col, row int) Mat {
 		m[i] = NewVec(row)
 	}
 	return Mat{m, col, row}
+}
+
+func NewMatSet(xss [][]float64) Mat {
+	m := NewMat(len(xss), len(xss[0]))
+	m.Set(xss)
+	return m
 }
 
 func (v Vec) String() string {

@@ -66,6 +66,15 @@ func TestVSet(t *testing.T) {
 	}
 }
 
+func TestNewVecSet(t *testing.T) {
+	xs := []float64{0, 1, 2, 3, 4}
+	v := NewVecSet(xs)
+
+	if !reflect.DeepEqual(v.V, xs) {
+		t.Errorf("actual = %v, expected = %v\n", v.V, xs)
+	}
+}
+
 func TestNewMat(t *testing.T) {
 	for i := 1; i < 10; i++ {
 		for j := 0; j < 10; j++ {
@@ -80,6 +89,23 @@ func TestNewMat(t *testing.T) {
 				t.Errorf("%v,%v: actual = %v, expected = %v\n", i, j, m.Row, j)
 			}
 		}
+	}
+}
+
+func TestNewMatSet(t *testing.T) {
+	xss := [][]float64{{1, 2, 3}, {4, 5, 6}}
+	m := NewMatSet(xss)
+
+	flag := false
+	for i := 0; i < m.Col; i++ {
+		if !reflect.DeepEqual(m.M[i].V, xss[i]) {
+			flag = true
+			break
+		}
+	}
+
+	if flag {
+		t.Errorf("actual = %v, expected = %v\n", m, xss)
 	}
 }
 

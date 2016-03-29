@@ -2,6 +2,7 @@ package k3library_test
 
 import (
 	. "github.com/kraus1049/k3library"
+	"reflect"
 	"testing"
 )
 
@@ -15,6 +16,88 @@ type mProTest struct {
 	a, b     [][]float64
 	expected [][]float64
 	err      error
+}
+
+type sumTest struct {
+	xs       []interface{}
+	expected interface{}
+	err      error
+}
+
+func TestSum(t *testing.T) {
+	v1 := NewVecSet([]float64{1, 2})
+	v2 := NewVecSet([]float64{2, 4})
+	v3 := NewVecSet([]float64{3, 6})
+	v4 := NewVecSet([]float64{1, 2, 3})
+
+	m1 := NewMatSet([][]float64{{1, 2}, {3, 4}})
+	m2 := NewMatSet([][]float64{{2, 4}, {6, 8}})
+	m3 := NewMatSet([][]float64{{3, 6}, {9, 12}})
+	m4 := NewMatSet([][]float64{{1, 2, 3}, {4, 5, 6}})
+
+	var testSum = []sumTest{
+		{[]interface{}{1.0},
+			1.0,
+			nil},
+		{[]interface{}{1.0, 2.0},
+			3.0,
+			nil},
+		{[]interface{}{1.0, 2.0, 3.0},
+			6.0,
+			nil},
+		{[]interface{}{v1, v1},
+			v2,
+			nil},
+		{[]interface{}{v1, v1, v1},
+			v3,
+			nil},
+		{[]interface{}{m1, m1},
+			m2,
+			nil},
+		{[]interface{}{m1, m1, m1},
+			m3,
+			nil},
+		{[]interface{}{1.0, v1},
+			-1.0,
+			ErrInvalid},
+		{[]interface{}{1.0, v1},
+			-1.0,
+			ErrInvalid},
+		{[]interface{}{v1, m1},
+			-1.0,
+			ErrInvalid},
+		{[]interface{}{v1, v4},
+			-1.0,
+			ErrInvalid},
+		{[]interface{}{m1, m4},
+			-1.0,
+			ErrInvalid},
+	}
+
+	for i := range testSum {
+		test := &testSum[i]
+		actual, err := Sum(test.xs...)
+
+		switch actual.(type) {
+		case float64:
+			if actual != test.expected {
+				t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
+			} else if err != test.err {
+				t.Errorf("%v : actual = %v, expected = %v\n", i, err, test.err)
+			}
+		case Vec, Mat:
+			if !reflect.DeepEqual(actual, test.expected) {
+				t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
+			} else if err != test.err {
+				t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
+			}
+		case nil:
+			if err != test.err {
+				t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
+			}
+		}
+
+	}
 }
 
 func TestVSub(t *testing.T) {

@@ -110,6 +110,50 @@ func TestMSet(t *testing.T) {
 	}
 }
 
+func TestVAt(t *testing.T) {
+	v := NewVec(5)
+	expected := []float64{0, 1, 2, 3, 4}
+
+	v.Set(expected)
+
+	actual := make([]float64, 0)
+
+	for i := range v.V {
+		actual = append(actual, v.At(i))
+	}
+
+	if !reflect.DeepEqual(actual, v.V) {
+		t.Errorf("actual = %v, expected = %v\n", actual, expected)
+	}
+}
+
+func TestMAt(t *testing.T) {
+	m := NewMat(3, 2)
+	expected := [][]float64{{1, 2}, {3, 4}, {5, 6}}
+
+	m.Set(expected)
+
+	actual := make([][]float64, 3)
+
+	for i := range m.M {
+		for j := 0; j < m.Row; j++ {
+			actual[i] = append(actual[i], m.At(i, j))
+		}
+	}
+
+	flag := false
+	for i := range m.M {
+		if !reflect.DeepEqual(m.M[i].V, actual[i]) {
+			flag = true
+			break
+		}
+	}
+
+	if flag {
+		t.Errorf("actual = %v, expected = %v", actual, expected)
+	}
+}
+
 func ExamplePrintVec() {
 	v := NewVec(3)
 	fmt.Print(v)

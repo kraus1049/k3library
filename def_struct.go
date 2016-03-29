@@ -82,3 +82,11 @@ func (m *Mat) Set(x [][]float64) {
 	}
 
 }
+
+func (v *Vec) At(i int) float64 {
+	return v.V[i]
+}
+
+func (m *Mat) At(i, j int) float64 {
+	return m.M[i].V[j]
+}

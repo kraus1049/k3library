@@ -139,3 +139,19 @@ func (m *Mat) Write(i, j int, num float64) {
 		}
 	}
 }
+
+func (v *Vec) Copy() Vec {
+	vec := NewVec(v.Row)
+	for i := 0; i < v.Row; i++ {
+		vec.Write(i, v.At(i))
+	}
+	return vec
+}
+
+func (m *Mat) Copy() Mat {
+	mat := NewMat(m.Col, m.Row)
+	for i := 0; i < m.Col; i++ {
+		mat.M[i] = m.M[i].Copy()
+	}
+	return mat
+}

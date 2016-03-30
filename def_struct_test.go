@@ -241,6 +241,38 @@ func TestMWrite(t *testing.T) {
 
 }
 
+func TestVCopy(t *testing.T) {
+	v1 := Vec{[]float64{1, 2, 3}, 3}
+	v2 := v1.Copy()
+
+	if !reflect.DeepEqual(v1, v2) {
+		t.Errorf("actual = %v, expected = %v\n", v1, v2)
+	}
+
+	v2.Write(0, 100)
+
+	if reflect.DeepEqual(v1, v2) {
+		t.Errorf("v1(%v) should not be equal v2(%v)\n", v1, v2)
+	}
+
+}
+
+func TestMCopy(t *testing.T) {
+	m1 := NewMatSet([][]float64{{1, 2}, {3, 4}})
+	m2 := m1.Copy()
+
+	if !reflect.DeepEqual(m1, m2) {
+		t.Errorf("actual = %v, expected = %v\n", m1, m2)
+	}
+
+	m2.Write(0, 0, 100)
+
+	if reflect.DeepEqual(m1, m2) {
+		t.Errorf("m1(%v) should be not equal m2(%v)\n", m1, m2)
+	}
+
+}
+
 func ExamplePrintVec() {
 	v := NewVec(3)
 	fmt.Print(v)

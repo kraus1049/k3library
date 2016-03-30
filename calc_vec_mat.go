@@ -45,6 +45,8 @@ func Sum(xs ...interface{}) (interface{}, error) {
 			return v, nil
 		} else if m, ok := xs[0].(Mat); ok {
 			return m, nil
+		} else {
+			return nil, ErrInvalid
 		}
 
 	} else if len(xs) >= 2 {

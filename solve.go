@@ -1,88 +1,99 @@
 package k3library
 
-func Solve(l, u [][]float64, b []float64, idx []int) ([]float64, error) {
+func Solve(l, u Mat, b Vec, idx []int) (Vec, error) {
 
-	b_ := make([]float64, len(b))
+	b_ := NewVec(b.Row)
 
 	for i, v := range idx {
-		b_[i] = b[v]
+		b_.Write(i, b.At(v))
 	}
 
 	v, err1 := ForwardSub(l, b_)
 	if err1 != nil {
-		return v, ErrCannotSolve
+		tmp := NewVec(0)
+		return tmp, ErrCannotSolve
 	}
 
 	x, err2 := BackSub(u, v)
 	if err2 != nil {
-		return x, ErrCannotSolve
+		tmp := NewVec(0)
+		return tmp, ErrCannotSolve
 	}
 
 	return x, nil
 }
 
-func ProveSolve(a [][]float64, b []float64, eps float64) ([]float64, error) {
-	l, u, idx, _, err := LUDecomp(a)
+func ProveSolve(a Mat, b Vec, eps float64) (Vec, error) {
+	l, u, idx, _, err := a.LUDecomp()
 
 	if err != nil {
-		return nil, ErrCannotSolve
+		tmp := NewVec(0)
+		return tmp, ErrCannotSolve
 	}
 
 	x, err := Solve(l, u, b, idx)
 
 	if err != nil {
-		return nil, ErrCannotSolve
+		tmp := NewVec(0)
+		return tmp, ErrCannotSolve
 	}
 
-	ax, err := MPro(a, Transpose([][]float64{x}))
+	ax, err := Pro(a, x)
 	if err != nil {
-		return nil, ErrCannotSolve
-	}
-	ax = Transpose(ax)
-	b_, err := VSub(ax[0], b)
-	if err != nil {
-		return nil, ErrCannotSolve
+		tmp := NewVec(0)
+		return tmp, ErrCannotSolve
 	}
 
-	dx, err := Solve(l, u, b_, idx)
+	b_, err := Sub(ax, b)
 	if err != nil {
-		return nil, ErrCannotSolve
-	}
-	ans, err := VSub(x, dx)
-
-	if err != nil {
-		return nil, ErrCannotSolve
+		tmp := NewVec(0)
+		return tmp, ErrCannotSolve
 	}
 
-	zero := make([]float64, len(b))
+	dx, err := Solve(l, u, b_.(Vec), idx)
+	if err != nil {
+		tmp := NewVec(0)
+		return tmp, ErrCannotSolve
+	}
+	ans, err := Sub(x, dx)
+
+	if err != nil {
+		tmp := NewVec(0)
+		return tmp, ErrCannotSolve
+	}
+
+	zero := NewVec(b.Row)
 
 	for cnt := 10; cnt >= 0; cnt-- {
-		if SliceEpsEqual(dx, zero, eps) {
+		if VecEpsEqual(dx, zero, eps) {
 			break
 		}
 
-		ax, err = MPro(a, Transpose([][]float64{dx}))
+		ax, err := Pro(a, dx)
 		if err != nil {
-			return nil, ErrCannotSolve
+			tmp := NewVec(0)
+			return tmp, ErrCannotSolve
 		}
 
-		ax = Transpose(ax)
-		b_, err = VSub(ax[0], b)
+		b_, err = Sub(ax, b)
 		if err != nil {
-			return nil, ErrCannotSolve
+			tmp := NewVec(0)
+			return tmp, ErrCannotSolve
 		}
 
-		dx, err = Solve(l, u, b_, idx)
+		dx, err = Solve(l, u, b_.(Vec), idx)
 		if err != nil {
-			return nil, ErrCannotSolve
+			tmp := NewVec(0)
+			return tmp, ErrCannotSolve
 		}
 
-		ans, err = VSub(x, dx)
+		ans, err = Sub(x, dx)
 		if err != nil {
-			return nil, ErrCannotSolve
+			tmp := NewVec(0)
+			return tmp, ErrCannotSolve
 		}
 
 	}
 
-	return ans, nil
+	return ans.(Vec), nil
 }

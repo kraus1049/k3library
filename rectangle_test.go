@@ -57,3 +57,19 @@ func TestRectangleInvalidArgument(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkRectangle(b *testing.B) {
+	f := func(x float64) float64 {
+		return math.Sin(x)
+	}
+
+	a := 0.0
+	c := math.Pi
+	eps := 1e-5
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		Rectangle(Lift(f), a, c, eps)
+	}
+
+}

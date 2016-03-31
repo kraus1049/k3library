@@ -1,6 +1,6 @@
 package k3library
 
-func Csv2func(filepath string, parser func(string) (map[string]string, [][2]float64, error)) (f func(float64) (float64, error), err error) {
+func Csv2func(filepath string, parser func(string) (map[string]string, [][2]float64, error)) (func(float64) (float64, error), error) {
 
 	bin_search := func(xys [][2]float64, x float64) (float64, error) {
 		low, high := 0, len(xys)-1
@@ -27,7 +27,7 @@ func Csv2func(filepath string, parser func(string) (map[string]string, [][2]floa
 
 	x_min, x_max := xys[0][0], xys[len(xys)-1][0]
 
-	f = func(x float64) (float64, error) {
+	f := func(x float64) (float64, error) {
 		if x < x_min || x_max < x {
 			return 0, ErrOutOfRange
 		} else if x == x_max {

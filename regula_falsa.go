@@ -1,6 +1,6 @@
 package k3library
 
-func RegulaFalsa(start, end float64, g func(float64) float64, num, eps float64) (ans float64, err error) {
+func RegulaFalsa(start, end float64, g func(float64) float64, num, eps float64) (float64, error) {
 
 	f := func(x float64) float64 { return g(x) - num }
 	var mid, pre_mid, fs, fe, fm float64
@@ -11,11 +11,9 @@ func RegulaFalsa(start, end float64, g func(float64) float64, num, eps float64) 
 
 	if start == end {
 		if EpsEqual(fs, 0, eps) {
-			ans = start
-			return
+			return start, nil
 		} else {
-			err = ErrInvalid
-			return
+			return -1, ErrInvalid
 		}
 	} else if start > end {
 		start, end = end, start
@@ -23,8 +21,7 @@ func RegulaFalsa(start, end float64, g func(float64) float64, num, eps float64) 
 	}
 
 	if fs*fm > 0 {
-		err = ErrInvalid
-		return
+		return -1, ErrInvalid
 	}
 
 	for !EpsEqual(pre_mid, mid, eps) || !EpsEqual(fm, 0, eps) {
@@ -40,8 +37,6 @@ func RegulaFalsa(start, end float64, g func(float64) float64, num, eps float64) 
 		fm = f(mid)
 	}
 
-	ans = mid
-
-	return
+	return mid, nil
 
 }

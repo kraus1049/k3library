@@ -6,27 +6,27 @@ import (
 )
 
 type forwardSubTest struct {
-	mat      [][]float64
-	b        []float64
-	expected []float64
+	mat      Mat
+	b        Vec
+	expected Vec
 	err      error
 }
 
 func TestForwardSub(t *testing.T) {
 	var testForwardSub = []forwardSubTest{
-		{[][]float64{{1, 0}, {1, 1}},
-			[]float64{1, 2},
-			[]float64{1, 1},
+		{NewMatSet([][]float64{{1, 0}, {1, 1}}),
+			NewVecSet([]float64{1, 2}),
+			NewVecSet([]float64{1, 1}),
 			nil,
 		},
-		{[][]float64{{1, 0, 0}, {2, 3, 0}, {4, 5, 6}},
-			[]float64{1, 5, 15},
-			[]float64{1, 1, 1},
+		{NewMatSet([][]float64{{1, 0, 0}, {2, 3, 0}, {4, 5, 6}}),
+			NewVecSet([]float64{1, 5, 15}),
+			NewVecSet([]float64{1, 1, 1}),
 			nil,
 		},
-		{[][]float64{{1, 123, 321}, {2, 3, 456}, {4, 5, 6}},
-			[]float64{1, 5, 15},
-			[]float64{1, 1, 1},
+		{NewMatSet([][]float64{{1, 123, 321}, {2, 3, 456}, {4, 5, 6}}),
+			NewVecSet([]float64{1, 5, 15}),
+			NewVecSet([]float64{1, 1, 1}),
 			nil,
 		},
 	}
@@ -35,7 +35,7 @@ func TestForwardSub(t *testing.T) {
 		test := &testForwardSub[i]
 		actual, err := ForwardSub(test.mat, test.b)
 
-		if !SliceEpsEqual(actual, test.expected, 1e-8) {
+		if !VecEpsEqual(actual, test.expected, 1e-8) {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
 		} else if err != test.err {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
@@ -45,9 +45,9 @@ func TestForwardSub(t *testing.T) {
 
 func TestForwardSubCannotSolve(t *testing.T) {
 	var testForwardSubCannotSolve = []forwardSubTest{
-		{[][]float64{{1, 0, 0}, {2, 0, 0}, {4, 5, 6}},
-			[]float64{1, 5, 15},
-			[]float64{1, 1, 1},
+		{NewMatSet([][]float64{{1, 0, 0}, {2, 0, 0}, {4, 5, 6}}),
+			NewVecSet([]float64{1, 5, 15}),
+			NewVecSet([]float64{1, 1, 1}),
 			ErrCannotSolve,
 		},
 	}

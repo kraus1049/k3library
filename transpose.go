@@ -1,14 +1,11 @@
 package k3library
 
-func Transpose(a [][]float64) [][]float64 {
-	ans := make([][]float64, len(a[0]))
-	for i := range ans {
-		ans[i] = make([]float64, len(a))
-	}
+func (a *Mat) Transpose() Mat {
+	ans := NewMat(a.Row, a.Col)
 
-	for i := range a[0] {
-		for j := range a {
-			ans[i][j] = a[j][i]
+	for i := 0; i < a.Row; i++ {
+		for j := 0; j < a.Col; j++ {
+			ans.Write(i, j, a.At(j, i))
 		}
 	}
 

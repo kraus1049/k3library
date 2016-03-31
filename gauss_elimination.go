@@ -1,67 +1,65 @@
 package k3library
 
-func GaussElimination(a [][]float64, b []float64) (x []float64, err error) {
+func GaussElimination(a Mat, b Vec) (Vec, error) {
 	if !canSimultaneousEquSolve(a, b) {
-		err = ErrInvalid
-		return
+		return Vec{[]float64{}, 0}, ErrInvalid
 	}
 
-	idx := serialNum(len(a))
+	idx := serialNum(a.Col)
 
-	a_ := MatCopy(a)
-	x_ := VecCopy(b)
-	x = make([]float64, len(x_))
+	a_ := a.Copy()
+	x_ := b.Copy()
+	x := NewVec(x_.Row)
 
-	for i := range a_ {
+	for i := 0; i < a_.Col; i++ {
 
-		if a_[idx[i]][i] == 0 {
-			if i == len(a_)-1 {
-				err = ErrCannotSolve
-				return
+		if a_.At(idx[i], i) == 0 {
+			if i == a_.Col-1 {
+				return Vec{[]float64{}, 0}, ErrCannotSolve
 			}
 
 			tmp := make([]float64, 0)
-			for j := i + 1; j < len(a_); j++ {
-				maxnum, _ := max(a_[idx[j]])
-				tmp = append(tmp, a_[idx[j]][i]/maxnum)
+			for j := i + 1; j < a_.Col; j++ {
+				maxnum, _ := max(a_.M[idx[j]])
+				tmp = append(tmp, a_.At(idx[j], i)/maxnum)
 			}
+			tmp_ := NewVecSet(tmp)
 
-			if maxnum, maxidx := max(tmp); maxnum != 0 {
+			if maxnum, maxidx := max(tmp_); maxnum != 0 {
 				idx[i], idx[maxidx+i+1] = idx[maxidx+i+1], idx[i]
 			} else {
-				err = ErrCannotSolve
-				return
+				return Vec{[]float64{}, 0}, ErrCannotSolve
 			}
 		}
 
-		num := a_[idx[i]][i]
+		num := a_.At(idx[i], i)
 
-		for j := i; j < len(a_); j++ {
-			a_[idx[i]][j] /= num
+		for j := i; j < a_.Col; j++ {
+			tmp := a_.At(idx[i], j) / num
+			a_.Write(idx[i], j, tmp)
 		}
 
-		x_[idx[i]] /= num
+		x_.Write(idx[i], x_.At(idx[i])/num)
 
-		for j := range a_ {
-
+		for j := 0; j < a_.Col; j++ {
 			if idx[i] == idx[j] {
 				continue
 			}
 
-			per := a_[idx[j]][i] / a_[idx[i]][i]
+			per := a_.At(idx[j], i) / a_.At(idx[i], i)
 
-			for k := i; k < len(a_); k++ {
-				a_[idx[j]][k] -= per * a_[idx[i]][k]
+			for k := i; k < a_.Col; k++ {
+				a_.Write(idx[j], k, a_.At(idx[j], k)-per*a_.At(idx[i], k))
 			}
 
-			x_[idx[j]] -= per * x_[idx[i]]
+			x_.Write(idx[j], x_.At(idx[j])-per*x_.At(idx[i]))
 		}
 
 	}
 
 	for i, changed := range idx {
-		x[changed] = x_[i]
+		x.Write(changed, x_.At(i))
 	}
 
-	return
+	return x, nil
 }

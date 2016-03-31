@@ -1,31 +1,20 @@
 package k3library
 
-func Inverse(a [][]float64) ([][]float64, error) {
-
-	l, u, idx, _, err := LUDecomp(a)
-	ans := make([][]float64, len(a))
-	for i := range ans {
-		ans[i] = make([]float64, len(a[i]))
-	}
+func (m *Mat) Inverse() (Mat, error) {
+	l, u, idx, _, err := m.LUDecomp()
+	ans := NewMat(m.Col, m.Row)
 
 	if err != nil {
-		return l, ErrInvalid
+		tmp := NewMat(0, 0)
+		return tmp, ErrInvalid
 	}
 
-	for i := range a {
+	e := makeIdentityMat(m.Col)
 
-		e := make([]float64, len(a))
-		e[i] = 1
-
-		x, err2 := Solve(l, u, e, idx)
-
-		if err2 != nil {
-			return l, ErrInvalid
-		}
-
-		ans[i] = x
-
+	for i := 0; i < m.Col; i++ {
+		x, _ := Solve(l, u, e.M[i], idx)
+		ans.M[i] = x
 	}
 
-	return Transpose(ans), nil
+	return ans.Transpose(), nil
 }

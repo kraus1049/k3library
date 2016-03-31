@@ -7,5 +7,5 @@ func Det(u Mat, sgn int) float64 {
 		det *= u.At(i, i)
 	}
 
-	return det
+	return det * float64(sgn)
 }

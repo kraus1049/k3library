@@ -21,7 +21,7 @@ func TestInverse(t *testing.T) {
 	for i := range testInverse {
 		test := &testInverse[i]
 
-		actual, err := Inverse(test.mat)
+		actual, err := test.mat.Inverse()
 
 		if pro, _ := Pro(actual, test.mat); !isIdentityMat(pro.(Mat), 1e-8) {
 			t.Errorf("%v: want identityMat, but actual = %v\n", i, pro)
@@ -42,12 +42,12 @@ func BenchmarkInverse(b *testing.B) {
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		Inverse(mat)
+		mat.Inverse()
 	}
 }
 
 func isIdentityMat(mat Mat, eps float64) bool {
-	if !IsSquareMat(mat) {
+	if !mat.IsSquareMat() {
 		return false
 	}
 

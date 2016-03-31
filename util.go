@@ -46,7 +46,7 @@ func backSubIdx(a Mat, b Vec, idx []int) (Vec, error) {
 }
 
 func canSimultaneousEquSolve(a Mat, b Vec) bool {
-	return IsSquareMat(a) && (a.Col == b.Row)
+	return a.IsSquareMat() && (a.Col == b.Row)
 }
 
 func forwardDelIdx(a Mat, b Vec, idx []int) error {
@@ -94,14 +94,6 @@ func max(x Vec) (float64, int) {
 
 	return ans, idx
 }
-
-// func makeMat(col, row int) [][]float64 {
-// 	mat := make([][]float64, col)
-// 	for i := range mat {
-// 		mat[i] = make([]float64, row)
-// 	}
-// 	return mat
-// }
 
 func makeIdentityMat(n int) Mat {
 	mat := NewMat(n, n)

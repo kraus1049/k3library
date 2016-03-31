@@ -22,11 +22,11 @@ func TestTranspose(t *testing.T) {
 
 	for i := range testTranspose {
 		test := &testTranspose[i]
-		actual := Transpose(test.mat)
+		actual := test.mat.Transpose()
 
 		if !reflect.DeepEqual(actual, test.expected) {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
-		} else if !reflect.DeepEqual(Transpose(actual), test.mat) {
+		} else if !reflect.DeepEqual(actual.Transpose(), test.mat) {
 			t.Errorf("%v: Transpose(Transpose(mat)) != mat", i)
 		}
 	}

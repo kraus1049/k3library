@@ -28,7 +28,7 @@ func TestLUDecomp(t *testing.T) {
 
 	for i := range testLUDecomp {
 		test := &testLUDecomp[i]
-		l, u, idx, sgn, err := LUDecomp(test.mat)
+		l, u, idx, sgn, err := test.mat.LUDecomp()
 		swap_mat := swapMatIdx(test.mat, idx)
 
 		if err != test.err {

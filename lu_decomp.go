@@ -1,10 +1,10 @@
 package k3library
 
-func LUDecomp(a Mat) (Mat, Mat, []int, int, error) {
+func (a *Mat) LUDecomp() (Mat, Mat, []int, int, error) {
 
 	idx := serialNum(a.Col)
 
-	if !IsSquareMat(a) {
+	if !a.IsSquareMat() {
 		tmp := NewMat(0, 0)
 		return tmp, tmp, nil, -1, ErrInvalid
 	}

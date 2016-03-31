@@ -20,7 +20,7 @@ func TestIsSquareMat(t *testing.T) {
 
 	for i := range test_is_squaremat {
 		test := &test_is_squaremat[i]
-		actual := IsSquareMat(test.mat)
+		actual := test.mat.IsSquareMat()
 
 		if actual != test.expected {
 			t.Errorf("%v: actual = %v, expected = %v", i, actual, test.expected)

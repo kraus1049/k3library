@@ -1,6 +1,6 @@
 package k3library
 
-func Transpose(a Mat) Mat {
+func (a *Mat) Transpose() Mat {
 	ans := NewMat(a.Row, a.Col)
 
 	for i := 0; i < a.Row; i++ {

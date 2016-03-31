@@ -24,7 +24,7 @@ func Solve(l, u Mat, b Vec, idx []int) (Vec, error) {
 }
 
 func ProveSolve(a Mat, b Vec, eps float64) (Vec, error) {
-	l, u, idx, _, err := LUDecomp(a)
+	l, u, idx, _, err := a.LUDecomp()
 
 	if err != nil {
 		tmp := NewVec(0)

@@ -36,7 +36,7 @@ func TestSolve(t *testing.T) {
 	for i := range testSolve {
 		test := &testSolve[i]
 
-		l, u, idx, _, _ := LUDecomp(test.mat)
+		l, u, idx, _, _ := test.mat.LUDecomp()
 		actual, err := Solve(l, u, test.b, idx)
 
 		if !VecEpsEqual(actual, test.expected, 1e-8) {

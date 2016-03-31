@@ -1,20 +1,20 @@
 package k3library
 
-func Inverse(a Mat) (Mat, error) {
-	l, u, idx, _, err := LUDecomp(a)
-	ans := NewMat(a.Col, a.Row)
+func (m *Mat) Inverse() (Mat, error) {
+	l, u, idx, _, err := m.LUDecomp()
+	ans := NewMat(m.Col, m.Row)
 
 	if err != nil {
 		tmp := NewMat(0, 0)
 		return tmp, ErrInvalid
 	}
 
-	e := makeIdentityMat(a.Col)
+	e := makeIdentityMat(m.Col)
 
-	for i := 0; i < a.Col; i++ {
+	for i := 0; i < m.Col; i++ {
 		x, _ := Solve(l, u, e.M[i], idx)
 		ans.M[i] = x
 	}
 
-	return Transpose(ans), nil
+	return ans.Transpose(), nil
 }

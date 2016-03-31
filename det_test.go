@@ -26,7 +26,7 @@ func TestDet(t *testing.T) {
 	for i := range testDet {
 		test := &testDet[i]
 
-		_, u, _, sgn, _ := LUDecomp(test.mat)
+		_, u, _, sgn, _ := test.mat.LUDecomp()
 		actual := Det(u, sgn)
 
 		if !EpsEqual(actual, test.expected, 1e-8) {

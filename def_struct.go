@@ -42,7 +42,14 @@ func NewMat(col, row int) Mat {
 }
 
 func NewMatSet(xss [][]float64) Mat {
-	m := NewMat(len(xss), len(xss[0]))
+	row := 0
+	for i := range xss {
+		if len(xss[i]) > row {
+			row = len(xss[i])
+		}
+	}
+
+	m := NewMat(len(xss), row)
 	m.Set(xss)
 	return m
 }

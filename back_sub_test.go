@@ -6,27 +6,27 @@ import (
 )
 
 type backSubTest struct {
-	mat      [][]float64
-	b        []float64
-	expected []float64
+	mat      Mat
+	b        Vec
+	expected Vec
 	err      error
 }
 
 func TestBackSub(t *testing.T) {
 	var testBackSub = []backSubTest{
-		{[][]float64{{1, 1}, {0, 1}},
-			[]float64{2, 1},
-			[]float64{1, 1},
+		{NewMatSet([][]float64{{1, 1}, {0, 1}}),
+			NewVecSet([]float64{2, 1}),
+			NewVecSet([]float64{1, 1}),
 			nil,
 		},
-		{[][]float64{{4, 5, 6}, {0, 2, 3}, {0, 0, 1}},
-			[]float64{15, 5, 1},
-			[]float64{1, 1, 1},
+		{NewMatSet([][]float64{{4, 5, 6}, {0, 2, 3}, {0, 0, 1}}),
+			NewVecSet([]float64{15, 5, 1}),
+			NewVecSet([]float64{1, 1, 1}),
 			nil,
 		},
-		{[][]float64{{4, 5, 6}, {123, 2, 3}, {345, 987, 1}},
-			[]float64{15, 5, 1},
-			[]float64{1, 1, 1},
+		{NewMatSet([][]float64{{4, 5, 6}, {123, 2, 3}, {345, 987, 1}}),
+			NewVecSet([]float64{15, 5, 1}),
+			NewVecSet([]float64{1, 1, 1}),
 			nil,
 		},
 	}
@@ -35,7 +35,7 @@ func TestBackSub(t *testing.T) {
 		test := &testBackSub[i]
 		actual, err := BackSub(test.mat, test.b)
 
-		if !SliceEpsEqual(actual, test.expected, 1e-8) {
+		if !VecEpsEqual(actual, test.expected, 1e-8) {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
 		} else if err != test.err {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
@@ -45,14 +45,14 @@ func TestBackSub(t *testing.T) {
 
 func TestBackSubCannotSolve(t *testing.T) {
 	var testBackSubCannotSolve = []backSubTest{
-		{[][]float64{{0, 1}, {0, 1}},
-			[]float64{2, 1},
-			[]float64{1, 1},
+		{NewMatSet([][]float64{{0, 1}, {0, 1}}),
+			NewVecSet([]float64{2, 1}),
+			NewVecSet([]float64{1, 1}),
 			ErrCannotSolve,
 		},
-		{[][]float64{{4, 5, 6}, {0, 0, 3}, {0, 0, 1}},
-			[]float64{15, 5, 1},
-			[]float64{1, 1, 1},
+		{NewMatSet([][]float64{{4, 5, 6}, {0, 0, 3}, {0, 0, 1}}),
+			NewVecSet([]float64{15, 5, 1}),
+			NewVecSet([]float64{1, 1, 1}),
 			ErrCannotSolve,
 		},
 	}

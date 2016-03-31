@@ -10,9 +10,13 @@ func EpsEqual(x, y, eps float64) bool {
 	return result
 }
 
-func SliceEpsEqual(x, y []float64, eps float64) bool {
-	for i := range x {
-		if !EpsEqual(x[i], y[i], eps) {
+func VecEpsEqual(x, y Vec, eps float64) bool {
+	if x.Row != y.Row {
+		return false
+	}
+
+	for i := 0; i < x.Row; i++ {
+		if !EpsEqual(x.At(i), y.At(i), eps) {
 			return false
 		}
 	}
@@ -20,9 +24,13 @@ func SliceEpsEqual(x, y []float64, eps float64) bool {
 	return true
 }
 
-func MatEpsEqual(x, y [][]float64, eps float64) bool {
-	for i := range x {
-		if !SliceEpsEqual(x[i], y[i], eps) {
+func MatEpsEqual(x, y Mat, eps float64) bool {
+	if x.Col != y.Col {
+		return false
+	}
+
+	for i := 0; i < x.Col; i++ {
+		if !VecEpsEqual(x.M[i], x.M[i], eps) {
 			return false
 		}
 	}

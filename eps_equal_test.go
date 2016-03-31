@@ -10,6 +10,18 @@ type epsequalTest struct {
 	expected  bool
 }
 
+type VecEpsEqualTest struct {
+	a, b     Vec
+	eps      float64
+	expected bool
+}
+
+type MatEpsEqualTest struct {
+	a, b     Mat
+	eps      float64
+	expected bool
+}
+
 func TestEpsEqual(t *testing.T) {
 
 	// a,b,eps expected
@@ -29,4 +41,52 @@ func TestEpsEqual(t *testing.T) {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
 		}
 	}
+}
+
+func TestVecEpsEqual(t *testing.T) {
+	var testVecEpsEqual = []VecEpsEqualTest{
+		{NewVecSet([]float64{1, 1, 1}),
+			NewVecSet([]float64{2, 2, 2}),
+			3, true},
+		{NewVecSet([]float64{1, 1, 1, 1}),
+			NewVecSet([]float64{2, 2, 2, 2}),
+			0, false},
+		{NewVecSet([]float64{1, 1, 1, 1, 1}),
+			NewVecSet([]float64{1, 1, 1}),
+			0, false},
+	}
+
+	for i := range testVecEpsEqual {
+		test := &testVecEpsEqual[i]
+		actual := VecEpsEqual(test.a, test.b, test.eps)
+
+		if actual != test.expected {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
+		}
+	}
+
+}
+
+func TestMatEpsEqual(t *testing.T) {
+	var testMatEpsEqual = []MatEpsEqualTest{
+		{NewMatSet([][]float64{{1, 1}, {1, 1}}),
+			NewMatSet([][]float64{{2, 2}, {2, 2}}),
+			3, true},
+		{NewMatSet([][]float64{{1, 1, 1}, {1, 1, 1}}),
+			NewMatSet([][]float64{{2, 2, 2}, {2, 2, 2}}),
+			0, false},
+		{NewMatSet([][]float64{{1, 1, 1, 1}, {1, 1, 1, 1}}),
+			NewMatSet([][]float64{{0, 0, 0}, {0, 0, 0}}),
+			0, false},
+	}
+
+	for i := range testMatEpsEqual {
+		test := &testMatEpsEqual[i]
+		actual := MatEpsEqual(test.a, test.b, test.eps)
+
+		if actual != test.expected {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
+		}
+	}
+
 }

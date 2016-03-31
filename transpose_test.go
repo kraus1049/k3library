@@ -7,18 +7,17 @@ import (
 )
 
 type transposeTest struct {
-	mat      [][]float64
-	expected [][]float64
+	mat, expected Mat
 }
 
 func TestTranspose(t *testing.T) {
 	var testTranspose = []transposeTest{
-		{[][]float64{{1, 2}, {3, 4}},
-			[][]float64{{1, 3}, {2, 4}}},
-		{[][]float64{{1, 2, 3}, {4, 5, 6}},
-			[][]float64{{1, 4}, {2, 5}, {3, 6}}},
-		{[][]float64{{1, 2}, {3, 4}, {5, 6}, {7, 8}},
-			[][]float64{{1, 3, 5, 7}, {2, 4, 6, 8}}},
+		{NewMatSet([][]float64{{1, 2}, {3, 4}}),
+			NewMatSet([][]float64{{1, 3}, {2, 4}})},
+		{NewMatSet([][]float64{{1, 2, 3}, {4, 5, 6}}),
+			NewMatSet([][]float64{{1, 4}, {2, 5}, {3, 6}})},
+		{NewMatSet([][]float64{{1, 2}, {3, 4}, {5, 6}, {7, 8}}),
+			NewMatSet([][]float64{{1, 3, 5, 7}, {2, 4, 6, 8}})},
 	}
 
 	for i := range testTranspose {

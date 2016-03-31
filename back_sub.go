@@ -1,18 +1,17 @@
 package k3library
 
-func BackSub(a [][]float64, b []float64) ([]float64, error) {
-	x := make([]float64, len(b))
+func BackSub(a Mat, b Vec) (Vec, error) {
+	x := NewVec(b.Row)
 
-	for i := len(a) - 1; i >= 0; i-- {
-		if a[i][i] == 0 {
-			return nil, ErrCannotSolve
+	for i := a.Col - 1; i >= 0; i-- {
+		if a.At(i, i) == 0 {
+			return Vec{[]float64{}, 0}, ErrCannotSolve
 		}
 		sgm := 0.0
-		for j := len(a) - 1; j > i; j-- {
-			sgm += a[i][j] * x[j]
+		for j := a.Col - 1; j > i; j-- {
+			sgm += a.At(i, j) * x.At(j)
 		}
-
-		x[i] = (b[i] - sgm) / a[i][i]
+		x.Write(i, (b.At(i)-sgm)/a.At(i, i))
 	}
 
 	return x, nil

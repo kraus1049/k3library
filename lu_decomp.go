@@ -1,32 +1,33 @@
 package k3library
 
-func LUDecomp(a [][]float64) ([][]float64, [][]float64, []int, int, error) {
+func LUDecomp(a Mat) (Mat, Mat, []int, int, error) {
 
-	idx := serialNum(len(a))
+	idx := serialNum(a.Col)
 
 	if !IsSquareMat(a) {
-		return nil, nil, nil, -1, ErrInvalid
+		tmp := NewMat(0, 0)
+		return tmp, tmp, nil, -1, ErrInvalid
 	}
 
 	var sgn int = 1
 
-	l := makeMat(len(a), len(a[0]))
-	u := makeMat(len(a), len(a[0]))
+	l := NewMat(a.Col, a.Row)
+	u := NewMat(a.Col, a.Row)
 
-	for i := range a {
+	for i := 0; i < a.Col; i++ {
 		flag := false
-		for h := i; h < len(a); h++ {
-			for j := i; j < len(a[i]); j++ {
+		for h := i; h < a.Col; h++ {
+			for j := i; j < a.Row; j++ {
 				sgm := 0.0
 
 				for k := 0; k < i; k++ {
-					sgm += l[idx[i]][k] * u[k][j]
+					sgm += l.At(idx[i], k) * u.At(k, j)
 				}
 
-				u[i][j] = a[idx[i]][j] - sgm
+				u.Write(i, j, a.At(idx[i], j)-sgm)
 			}
 
-			if u[i][i] == 0 && h+1 < len(a) {
+			if u.At(i, i) == 0 && h+1 < a.Col {
 				idx[i], idx[h+1] = idx[h+1], idx[i]
 				flag = true
 			} else {
@@ -39,15 +40,15 @@ func LUDecomp(a [][]float64) ([][]float64, [][]float64, []int, int, error) {
 			sgn = -sgn
 		}
 
-		l[idx[i]][i] = 1
+		l.Write(idx[i], i, 1)
 
-		for j := i + 1; j < len(a); j++ {
+		for j := i + 1; j < a.Col; j++ {
 			sgm := 0.0
 
 			for k := 0; k < i; k++ {
-				sgm += l[idx[j]][k] * u[k][i]
+				sgm += l.At(idx[j], k) * u.At(k, i)
 			}
-			l[idx[j]][i] = (a[idx[j]][i] - sgm) / u[i][i]
+			l.Write(idx[j], i, (a.At(idx[j], i)-sgm)/u.At(i, i))
 
 		}
 

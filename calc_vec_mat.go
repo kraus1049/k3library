@@ -1,38 +1,5 @@
 package k3library
 
-func VSub(x, y []float64) ([]float64, error) {
-	if len(x) != len(y) {
-		return nil, ErrInvalid
-	}
-
-	ans := make([]float64, len(x))
-
-	for i := range x {
-		ans[i] = x[i] - y[i]
-	}
-
-	return ans, nil
-}
-
-func MPro(x, y [][]float64) ([][]float64, error) {
-
-	if len(x[0]) != len(y) {
-		return nil, ErrInvalid
-	}
-
-	ans := makeMat(len(x), len(y[0]))
-
-	for i := range x {
-		for j := range y[0] {
-			for k := range x[0] {
-				ans[i][j] += x[i][k] * y[k][j]
-			}
-		}
-	}
-
-	return ans, nil
-}
-
 func Sum(xs ...interface{}) (interface{}, error) {
 	if !allTypeEqual(xs...) {
 		return nil, ErrInvalid
@@ -97,6 +64,22 @@ func Sum(xs ...interface{}) (interface{}, error) {
 
 	}
 	return nil, ErrInvalid
+}
+
+func Sub(x, y interface{}) (interface{}, error) {
+	y_, err := Pro(-1.0, y)
+	if err != nil {
+		return nil, err
+	}
+	if i, ok := y_.(float64); ok {
+		return Sum(x, i)
+	} else if v, ok := y_.(Vec); ok {
+		return Sum(x, v)
+	} else if m, ok := y_.(Mat); ok {
+		return Sum(x, m)
+	}
+	return nil, ErrInvalid
+
 }
 
 func Pro(xs ...interface{}) (interface{}, error) {

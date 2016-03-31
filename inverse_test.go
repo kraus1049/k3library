@@ -6,15 +6,15 @@ import (
 )
 
 type inverseTest struct {
-	mat [][]float64
+	mat Mat
 	err error
 }
 
 func TestInverse(t *testing.T) {
 	var testInverse = []inverseTest{
-		{[][]float64{{1, 1}, {3, 4}},
+		{NewMatSet([][]float64{{1, 1}, {3, 4}}),
 			nil},
-		{[][]float64{{45, 67, 89}, {111, 121, 23}, {34, 4, 831}},
+		{NewMatSet([][]float64{{45, 67, 89}, {111, 121, 23}, {34, 4, 831}}),
 			nil},
 	}
 
@@ -23,7 +23,7 @@ func TestInverse(t *testing.T) {
 
 		actual, err := Inverse(test.mat)
 
-		if pro, _ := MPro(actual, test.mat); !isIdentityMat(pro, 1e-8) {
+		if pro, _ := Pro(actual, test.mat); !isIdentityMat(pro.(Mat), 1e-8) {
 			t.Errorf("%v: want identityMat, but actual = %v\n", i, pro)
 		} else if err != test.err {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
@@ -33,10 +33,10 @@ func TestInverse(t *testing.T) {
 }
 
 func BenchmarkInverse(b *testing.B) {
-	mat := make([][]float64, 5)
-	for i := range mat {
-		for j := range mat[i] {
-			mat[i][j] = float64(i + j)
+	mat := NewMat(5, 5)
+	for i := 0; i < mat.Col; i++ {
+		for j := 0; j < mat.Row; j++ {
+			mat.Write(i, j, float64(i+j))
 		}
 	}
 	b.ResetTimer()
@@ -46,13 +46,13 @@ func BenchmarkInverse(b *testing.B) {
 	}
 }
 
-func isIdentityMat(mat [][]float64, eps float64) bool {
+func isIdentityMat(mat Mat, eps float64) bool {
 	if !IsSquareMat(mat) {
 		return false
 	}
 
-	for i := range mat {
-		if !EpsEqual(mat[i][i], 1, eps) {
+	for i := 0; i < mat.Col; i++ {
+		if !EpsEqual(mat.At(i, i), 1, eps) {
 			return false
 		}
 	}

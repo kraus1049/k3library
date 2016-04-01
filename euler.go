@@ -4,7 +4,7 @@ import (
 	"errors"
 )
 
-func Euler(f func(float64) (float64, error), t_i, x_i, to, eps float64) (func(float64) (float64, error), error) {
+func Euler(f func(float64, float64) (float64, error), t_i, x_i, to, eps float64) (func(float64) (float64, error), error) {
 	n := int((to - t_i) / eps)
 
 	ans := make([]float64, n)
@@ -32,8 +32,8 @@ func Euler(f func(float64) (float64, error), t_i, x_i, to, eps float64) (func(fl
 	return g, nil
 }
 
-func euler(f func(float64) (float64, error), t_i, x_i, dt float64) (float64, error) {
-	if x_i_, err := f(t_i); err == nil {
+func euler(f func(float64, float64) (float64, error), t_i, x_i, dt float64) (float64, error) {
+	if x_i_, err := f(t_i, x_i); err == nil {
 		return x_i + x_i_*dt, nil
 	} else {
 		return -1, err

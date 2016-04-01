@@ -19,6 +19,17 @@ type mSetTest struct {
 	expected [][]float64
 }
 
+type fncVSetTest struct {
+	fs       []func(float64, float64) (float64, error)
+	row      int
+	expected []func(float64, float64) (float64, error)
+}
+
+type newFNCVSet struct {
+	fs       []func(float64, float64) (float64, error)
+	expected []func(float64, float64) (float64, error)
+}
+
 type vWriteTest struct {
 	len, idx int
 	num      float64
@@ -148,6 +159,69 @@ func TestMSet(t *testing.T) {
 	}
 }
 
+func TestNewFNCVec(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		actual := NewFNCVec(i)
+
+		if len(actual.F) != i {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, len(actual.F), i)
+		} else if actual.Row != i {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, actual.Row, i)
+		}
+	}
+}
+
+func TestFNCVSet(t *testing.T) {
+	fv1 := []func(float64, float64) (float64, error){
+		func(x, y float64) (float64, error) { return x * y, nil },
+	}
+
+	fv2 := []func(float64, float64) (float64, error){
+		func(x, y float64) (float64, error) { return x * y, nil },
+		func(x, y float64) (float64, error) { return x + y, nil },
+	}
+
+	var testFNCVSet = []fncVSetTest{
+		{fv1, 1, fv1},
+		{fv2, 2, fv2},
+	}
+
+	for i := range testFNCVSet {
+		test := &testFNCVSet[i]
+		fv := NewFNCVec(test.row)
+		fv.Set(test.fs...)
+
+		if !reflect.DeepEqual(fv.F, test.fs) {
+			t.Errorf("%v: actual = %v, expected = %v", i, fv.F, test.fs)
+		}
+	}
+}
+
+func TestNewFNCVSet(t *testing.T) {
+	fv1 := []func(float64, float64) (float64, error){
+		func(x, y float64) (float64, error) { return x * y, nil },
+	}
+	fv2 := []func(float64, float64) (float64, error){
+		func(x, y float64) (float64, error) { return x * y, nil },
+		func(x, y float64) (float64, error) { return x + y, nil },
+	}
+
+	var testNewFNCVSet = []newFNCVSet{
+		{fv1, fv1},
+		{fv2, fv2},
+	}
+
+	for i := range testNewFNCVSet {
+		test := &testNewFNCVSet[i]
+		fv := NewFNCVecSet(test.fs...)
+
+		if !reflect.DeepEqual(fv.F, test.fs) {
+			t.Errorf("%v: actual = %v, expected = %v", i, fv.F, test.fs)
+		}
+	}
+
+}
+
 func TestVAt(t *testing.T) {
 	v := NewVec(5)
 	expected := []float64{0, 1, 2, 3, 4}
@@ -189,6 +263,29 @@ func TestMAt(t *testing.T) {
 
 	if flag {
 		t.Errorf("actual = %v, expected = %v", actual, expected)
+	}
+}
+
+func TestFNCVAt(t *testing.T) {
+	f1 := func(x, y float64) (float64, error) { return x + y, nil }
+	f2 := func(x, y float64) (float64, error) { return x * y, nil }
+	f3 := func(x, y float64) (float64, error) { return x - y, nil }
+	f4 := func(x, y float64) (float64, error) { return x + 2*y, nil }
+
+	fvs := [][]func(float64, float64) (float64, error){{f1, f2}, {f3, f4}}
+
+	for i := range fvs {
+		fv := NewFNCVecSet(fvs[i]...)
+
+		for j := 0; j < fv.Row; j++ {
+			tmp := fv.At(j)
+			actual, _ := tmp(1, 1)
+			expected, _ := fvs[i][j](1, 1)
+
+			if actual != expected {
+				t.Errorf("(%v,%v): actual = %v, expected = %v\n", i, j, actual, expected)
+			}
+		}
 	}
 }
 

@@ -14,6 +14,11 @@ type Mat struct {
 	Col, Row int
 }
 
+type FNCVec struct {
+	F   []func(float64, float64) (float64, error)
+	Row int
+}
+
 func NewVec(row int) Vec {
 	if row < 0 {
 		row = 0
@@ -52,6 +57,21 @@ func NewMatSet(xss [][]float64) Mat {
 	m := NewMat(len(xss), row)
 	m.Set(xss)
 	return m
+}
+
+func NewFNCVec(row int) FNCVec {
+	if row < 0 {
+		row = 0
+	}
+
+	fs := make([]func(float64, float64) (float64, error), row)
+	return FNCVec{fs, row}
+}
+
+func NewFNCVecSet(fs ...func(float64, float64) (float64, error)) FNCVec {
+	fncv := NewFNCVec(len(fs))
+	fncv.Set(fs...)
+	return fncv
 }
 
 func (v Vec) String() string {
@@ -102,12 +122,33 @@ func (m *Mat) Set(x [][]float64) {
 
 }
 
+func (f *FNCVec) Set(fs ...func(float64, float64) (float64, error)) {
+
+	if len(fs) < f.Row {
+		z := func(float64, float64) (float64, error) {
+			return 0, nil
+		}
+		zero := make([]func(float64, float64) (float64, error), f.Row-len(fs))
+		for i := range zero {
+			zero[i] = z
+		}
+
+		fs = append(fs, zero...)
+	}
+
+	f.F = fs[0:f.Row]
+}
+
 func (v *Vec) At(i int) float64 {
 	return v.V[i]
 }
 
 func (m *Mat) At(i, j int) float64 {
 	return m.M[i].V[j]
+}
+
+func (f *FNCVec) At(i int) func(float64, float64) (float64, error) {
+	return f.F[i]
 }
 
 func (v *Vec) Write(i int, num float64) {

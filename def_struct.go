@@ -15,7 +15,7 @@ type Mat struct {
 }
 
 type FNCVec struct {
-	F   []func(float64, float64) (float64, error)
+	F   []func(float64, Vec) (float64, error)
 	Row int
 }
 
@@ -64,11 +64,11 @@ func NewFNCVec(row int) FNCVec {
 		row = 0
 	}
 
-	fs := make([]func(float64, float64) (float64, error), row)
+	fs := make([]func(float64, Vec) (float64, error), row)
 	return FNCVec{fs, row}
 }
 
-func NewFNCVecSet(fs ...func(float64, float64) (float64, error)) FNCVec {
+func NewFNCVecSet(fs ...func(float64, Vec) (float64, error)) FNCVec {
 	fncv := NewFNCVec(len(fs))
 	fncv.Set(fs...)
 	return fncv
@@ -122,13 +122,13 @@ func (m *Mat) Set(x [][]float64) {
 
 }
 
-func (f *FNCVec) Set(fs ...func(float64, float64) (float64, error)) {
+func (f *FNCVec) Set(fs ...func(float64, Vec) (float64, error)) {
 
 	if len(fs) < f.Row {
-		z := func(float64, float64) (float64, error) {
+		z := func(float64, Vec) (float64, error) {
 			return 0, nil
 		}
-		zero := make([]func(float64, float64) (float64, error), f.Row-len(fs))
+		zero := make([]func(float64, Vec) (float64, error), f.Row-len(fs))
 		for i := range zero {
 			zero[i] = z
 		}
@@ -147,7 +147,7 @@ func (m *Mat) At(i, j int) float64 {
 	return m.M[i].V[j]
 }
 
-func (f *FNCVec) At(i int) func(float64, float64) (float64, error) {
+func (f *FNCVec) At(i int) func(float64, Vec) (float64, error) {
 	return f.F[i]
 }
 
@@ -202,4 +202,18 @@ func (m *Mat) Copy() Mat {
 		mat.M[i] = m.M[i].Copy()
 	}
 	return mat
+}
+
+func (f *FNCVec) Calc(t float64, x Vec) (Vec, error) {
+	ans := make([]float64, f.Row)
+	for i := range ans {
+		tmp, err := f.F[i](t, x)
+		if err != nil {
+			return NewVec(0), err
+		}
+
+		ans[i] = tmp
+	}
+
+	return NewVecSet(ans), nil
 }

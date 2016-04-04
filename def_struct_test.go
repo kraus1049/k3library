@@ -20,14 +20,14 @@ type mSetTest struct {
 }
 
 type fncVSetTest struct {
-	fs       []func(float64, float64) (float64, error)
+	fs       []func(float64, Vec) (float64, error)
 	row      int
-	expected []func(float64, float64) (float64, error)
+	expected []func(float64, Vec) (float64, error)
 }
 
 type newFNCVSet struct {
-	fs       []func(float64, float64) (float64, error)
-	expected []func(float64, float64) (float64, error)
+	fs       []func(float64, Vec) (float64, error)
+	expected []func(float64, Vec) (float64, error)
 }
 
 type vWriteTest struct {
@@ -40,6 +40,14 @@ type mWriteTest struct {
 	col, row, i, j int
 	num            float64
 	expected       [][]float64
+}
+
+type fncvCalc struct {
+	fv       FNCVec
+	x        float64
+	y        Vec
+	expected Vec
+	err      error
 }
 
 func TestNewVec(t *testing.T) {
@@ -172,13 +180,14 @@ func TestNewFNCVec(t *testing.T) {
 }
 
 func TestFNCVSet(t *testing.T) {
-	fv1 := []func(float64, float64) (float64, error){
-		func(x, y float64) (float64, error) { return x * y, nil },
+	// y := NewVecSet([]float64{1, 2})
+	fv1 := []func(float64, Vec) (float64, error){
+		func(x float64, y Vec) (float64, error) { return x * y.At(0), nil },
 	}
 
-	fv2 := []func(float64, float64) (float64, error){
-		func(x, y float64) (float64, error) { return x * y, nil },
-		func(x, y float64) (float64, error) { return x + y, nil },
+	fv2 := []func(float64, Vec) (float64, error){
+		func(x float64, y Vec) (float64, error) { return x * y.At(0), nil },
+		func(x float64, y Vec) (float64, error) { return x + y.At(0) + y.At(1), nil },
 	}
 
 	var testFNCVSet = []fncVSetTest{
@@ -198,12 +207,14 @@ func TestFNCVSet(t *testing.T) {
 }
 
 func TestNewFNCVSet(t *testing.T) {
-	fv1 := []func(float64, float64) (float64, error){
-		func(x, y float64) (float64, error) { return x * y, nil },
+	// y := NewVecSet([]float64{1, 2})
+	fv1 := []func(float64, Vec) (float64, error){
+		func(x float64, y Vec) (float64, error) { return x * y.At(0), nil },
 	}
-	fv2 := []func(float64, float64) (float64, error){
-		func(x, y float64) (float64, error) { return x * y, nil },
-		func(x, y float64) (float64, error) { return x + y, nil },
+
+	fv2 := []func(float64, Vec) (float64, error){
+		func(x float64, y Vec) (float64, error) { return x * y.At(0), nil },
+		func(x float64, y Vec) (float64, error) { return x + y.At(0) + y.At(1), nil },
 	}
 
 	var testNewFNCVSet = []newFNCVSet{
@@ -267,20 +278,21 @@ func TestMAt(t *testing.T) {
 }
 
 func TestFNCVAt(t *testing.T) {
-	f1 := func(x, y float64) (float64, error) { return x + y, nil }
-	f2 := func(x, y float64) (float64, error) { return x * y, nil }
-	f3 := func(x, y float64) (float64, error) { return x - y, nil }
-	f4 := func(x, y float64) (float64, error) { return x + 2*y, nil }
+	y := NewVecSet([]float64{1, 2, 3, 4})
+	f1 := func(x float64, y Vec) (float64, error) { return x + y.At(0) + y.At(3), nil }
+	f2 := func(x float64, y Vec) (float64, error) { return x * y.At(1), nil }
+	f3 := func(x float64, y Vec) (float64, error) { return x - y.At(2), nil }
+	f4 := func(x float64, y Vec) (float64, error) { return x + 2*y.At(3), nil }
 
-	fvs := [][]func(float64, float64) (float64, error){{f1, f2}, {f3, f4}}
+	fvs := [][]func(float64, Vec) (float64, error){{f1, f2}, {f3, f4}}
 
 	for i := range fvs {
 		fv := NewFNCVecSet(fvs[i]...)
 
 		for j := 0; j < fv.Row; j++ {
 			tmp := fv.At(j)
-			actual, _ := tmp(1, 1)
-			expected, _ := fvs[i][j](1, 1)
+			actual, _ := tmp(1, y)
+			expected, _ := fvs[i][j](1, y)
 
 			if actual != expected {
 				t.Errorf("(%v,%v): actual = %v, expected = %v\n", i, j, actual, expected)
@@ -368,6 +380,29 @@ func TestMCopy(t *testing.T) {
 		t.Errorf("m1(%v) should be not equal m2(%v)\n", m1, m2)
 	}
 
+}
+
+func TestFNCVCalc(t *testing.T) {
+	f1 := func(x float64, y Vec) (float64, error) { return x * y.At(0), nil }
+	f2 := func(x float64, y Vec) (float64, error) { return x * y.At(1), nil }
+
+	var testFNCVCalc = []fncvCalc{
+		{NewFNCVecSet(f1, f2), 1,
+			NewVecSet([]float64{1, 2}),
+			NewVecSet([]float64{1, 2}), nil},
+	}
+
+	for i := range testFNCVCalc {
+		test := &testFNCVCalc[i]
+
+		actual, err := test.fv.Calc(test.x, test.y)
+
+		if err != test.err {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
+		} else if !VecEpsEqual(actual, test.expected, 1e-5) {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
+		}
+	}
 }
 
 func ExamplePrintVec() {

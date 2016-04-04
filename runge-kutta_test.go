@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-type eulerTest struct {
+type rungeKuttaTest struct {
 	f        FNCVec
 	x_i      float64
 	y_i      Vec
@@ -15,7 +15,7 @@ type eulerTest struct {
 	err      error
 }
 
-func TestEuler(t *testing.T) {
+func TestRungeKutta(t *testing.T) {
 	fv1 := NewFNCVecSet(func(x float64, y Vec) (float64, error) { return 2 * x, nil })
 	fv2 := NewFNCVecSet(func(x float64, y Vec) (float64, error) { return 1 / x, nil })
 	fv3 := NewFNCVecSet(func(x float64, y Vec) (float64, error) { return y.At(0), nil })
@@ -24,13 +24,13 @@ func TestEuler(t *testing.T) {
 	fv5 := NewFNCVecSet(func(x float64, y Vec) (float64, error) { return y.At(1), nil },
 		func(x float64, y Vec) (float64, error) { return -2*y.At(1) - 5*y.At(0), nil })
 
-	var testEuler = []eulerTest{
+	var testRungeKutta = []rungeKuttaTest{
 		{fv1,
 			0, NewVecSet([]float64{0}), 1, 1e-4,
 			func(x float64) float64 { return math.Pow(x, 2) },
 			nil},
 		{fv2,
-			1, NewVecSet([]float64{0}), 2, 1e-5,
+			1, NewVecSet([]float64{0}), 2, 1e-4,
 			func(x float64) float64 { return math.Log(x) },
 			nil},
 		{fv3,
@@ -47,9 +47,9 @@ func TestEuler(t *testing.T) {
 			nil},
 	}
 
-	for i := range testEuler {
-		test := &testEuler[i]
-		actual, err := Euler(test.f, test.x_i, test.y_i, test.to, test.eps)
+	for i := range testRungeKutta {
+		test := &testRungeKutta[i]
+		actual, err := RungeKutta(test.f, test.x_i, test.y_i, test.to, test.eps)
 
 		if err != test.err {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)

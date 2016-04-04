@@ -87,7 +87,7 @@ func TestVSet(t *testing.T) {
 
 func TestNewVecSet(t *testing.T) {
 	xs := []float64{0, 1, 2, 3, 4}
-	v := NewVecSet(xs)
+	v := NewVecSet(xs...)
 
 	if !reflect.DeepEqual(v.V, xs) {
 		t.Errorf("actual = %v, expected = %v\n", v.V, xs)
@@ -278,7 +278,7 @@ func TestMAt(t *testing.T) {
 }
 
 func TestFNCVAt(t *testing.T) {
-	y := NewVecSet([]float64{1, 2, 3, 4})
+	y := NewVecSet(1, 2, 3, 4)
 	f1 := func(x float64, y Vec) (float64, error) { return x + y.At(0) + y.At(3), nil }
 	f2 := func(x float64, y Vec) (float64, error) { return x * y.At(1), nil }
 	f3 := func(x float64, y Vec) (float64, error) { return x - y.At(2), nil }
@@ -388,8 +388,8 @@ func TestFNCVCalc(t *testing.T) {
 
 	var testFNCVCalc = []fncvCalc{
 		{NewFNCVecSet(f1, f2), 1,
-			NewVecSet([]float64{1, 2}),
-			NewVecSet([]float64{1, 2}), nil},
+			NewVecSet(1, 2),
+			NewVecSet(1, 2), nil},
 	}
 
 	for i := range testFNCVCalc {

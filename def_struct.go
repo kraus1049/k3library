@@ -28,7 +28,7 @@ func NewVec(row int) Vec {
 	return Vec{v, row}
 }
 
-func NewVecSet(xs []float64) Vec {
+func NewVecSet(xs ...float64) Vec {
 	v := NewVec(len(xs))
 	v.Set(xs)
 	return v
@@ -215,5 +215,5 @@ func (f *FNCVec) Calc(t float64, x Vec) (Vec, error) {
 		ans[i] = tmp
 	}
 
-	return NewVecSet(ans), nil
+	return NewVecSet(ans...), nil
 }

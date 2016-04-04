@@ -45,14 +45,14 @@ func TestEpsEqual(t *testing.T) {
 
 func TestVecEpsEqual(t *testing.T) {
 	var testVecEpsEqual = []VecEpsEqualTest{
-		{NewVecSet([]float64{1, 1, 1}),
-			NewVecSet([]float64{2, 2, 2}),
+		{NewVecSet(1, 1, 1),
+			NewVecSet(2, 2, 2),
 			3, true},
-		{NewVecSet([]float64{1, 1, 1, 1}),
-			NewVecSet([]float64{2, 2, 2, 2}),
+		{NewVecSet(1, 1, 1, 1),
+			NewVecSet(2, 2, 2, 2),
 			0, false},
-		{NewVecSet([]float64{1, 1, 1, 1, 1}),
-			NewVecSet([]float64{1, 1, 1}),
+		{NewVecSet(1, 1, 1, 1, 1),
+			NewVecSet(1, 1, 1),
 			0, false},
 	}
 

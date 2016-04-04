@@ -14,20 +14,20 @@ type gauss_eliminationTest struct {
 func TestGaussElimination(t *testing.T) {
 	var testgauss_elimination = []gauss_eliminationTest{
 		{NewMatSet([][]float64{{2, 1}, {1, -1}}),
-			NewVecSet([]float64{7, -1}),
-			NewVecSet([]float64{2, 3}),
+			NewVecSet(7, -1),
+			NewVecSet(2, 3),
 			nil},
 		{NewMatSet([][]float64{{1, 1, 1}, {1, -1, 2}, {2, -3, 5}}),
-			NewVecSet([]float64{3, 2, 4}),
-			NewVecSet([]float64{1, 1, 1}),
+			NewVecSet(3, 2, 4),
+			NewVecSet(1, 1, 1),
 			nil},
 		{NewMatSet([][]float64{{1, 1, 1}, {2, 2, -1}, {1, -1, 2}}),
-			NewVecSet([]float64{6, 3, 5}),
-			NewVecSet([]float64{1, 2, 3}),
+			NewVecSet(6, 3, 5),
+			NewVecSet(1, 2, 3),
 			nil},
 		{NewMatSet([][]float64{{0, 1, 1, 1}, {1, -1, 0, -1}, {10, -5, -1, 0}, {3, 0, 2, 2}}),
-			NewVecSet([]float64{9, -5, -3, 17}),
-			NewVecSet([]float64{1, 2, 3, 4}),
+			NewVecSet(9, -5, -3, 17),
+			NewVecSet(1, 2, 3, 4),
 			nil},
 	}
 
@@ -46,12 +46,12 @@ func TestGaussElimination(t *testing.T) {
 func TestGaussEliminationInvalidArgument(t *testing.T) {
 	var testgauss_elimination_invalidargument = []gauss_eliminationTest{
 		{NewMatSet([][]float64{{1, 2}, {3, 4, 5}}),
-			NewVecSet([]float64{1, 2, 3}),
-			NewVecSet([]float64{1, 2, 3}),
+			NewVecSet(1, 2, 3),
+			NewVecSet(1, 2, 3),
 			ErrInvalid},
 		{NewMatSet([][]float64{{1, 2}, {3, 4}}),
-			NewVecSet([]float64{1, 2, 3}),
-			NewVecSet([]float64{1, 2, 3}),
+			NewVecSet(1, 2, 3),
+			NewVecSet(1, 2, 3),
 			ErrInvalid},
 	}
 
@@ -68,12 +68,12 @@ func TestGaussEliminationInvalidArgument(t *testing.T) {
 func TestGaussEliminationCannotSolve(t *testing.T) {
 	var testGaussElimination_cannotsolve = []gauss_eliminationTest{
 		{NewMatSet([][]float64{{1, 1}, {2, 2}}),
-			NewVecSet([]float64{1, 2}),
-			NewVecSet([]float64{1, 1}),
+			NewVecSet(1, 2),
+			NewVecSet(1, 1),
 			ErrCannotSolve},
 		{NewMatSet([][]float64{{1, 1}, {1, 1}}),
-			NewVecSet([]float64{1, 2}),
-			NewVecSet([]float64{1, 1}),
+			NewVecSet(1, 2),
+			NewVecSet(1, 1),
 			ErrCannotSolve},
 	}
 

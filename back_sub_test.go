@@ -15,18 +15,18 @@ type backSubTest struct {
 func TestBackSub(t *testing.T) {
 	var testBackSub = []backSubTest{
 		{NewMatSet([][]float64{{1, 1}, {0, 1}}),
-			NewVecSet([]float64{2, 1}),
-			NewVecSet([]float64{1, 1}),
+			NewVecSet(2, 1),
+			NewVecSet(1, 1),
 			nil,
 		},
 		{NewMatSet([][]float64{{4, 5, 6}, {0, 2, 3}, {0, 0, 1}}),
-			NewVecSet([]float64{15, 5, 1}),
-			NewVecSet([]float64{1, 1, 1}),
+			NewVecSet(15, 5, 1),
+			NewVecSet([]float64{1, 1, 1}...),
 			nil,
 		},
 		{NewMatSet([][]float64{{4, 5, 6}, {123, 2, 3}, {345, 987, 1}}),
-			NewVecSet([]float64{15, 5, 1}),
-			NewVecSet([]float64{1, 1, 1}),
+			NewVecSet(15, 5, 1),
+			NewVecSet(1, 1, 1),
 			nil,
 		},
 	}
@@ -46,13 +46,13 @@ func TestBackSub(t *testing.T) {
 func TestBackSubCannotSolve(t *testing.T) {
 	var testBackSubCannotSolve = []backSubTest{
 		{NewMatSet([][]float64{{0, 1}, {0, 1}}),
-			NewVecSet([]float64{2, 1}),
-			NewVecSet([]float64{1, 1}),
+			NewVecSet(2, 1),
+			NewVecSet(1, 1),
 			ErrCannotSolve,
 		},
 		{NewMatSet([][]float64{{4, 5, 6}, {0, 0, 3}, {0, 0, 1}}),
-			NewVecSet([]float64{15, 5, 1}),
-			NewVecSet([]float64{1, 1, 1}),
+			NewVecSet(15, 5, 1),
+			NewVecSet(1, 1, 1),
 			ErrCannotSolve,
 		},
 	}

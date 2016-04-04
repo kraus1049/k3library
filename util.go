@@ -61,7 +61,7 @@ func forwardDelIdx(a Mat, b Vec, idx []int) error {
 			for j := i + 1; j < a.Col; j++ {
 				tmp = append(tmp, a.At(idx[j], i))
 			}
-			tmp2 := NewVecSet(tmp)
+			tmp2 := NewVecSet(tmp...)
 
 			if maxnum, maxidx := max(tmp2); maxnum != 0 {
 				idx[i], idx[maxidx+i+1] = idx[maxidx+i+1], idx[i]

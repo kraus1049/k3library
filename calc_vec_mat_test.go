@@ -19,10 +19,10 @@ type proTest struct {
 }
 
 func TestSum(t *testing.T) {
-	v1 := NewVecSet([]float64{1, 2})
-	v2 := NewVecSet([]float64{2, 4})
-	v3 := NewVecSet([]float64{3, 6})
-	v4 := NewVecSet([]float64{1, 2, 3})
+	v1 := NewVecSet(1, 2)
+	v2 := NewVecSet(2, 4)
+	v3 := NewVecSet(3, 6)
+	v4 := NewVecSet(1, 2, 3)
 
 	m1 := NewMatSet([][]float64{{1, 2}, {3, 4}})
 	m2 := NewMatSet([][]float64{{2, 4}, {6, 8}})
@@ -100,11 +100,11 @@ func TestPro(t *testing.T) {
 	x3 := 8.0
 	x4 := 28.0
 	x5 := 17640.0
-	v1 := NewVecSet([]float64{1, 2, 3})
-	v2 := NewVecSet([]float64{2, 4, 6})
-	v3 := NewVecSet([]float64{8, 16, 24})
-	v5 := NewVecSet([]float64{14, 32, 50})
-	v6 := NewVecSet([]float64{1, 2})
+	v1 := NewVecSet(1, 2, 3)
+	v2 := NewVecSet(2, 4, 6)
+	v3 := NewVecSet(8, 16, 24)
+	v5 := NewVecSet(14, 32, 50)
+	v6 := NewVecSet(1, 2)
 	m1 := NewMatSet([][]float64{{1, 2, 3}, {4, 5, 6}})
 	m2 := NewMatSet([][]float64{{2, 4, 6}, {8, 10, 12}})
 	m3 := NewMatSet([][]float64{{1, 2, 3}})

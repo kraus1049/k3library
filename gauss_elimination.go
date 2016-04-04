@@ -23,7 +23,7 @@ func GaussElimination(a Mat, b Vec) (Vec, error) {
 				maxnum, _ := max(a_.M[idx[j]])
 				tmp = append(tmp, a_.At(idx[j], i)/maxnum)
 			}
-			tmp_ := NewVecSet(tmp)
+			tmp_ := NewVecSet(tmp...)
 
 			if maxnum, maxidx := max(tmp_); maxnum != 0 {
 				idx[i], idx[maxidx+i+1] = idx[maxidx+i+1], idx[i]

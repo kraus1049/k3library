@@ -15,18 +15,18 @@ type forwardSubTest struct {
 func TestForwardSub(t *testing.T) {
 	var testForwardSub = []forwardSubTest{
 		{NewMatSet([][]float64{{1, 0}, {1, 1}}),
-			NewVecSet([]float64{1, 2}),
-			NewVecSet([]float64{1, 1}),
+			NewVecSet(1, 2),
+			NewVecSet(1, 1),
 			nil,
 		},
 		{NewMatSet([][]float64{{1, 0, 0}, {2, 3, 0}, {4, 5, 6}}),
-			NewVecSet([]float64{1, 5, 15}),
-			NewVecSet([]float64{1, 1, 1}),
+			NewVecSet(1, 5, 15),
+			NewVecSet(1, 1, 1),
 			nil,
 		},
 		{NewMatSet([][]float64{{1, 123, 321}, {2, 3, 456}, {4, 5, 6}}),
-			NewVecSet([]float64{1, 5, 15}),
-			NewVecSet([]float64{1, 1, 1}),
+			NewVecSet(1, 5, 15),
+			NewVecSet(1, 1, 1),
 			nil,
 		},
 	}
@@ -46,8 +46,8 @@ func TestForwardSub(t *testing.T) {
 func TestForwardSubCannotSolve(t *testing.T) {
 	var testForwardSubCannotSolve = []forwardSubTest{
 		{NewMatSet([][]float64{{1, 0, 0}, {2, 0, 0}, {4, 5, 6}}),
-			NewVecSet([]float64{1, 5, 15}),
-			NewVecSet([]float64{1, 1, 1}),
+			NewVecSet(1, 5, 15),
+			NewVecSet(1, 1, 1),
 			ErrCannotSolve,
 		},
 	}

@@ -18,6 +18,17 @@ type proTest struct {
 	err      error
 }
 
+type subTest struct {
+	x, y     interface{}
+	expected interface{}
+	err      error
+}
+
+type subTestInvalidArgument struct {
+	x, y interface{}
+	err  error
+}
+
 func TestSum(t *testing.T) {
 	v1 := NewVecSet(1, 2)
 	v2 := NewVecSet(2, 4)
@@ -153,6 +164,56 @@ func TestPro(t *testing.T) {
 			}
 		}
 
+	}
+
+}
+
+func TestSub(t *testing.T) {
+	x1 := 1.0
+	x2 := 2.0
+	v1 := NewVecSet(1, 2, 3, 4, 5, 6, 7, 8, 9)
+	v2 := NewVecSet(2, 4, 6, 8, 10, 12, 14, 16, 18)
+	m1 := NewMatSet([][]float64{{1, 2}, {3, 4}})
+	m2 := NewMatSet([][]float64{{2, 4}, {6, 8}})
+	var testSub = []subTest{
+		{x2, x1, x1, nil},
+		{v2, v1, v1, nil},
+		{m2, m1, m1, nil},
+	}
+
+	for i := range testSub {
+		test := &testSub[i]
+		actual, err := Sub(test.y, test.x)
+
+		if err != test.err {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
+		} else if reflect.DeepEqual(actual, test.expected) {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
+		}
+	}
+}
+
+func TestSubInvalidArgument(t *testing.T) {
+	x1 := 1.0
+	v1 := NewVecSet(1, 2, 3, 4, 5, 6, 7, 8, 9)
+	m1 := NewMatSet([][]float64{{1, 2}, {3, 4}})
+
+	var testSubInvalidArgument = []subTestInvalidArgument{
+		{x1, v1, ErrInvalid},
+		{v1, x1, ErrInvalid},
+		{x1, m1, ErrInvalid},
+		{m1, x1, ErrInvalid},
+		{v1, m1, ErrInvalid},
+		{m1, v1, ErrInvalid},
+	}
+
+	for i := range testSubInvalidArgument {
+		test := &testSubInvalidArgument[i]
+		_, err := Sub(test.x, test.y)
+
+		if err != test.err {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
+		}
 	}
 
 }

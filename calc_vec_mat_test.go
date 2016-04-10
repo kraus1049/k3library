@@ -12,10 +12,20 @@ type sumTest struct {
 	err      error
 }
 
+type sumTestInvalidArgument struct {
+	xs  []interface{}
+	err error
+}
+
 type proTest struct {
 	xs       []interface{}
 	expected interface{}
 	err      error
+}
+
+type proTestInvalidArgument struct {
+	xs  []interface{}
+	err error
 }
 
 type subTest struct {
@@ -105,6 +115,34 @@ func TestSum(t *testing.T) {
 	}
 }
 
+func TestSumInvalidArgument(t *testing.T) {
+	x1 := 1.0
+	v1 := NewVecSet(1, 1)
+	v2 := NewVecSet(1, 1, 1)
+	m1 := NewMatSet([][]float64{{1, 2}, {3, 4}})
+	m2 := NewMatSet([][]float64{{1, 2}, {3, 4}, {5, 6}})
+
+	var testSumInvalidArgument = []sumTestInvalidArgument{
+		{[]interface{}{x1, v1}, ErrInvalid},
+		{[]interface{}{v1, x1}, ErrInvalid},
+		{[]interface{}{x1, m1}, ErrInvalid},
+		{[]interface{}{m1, x1}, ErrInvalid},
+		{[]interface{}{v1, m1}, ErrInvalid},
+		{[]interface{}{m1, v1}, ErrInvalid},
+		{[]interface{}{v1, v2}, ErrInvalid},
+		{[]interface{}{m1, m2}, ErrInvalid},
+	}
+
+	for i := range testSumInvalidArgument {
+		test := &testSumInvalidArgument[i]
+		_, err := Sum(test.xs...)
+
+		if err != test.err {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
+		}
+	}
+}
+
 func TestPro(t *testing.T) {
 	x1 := 2.0
 	x2 := 4.0
@@ -166,6 +204,31 @@ func TestPro(t *testing.T) {
 
 	}
 
+}
+
+func TestProInvalidArgument(t *testing.T) {
+	v1 := NewVecSet(1, 2, 3)
+	v2 := NewVecSet(1, 2, 3, 4)
+	m1 := NewMatSet([][]float64{{1, 2}, {3, 4}})
+	m2 := NewMatSet([][]float64{{1}, {2}, {3}})
+
+	var testProInvalidArgument = []proTestInvalidArgument{
+		{[]interface{}{v1, v2}, ErrInvalid},
+		{[]interface{}{v2, v1}, ErrInvalid},
+		{[]interface{}{m1, m2}, ErrInvalid},
+		{[]interface{}{m2, m1}, ErrInvalid},
+		{[]interface{}{v1, m1}, ErrInvalid},
+		{[]interface{}{m1, v1}, ErrInvalid},
+	}
+
+	for i := range testProInvalidArgument {
+		test := &testProInvalidArgument[i]
+		_, err := Pro(test.xs...)
+
+		if err != test.err {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
+		}
+	}
 }
 
 func TestSub(t *testing.T) {

@@ -183,6 +183,10 @@ func Pro(xs ...interface{}) (interface{}, error) {
 
 			case Vec:
 				y, _ := xs[1].(Vec)
+
+				if x.Row != y.Row {
+					return nil, ErrInvalid
+				}
 				pro := NewVec(x.Col)
 				for i := 0; i < x.Col; i++ {
 					sum := 0.0

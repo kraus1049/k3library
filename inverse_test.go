@@ -23,8 +23,10 @@ func TestInverse(t *testing.T) {
 
 		actual, err := test.mat.Inverse()
 
-		if pro, _ := Pro(actual, test.mat); !isIdentityMat(pro.(Mat), 1e-8) {
-			t.Errorf("%v: want identityMat, but actual = %v\n", i, pro)
+		if pro, _ := Pro(actual, test.mat); !isIdentityMat(pro.(Mat),
+			1e-8) {
+			t.Errorf("%v: want identityMat, but actual = %v\n", i,
+				pro)
 		} else if err != test.err {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
 		}
@@ -33,16 +35,23 @@ func TestInverse(t *testing.T) {
 }
 
 func BenchmarkInverse(b *testing.B) {
-	mat := NewMat(5, 5)
-	for i := 0; i < mat.Col; i++ {
-		for j := 0; j < mat.Row; j++ {
-			mat.Write(i, j, float64(i+j))
-		}
+	m := [][]float64{
+		{1, 3, 5, 7, 9},
+		{2, 3, 5, 6, 7},
+		{7, 6, 43, 6, 2},
+		{1, 2, 7, 9, 4},
+		{90, 56, 42, 5, 6},
 	}
+
+	mat := NewMatSet(m)
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		mat.Inverse()
+		_, err := mat.Inverse()
+
+		if err != nil {
+			b.Logf("%v", err)
+		}
 	}
 }
 

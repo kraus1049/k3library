@@ -12,7 +12,11 @@ func (m *Mat) Inverse() (Mat, error) {
 	e := makeIdentityMat(m.Col)
 
 	for i := 0; i < m.Col; i++ {
-		x, _ := Solve(l, u, e.M[i], idx)
+		x, err := Solve(l, u, e.M[i], idx)
+		if err != nil {
+			return NewMat(0, 0), ErrInvalid
+		}
+
 		ans.M[i] = x
 	}
 

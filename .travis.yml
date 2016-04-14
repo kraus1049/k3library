@@ -1,0 +1,12 @@
+language: go
+sudo: false
+
+go:
+  - 1.5.1
+  - tip
+
+install:
+  - go get github.com/kraus1049/goscilloscope
+
+script:
+  - go test -v ./...

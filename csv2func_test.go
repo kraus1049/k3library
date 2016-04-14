@@ -42,7 +42,7 @@ func TestCsv2func(t *testing.T) {
 	for i := range testcsv2func {
 		test := &testcsv2func[i]
 
-		f, func_err := Csv2func(test.filepath, test.parser)
+		f, min, max, func_err := Csv2func(test.filepath, test.parser)
 
 		if func_err != test.func_err {
 			t.Errorf("func_err,%v: actual %v,expected %v", i, func_err, test.func_err)
@@ -59,12 +59,36 @@ func TestCsv2func(t *testing.T) {
 			} else if err != test.errs[j] {
 				t.Errorf("%v,%v: actual %v, expected %v", i, j, err, test.errs[j])
 			}
+
+			_, err = f(min)
+
+			if err != nil {
+				t.Errorf("%v,%v: actual = %v, expected = %v", i, j, err, nil)
+			}
+
+			_, err = f(min - 1)
+
+			if err == nil {
+				t.Errorf("%v,%v: actual = %v, expected = %v\n", i, j, err, ErrOutOfRange)
+			}
+
+			_, err = f(max)
+
+			if err != nil {
+				t.Errorf("%v,%v: actual = %v, expected = %v", i, j, err, nil)
+			}
+
+			_, err = f(max + 1)
+
+			if err == nil {
+				t.Errorf("%v,%v: actual = %v, expected = %v\n", i, j, err, ErrOutOfRange)
+			}
 		}
 	}
 }
 
 func BenchmarkCsv2func(b *testing.B) {
-	f, _ := Csv2func("./testdata/F0000CH1.CSV", goscilloscope.GOscilloscope)
+	f, _, _, _ := Csv2func("./testdata/F0000CH1.CSV", goscilloscope.GOscilloscope)
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {

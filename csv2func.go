@@ -1,10 +1,10 @@
 package k3library
 
-func Csv2func(filepath string, parser func(string) (map[string]string, [][2]float64, error)) (func(float64) (float64, error), error) {
+func Csv2func(filepath string, parser func(string) (map[string]string, [][2]float64, error)) (func(float64) (float64, error), float64, float64, error) {
 
 	_, xys, err := parser(filepath)
 	if err != nil {
-		return nil, err
+		return nil, -1, -1, err
 	}
 
 	xys = nub(xys)
@@ -23,7 +23,7 @@ func Csv2func(filepath string, parser func(string) (map[string]string, [][2]floa
 		return binSearch(xys, x)
 	}
 
-	return f, nil
+	return f, x_min, x_max, nil
 }
 
 func binSearch(xys [][2]float64, x float64) (float64, error) {

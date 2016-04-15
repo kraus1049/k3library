@@ -31,3 +31,21 @@ func TestTranspose(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkTranspose(b *testing.B) {
+	n := 50
+	m := NewMat(n, n)
+
+	for i := 0; i < m.Col; i++ {
+		for j := 0; j < m.Row; j++ {
+			m.Write(i, j, float64(i+j))
+		}
+	}
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		m.Transpose()
+	}
+
+}

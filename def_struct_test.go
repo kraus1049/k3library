@@ -405,6 +405,36 @@ func TestFNCVCalc(t *testing.T) {
 	}
 }
 
+func BenchmarkMatAt(b *testing.B) {
+	n := 5
+	m := NewMat(n, n)
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		for j := 0; j < m.Col; j++ {
+			for k := 0; k < m.Row; k++ {
+				m.At(j, k)
+			}
+		}
+	}
+}
+
+func BenchmarkMatWrite(b *testing.B){
+	n := 5
+	m := NewMat(n,n)
+
+	b.ResetTimer()
+
+	for i:= 0;i<b.N;i++{
+		for j := 0; j < m.Col; j++ {
+			for k := 0; k < m.Row; k++ {
+				m.Write(j,k,1.0)
+			}
+		}
+	}
+}
+
 func ExamplePrintVec() {
 	v := NewVec(3)
 	fmt.Print(v)

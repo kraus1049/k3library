@@ -3,11 +3,10 @@ package k3library
 import "math"
 
 func EpsEqual(x, y, eps float64) bool {
-	var result bool
 	if math.Abs(x-y) < eps {
-		result = true
+		return true
 	}
-	return result
+	return false
 }
 
 func VecEpsEqual(x, y Vec, eps float64) bool {

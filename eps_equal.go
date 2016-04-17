@@ -30,7 +30,7 @@ func MatEpsEqual(x, y Mat, eps float64) bool {
 	}
 
 	for i := 0; i < x.Col; i++ {
-		if !VecEpsEqual(x.M[i], x.M[i], eps) {
+		if !VecEpsEqual(x.M[i], y.M[i], eps) {
 			return false
 		}
 	}

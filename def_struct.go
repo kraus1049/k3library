@@ -139,16 +139,8 @@ func (f *FNCVec) Set(fs ...func(float64, Vec) (float64, error)) {
 	f.f = fs[0:f.row]
 }
 
-func (v *Vec) V() []float64 {
-	return v.v
-}
-
 func (v *Vec) Row() int {
 	return v.row
-}
-
-func (m *Mat) M() []Vec {
-	return m.m
 }
 
 func (m *Mat) Col() int {
@@ -157,10 +149,6 @@ func (m *Mat) Col() int {
 
 func (m *Mat) Row() int {
 	return m.row
-}
-
-func (f *FNCVec) F() []func(float64, Vec) (float64, error) {
-	return f.f
 }
 
 func (f *FNCVec) Row() int {

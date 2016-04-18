@@ -43,7 +43,12 @@ func swapMatIdx(x Mat, idx []int) Mat {
 	x_ := NewMat(x.Col(), x.Row())
 
 	for i, v := range idx {
-		x_.M()[i] = x.M()[v]
+		for j := 0; j < x_.Row(); j++ {
+			x_.Write(i, j, x.At(v, j))
+		}
 	}
+	// for i, v := range idx {
+	// 	x_.M()[i] = x.M()[v]
+	// }
 	return x_
 }

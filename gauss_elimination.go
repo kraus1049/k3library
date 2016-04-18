@@ -5,22 +5,22 @@ func GaussElimination(a Mat, b Vec) (Vec, error) {
 		return Vec{[]float64{}, 0}, ErrInvalid
 	}
 
-	idx := serialNum(a.Col)
+	idx := serialNum(a.col)
 
 	a_ := a.Copy()
 	x_ := b.Copy()
-	x := NewVec(x_.Row)
+	x := NewVec(x_.row)
 
-	for i := 0; i < a_.Col; i++ {
+	for i := 0; i < a_.col; i++ {
 
 		if a_.At(idx[i], i) == 0 {
-			if i == a_.Col-1 {
+			if i == a_.col-1 {
 				return Vec{[]float64{}, 0}, ErrCannotSolve
 			}
 
 			tmp := make([]float64, 0)
-			for j := i + 1; j < a_.Col; j++ {
-				maxnum, _ := max(a_.M[idx[j]])
+			for j := i + 1; j < a_.col; j++ {
+				maxnum, _ := max(a_.m[idx[j]])
 				tmp = append(tmp, a_.At(idx[j], i)/maxnum)
 			}
 			tmp_ := NewVecSet(tmp...)
@@ -34,21 +34,21 @@ func GaussElimination(a Mat, b Vec) (Vec, error) {
 
 		num := a_.At(idx[i], i)
 
-		for j := i; j < a_.Col; j++ {
+		for j := i; j < a_.col; j++ {
 			tmp := a_.At(idx[i], j) / num
 			a_.Write(idx[i], j, tmp)
 		}
 
 		x_.Write(idx[i], x_.At(idx[i])/num)
 
-		for j := 0; j < a_.Col; j++ {
+		for j := 0; j < a_.col; j++ {
 			if idx[i] == idx[j] {
 				continue
 			}
 
 			per := a_.At(idx[j], i) / a_.At(idx[i], i)
 
-			for k := i; k < a_.Col; k++ {
+			for k := i; k < a_.col; k++ {
 				a_.Write(idx[j], k, a_.At(idx[j], k)-per*a_.At(idx[i], k))
 			}
 

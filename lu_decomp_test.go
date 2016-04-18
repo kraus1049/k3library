@@ -40,10 +40,10 @@ func TestLUDecomp(t *testing.T) {
 }
 
 func swapMatIdx(x Mat, idx []int) Mat {
-	x_ := NewMat(x.Col, x.Row)
+	x_ := NewMat(x.Col(), x.Row())
 
 	for i, v := range idx {
-		x_.M[i] = x.M[v]
+		x_.M()[i] = x.M()[v]
 	}
 	return x_
 }

@@ -34,11 +34,11 @@ func serialNum(l int) []int {
 }
 
 func backSubIdx(a Mat, b Vec, idx []int) (Vec, error) {
-	a_ := NewMat(a.Col, a.Row)
-	b_ := NewVec(b.Row)
+	a_ := NewMat(a.col, a.row)
+	b_ := NewVec(b.row)
 
-	for i := 0; i < a.Col; i++ {
-		a_.M[i] = a.M[idx[i]]
+	for i := 0; i < a.col; i++ {
+		a_.m[i] = a.m[idx[i]]
 		b_.Write(i, b.At(idx[i]))
 	}
 
@@ -46,19 +46,19 @@ func backSubIdx(a Mat, b Vec, idx []int) (Vec, error) {
 }
 
 func canSimultaneousEquSolve(a Mat, b Vec) bool {
-	return a.IsSquareMat() && (a.Col == b.Row)
+	return a.IsSquareMat() && (a.col == b.row)
 }
 
 func forwardDelIdx(a Mat, b Vec, idx []int) error {
-	for i := 0; i < a.Col; i++ {
+	for i := 0; i < a.col; i++ {
 
 		if a.At(idx[i], i) == 0 {
-			if i == a.Col-1 {
+			if i == a.col-1 {
 				return ErrCannotSolve
 			}
 
 			tmp := make([]float64, 0)
-			for j := i + 1; j < a.Col; j++ {
+			for j := i + 1; j < a.col; j++ {
 				tmp = append(tmp, a.At(idx[j], i))
 			}
 			tmp2 := NewVecSet(tmp...)
@@ -70,9 +70,9 @@ func forwardDelIdx(a Mat, b Vec, idx []int) error {
 			}
 		}
 
-		for j := i + 1; j < a.Col; j++ {
+		for j := i + 1; j < a.col; j++ {
 			per := a.At(idx[j], i) / a.At(idx[i], i)
-			for k := i; k < a.Col; k++ {
+			for k := i; k < a.col; k++ {
 				a.Write(idx[j], k, a.At(idx[j], k)-per*a.At(idx[i], k))
 			}
 
@@ -85,7 +85,7 @@ func forwardDelIdx(a Mat, b Vec, idx []int) error {
 func max(x Vec) (float64, int) {
 	ans := x.At(0)
 	idx := 0
-	for i := 1; i < x.Row; i++ {
+	for i := 1; i < x.row; i++ {
 		if math.Abs(x.At(i)) > math.Abs(ans) {
 			ans = x.At(i)
 			idx = i
@@ -102,10 +102,10 @@ func makeIdentityMat(n int) Mat {
 }
 
 func swapMatIdx(x Mat, idx []int) Mat {
-	x_ := NewMat(x.Col, x.Row)
+	x_ := NewMat(x.col, x.row)
 
 	for i, v := range idx {
-		x_.M[i] = x.M[v]
+		x_.m[i] = x.m[v]
 	}
 	return x_
 }

@@ -5,7 +5,7 @@ func GaussJordan(a Mat, b Vec) (Vec, error) {
 		return Vec{[]float64{}, 0}, ErrInvalid
 	}
 
-	idx := serialNum(a.Col)
+	idx := serialNum(a.col)
 
 	a_ := a.Copy()
 	b_ := b.Copy()

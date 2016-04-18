@@ -1,10 +1,10 @@
 package k3library
 
 func (a *Mat) Transpose() Mat {
-	ans := NewMat(a.Row, a.Col)
+	ans := NewMat(a.row, a.col)
 
-	for i := 0; i < a.Row; i++ {
-		for j := 0; j < a.Col; j++ {
+	for i := 0; i < a.row; i++ {
+		for j := 0; j < a.col; j++ {
 			ans.Write(i, j, a.At(j, i))
 		}
 	}

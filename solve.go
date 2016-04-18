@@ -2,7 +2,7 @@ package k3library
 
 func Solve(l, u Mat, b Vec, idx []int) (Vec, error) {
 
-	b_ := NewVec(b.Row)
+	b_ := NewVec(b.row)
 
 	for i, v := range idx {
 		b_.Write(i, b.At(v))
@@ -62,7 +62,7 @@ func ProveSolve(a Mat, b Vec, eps float64) (Vec, error) {
 		return tmp, ErrCannotSolve
 	}
 
-	zero := NewVec(b.Row)
+	zero := NewVec(b.row)
 
 	for cnt := 10; cnt >= 0; cnt-- {
 		if VecEpsEqual(dx, zero, eps) {

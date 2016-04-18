@@ -2,7 +2,7 @@ package k3library
 
 func (a *Mat) LUDecomp() (Mat, Mat, []int, int, error) {
 
-	idx := serialNum(a.Col)
+	idx := serialNum(a.col)
 
 	if !a.IsSquareMat() {
 		tmp := NewMat(0, 0)
@@ -11,13 +11,13 @@ func (a *Mat) LUDecomp() (Mat, Mat, []int, int, error) {
 
 	var sgn int = 1
 
-	l := NewMat(a.Col, a.Row)
-	u := NewMat(a.Col, a.Row)
+	l := NewMat(a.col, a.row)
+	u := NewMat(a.col, a.row)
 
-	for i := 0; i < a.Col; i++ {
+	for i := 0; i < a.col; i++ {
 		flag := false
-		for h := i; h < a.Col; h++ {
-			for j := i; j < a.Row; j++ {
+		for h := i; h < a.col; h++ {
+			for j := i; j < a.row; j++ {
 				sgm := 0.0
 
 				for k := 0; k < i; k++ {
@@ -27,7 +27,7 @@ func (a *Mat) LUDecomp() (Mat, Mat, []int, int, error) {
 				u.Write(i, j, a.At(idx[i], j)-sgm)
 			}
 
-			if u.At(i, i) == 0 && h+1 < a.Col {
+			if u.At(i, i) == 0 && h+1 < a.col {
 				idx[i], idx[h+1] = idx[h+1], idx[i]
 				flag = true
 			} else {
@@ -42,7 +42,7 @@ func (a *Mat) LUDecomp() (Mat, Mat, []int, int, error) {
 
 		l.Write(idx[i], i, 1)
 
-		for j := i + 1; j < a.Col; j++ {
+		for j := i + 1; j < a.col; j++ {
 			sgm := 0.0
 
 			for k := 0; k < i; k++ {

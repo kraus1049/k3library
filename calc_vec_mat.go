@@ -26,13 +26,13 @@ func Sum(xs ...interface{}) (interface{}, error) {
 		case Vec:
 			x, _ := xs[0].(Vec)
 			y, _ := xs[1].(Vec)
-			if x.Row != y.Row {
+			if x.row != y.row {
 				return nil, ErrInvalid
 			}
 
-			plus := NewVec(x.Row)
+			plus := NewVec(x.row)
 
-			for i := 0; i < x.Row; i++ {
+			for i := 0; i < x.row; i++ {
 				tmp := x.At(i) + y.At(i)
 				plus.Write(i, tmp)
 			}
@@ -43,14 +43,14 @@ func Sum(xs ...interface{}) (interface{}, error) {
 			x, _ := xs[0].(Mat)
 			y, _ := xs[1].(Mat)
 
-			if x.Col != y.Col || x.Row != y.Row {
+			if x.col != y.col || x.row != y.row {
 				return nil, ErrInvalid
 			}
 
-			plus := NewMat(x.Col, x.Row)
+			plus := NewMat(x.col, x.row)
 
-			for i := 0; i < x.Col; i++ {
-				for j := 0; j < x.Row; j++ {
+			for i := 0; i < x.col; i++ {
+				for j := 0; j < x.row; j++ {
 					tmp := x.At(i, j) + y.At(i, j)
 					plus.Write(i, j, tmp)
 				}
@@ -105,7 +105,7 @@ func Pro(xs ...interface{}) (interface{}, error) {
 			case Vec:
 				y, _ := xs[1].(Vec)
 				pro := y.Copy()
-				for i := 0; i < pro.Row; i++ {
+				for i := 0; i < pro.row; i++ {
 					tmp := pro.At(i) * x
 					pro.Write(i, tmp)
 				}
@@ -113,8 +113,8 @@ func Pro(xs ...interface{}) (interface{}, error) {
 			case Mat:
 				y, _ := xs[1].(Mat)
 				pro := y.Copy()
-				for i := 0; i < pro.Col; i++ {
-					for j := 0; j < pro.Row; j++ {
+				for i := 0; i < pro.col; i++ {
+					for j := 0; j < pro.row; j++ {
 						tmp := pro.At(i, j) * x
 						pro.Write(i, j, tmp)
 					}
@@ -130,7 +130,7 @@ func Pro(xs ...interface{}) (interface{}, error) {
 			case float64:
 				y, _ := xs[1].(float64)
 				pro := x.Copy()
-				for i := 0; i < pro.Row; i++ {
+				for i := 0; i < pro.row; i++ {
 					tmp := pro.At(i) * y
 					pro.Write(i, tmp)
 				}
@@ -138,26 +138,26 @@ func Pro(xs ...interface{}) (interface{}, error) {
 
 			case Vec:
 				y, _ := xs[1].(Vec)
-				if x.Row != y.Row {
+				if x.row != y.row {
 					return nil, ErrInvalid
 				}
 
 				sum := 0.0
-				for i := 0; i < x.Row; i++ {
+				for i := 0; i < x.row; i++ {
 					sum += x.At(i) * y.At(i)
 				}
 				xs = append([]interface{}{sum}, xs[2:]...)
 			case Mat:
 				y, _ := xs[1].(Mat)
-				if y.Col != 1 {
+				if y.col != 1 {
 					return nil, ErrInvalid
 				}
 
-				m := NewMat(x.Row, y.Row)
-				for i := 0; i < x.Row; i++ {
-					for j := 0; j < y.Row; j++ {
+				m := NewMat(x.row, y.row)
+				for i := 0; i < x.row; i++ {
+					for j := 0; j < y.row; j++ {
 						sum := 0.0
-						for k := 0; k < y.Col; k++ {
+						for k := 0; k < y.col; k++ {
 							sum += x.At(i) * y.At(k, j)
 						}
 						m.Write(i, j, sum)
@@ -173,8 +173,8 @@ func Pro(xs ...interface{}) (interface{}, error) {
 			case float64:
 				y, _ := xs[1].(float64)
 				pro := x.Copy()
-				for i := 0; i < pro.Col; i++ {
-					for j := 0; j < pro.Row; j++ {
+				for i := 0; i < pro.col; i++ {
+					for j := 0; j < pro.row; j++ {
 						tmp := pro.At(i, j) * y
 						pro.Write(i, j, tmp)
 					}
@@ -184,13 +184,13 @@ func Pro(xs ...interface{}) (interface{}, error) {
 			case Vec:
 				y, _ := xs[1].(Vec)
 
-				if x.Row != y.Row {
+				if x.row != y.row {
 					return nil, ErrInvalid
 				}
-				pro := NewVec(x.Col)
-				for i := 0; i < x.Col; i++ {
+				pro := NewVec(x.col)
+				for i := 0; i < x.col; i++ {
 					sum := 0.0
-					for k := 0; k < y.Row; k++ {
+					for k := 0; k < y.row; k++ {
 						sum += x.At(i, k) * y.At(k)
 					}
 					pro.Write(i, sum)
@@ -199,15 +199,15 @@ func Pro(xs ...interface{}) (interface{}, error) {
 			case Mat:
 				y, _ := xs[1].(Mat)
 
-				if x.Row != y.Col {
+				if x.row != y.col {
 					return nil, ErrInvalid
 				}
-				pro := NewMat(x.Col, y.Row)
+				pro := NewMat(x.col, y.row)
 
-				for i := 0; i < x.Col; i++ {
-					for j := 0; j < y.Row; j++ {
+				for i := 0; i < x.col; i++ {
+					for j := 0; j < y.row; j++ {
 						sum := 0.0
-						for k := 0; k < x.Row; k++ {
+						for k := 0; k < x.row; k++ {
 							sum += x.At(i, k) * y.At(k, j)
 						}
 						pro.Write(i, j, sum)

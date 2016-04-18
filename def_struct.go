@@ -5,18 +5,18 @@ import (
 )
 
 type Vec struct {
-	V   []float64
-	Row int
+	v   []float64
+	row int
 }
 
 type Mat struct {
-	M        []Vec
-	Col, Row int
+	m        []Vec
+	col, row int
 }
 
 type FNCVec struct {
-	F   []func(float64, Vec) (float64, error)
-	Row int
+	f   []func(float64, Vec) (float64, error)
+	row int
 }
 
 func NewVec(row int) Vec {
@@ -75,21 +75,21 @@ func NewFNCVecSet(fs ...func(float64, Vec) (float64, error)) FNCVec {
 }
 
 func (v Vec) String() string {
-	return fmt.Sprint(v.V)
+	return fmt.Sprint(v.v)
 }
 
 func (m Mat) String() string {
 	str := ""
-	for i, v := range m.M {
+	for i, v := range m.m {
 		if i == 0 {
 			str += "\n|"
 		} else {
 			str += "|"
 		}
-		for _, item := range v.V {
+		for _, item := range v.v {
 			str += fmt.Sprintf(" %v", item)
 		}
-		if i != m.Col-1 {
+		if i != m.col-1 {
 			str += " |\n"
 		} else {
 			str += " |"
@@ -100,23 +100,23 @@ func (m Mat) String() string {
 }
 
 func (v *Vec) Set(x []float64) {
-	if len(x) < v.Row {
-		zero := make([]float64, v.Row-len(x))
+	if len(x) < v.row {
+		zero := make([]float64, v.row-len(x))
 		x = append(x, zero...)
 	}
 
-	v.V = x[0:v.Row]
+	v.v = x[0:v.row]
 }
 
 func (m *Mat) Set(x [][]float64) {
 
-	if len(x) >= m.Col {
-		for i := 0; i < m.Col; i++ {
-			m.M[i].Set(x[i])
+	if len(x) >= m.col {
+		for i := 0; i < m.col; i++ {
+			m.m[i].Set(x[i])
 		}
 	} else {
 		for i := 0; i < len(x); i++ {
-			m.M[i].Set(x[i])
+			m.m[i].Set(x[i])
 		}
 	}
 
@@ -124,11 +124,11 @@ func (m *Mat) Set(x [][]float64) {
 
 func (f *FNCVec) Set(fs ...func(float64, Vec) (float64, error)) {
 
-	if len(fs) < f.Row {
+	if len(fs) < f.row {
 		z := func(float64, Vec) (float64, error) {
 			return 0, nil
 		}
-		zero := make([]func(float64, Vec) (float64, error), f.Row-len(fs))
+		zero := make([]func(float64, Vec) (float64, error), f.row-len(fs))
 		for i := range zero {
 			zero[i] = z
 		}
@@ -136,27 +136,55 @@ func (f *FNCVec) Set(fs ...func(float64, Vec) (float64, error)) {
 		fs = append(fs, zero...)
 	}
 
-	f.F = fs[0:f.Row]
+	f.f = fs[0:f.row]
+}
+
+func (v *Vec) V() []float64 {
+	return v.v
+}
+
+func (v *Vec) Row() int {
+	return v.row
+}
+
+func (m *Mat) M() []Vec {
+	return m.m
+}
+
+func (m *Mat) Col() int {
+	return m.col
+}
+
+func (m *Mat) Row() int {
+	return m.row
+}
+
+func (f *FNCVec) F() []func(float64, Vec) (float64, error) {
+	return f.f
+}
+
+func (f *FNCVec) Row() int {
+	return f.row
 }
 
 func (v *Vec) At(i int) float64 {
-	return v.V[i]
+	return v.v[i]
 }
 
 func (m *Mat) At(i, j int) float64 {
-	return m.M[i].V[j]
+	return m.m[i].v[j]
 }
 
 func (f *FNCVec) At(i int) func(float64, Vec) (float64, error) {
-	return f.F[i]
+	return f.f[i]
 }
 
 func (v *Vec) Write(i int, num float64) {
 	if i >= 0 {
-		v.V[i] = num
+		v.v[i] = num
 	} else {
-		for j := 0; j < v.Row; j++ {
-			v.V[j] = num
+		for j := 0; j < v.row; j++ {
+			v.v[j] = num
 		}
 	}
 }
@@ -164,50 +192,50 @@ func (v *Vec) Write(i int, num float64) {
 func (m *Mat) Write(i, j int, num float64) {
 	if i >= 0 {
 		if j >= 0 {
-			m.M[i].V[j] = num
+			m.m[i].v[j] = num
 		} else {
-			m.M[i].Write(-1, num)
+			m.m[i].Write(-1, num)
 		}
 	} else {
 		if j >= 0 {
-			for k := 0; k < m.Col; k++ {
-				m.M[k].V[j] = num
+			for k := 0; k < m.col; k++ {
+				m.m[k].v[j] = num
 			}
 		} else {
 			idx := 0
-			if m.Col < m.Row {
-				idx = m.Col
+			if m.col < m.row {
+				idx = m.col
 			} else {
-				idx = m.Row
+				idx = m.row
 			}
 
 			for k := 0; k < idx; k++ {
-				m.M[k].V[k] = num
+				m.m[k].v[k] = num
 			}
 		}
 	}
 }
 
 func (v *Vec) Copy() Vec {
-	vec := NewVec(v.Row)
-	for i := 0; i < v.Row; i++ {
+	vec := NewVec(v.row)
+	for i := 0; i < v.row; i++ {
 		vec.Write(i, v.At(i))
 	}
 	return vec
 }
 
 func (m *Mat) Copy() Mat {
-	mat := NewMat(m.Col, m.Row)
-	for i := 0; i < m.Col; i++ {
-		mat.M[i] = m.M[i].Copy()
+	mat := NewMat(m.col, m.row)
+	for i := 0; i < m.col; i++ {
+		mat.m[i] = m.m[i].Copy()
 	}
 	return mat
 }
 
 func (f *FNCVec) Calc(t float64, x Vec) (Vec, error) {
-	ans := make([]float64, f.Row)
+	ans := make([]float64, f.row)
 	for i := range ans {
-		tmp, err := f.F[i](t, x)
+		tmp, err := f.f[i](t, x)
 		if err != nil {
 			return NewVec(0), err
 		}

@@ -36,8 +36,8 @@ func BenchmarkTranspose(b *testing.B) {
 	n := 50
 	m := NewMat(n, n)
 
-	for i := 0; i < m.Col; i++ {
-		for j := 0; j < m.Row; j++ {
+	for i := 0; i < m.Col(); i++ {
+		for j := 0; j < m.Row(); j++ {
 			m.Write(i, j, float64(i+j))
 		}
 	}

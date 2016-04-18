@@ -1,9 +1,9 @@
 package k3library
 
 func ForwardSub(a Mat, b Vec) (Vec, error) {
-	x := NewVec(b.Row)
+	x := NewVec(b.row)
 
-	for i := 0; i < a.Col; i++ {
+	for i := 0; i < a.col; i++ {
 		if a.At(i, i) == 0 {
 			return Vec{[]float64{}, 0}, ErrCannotSolve
 		}

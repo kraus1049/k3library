@@ -60,7 +60,7 @@ func isIdentityMat(mat Mat, eps float64) bool {
 		return false
 	}
 
-	for i := 0; i < mat.Col; i++ {
+	for i := 0; i < mat.Col(); i++ {
 		if !EpsEqual(mat.At(i, i), 1, eps) {
 			return false
 		}

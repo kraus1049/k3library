@@ -3,6 +3,7 @@ package k3library_test
 import (
 	. "github.com/kraus1049/k3library"
 	"math"
+	"runtime"
 	"testing"
 )
 
@@ -47,37 +48,49 @@ func TestEuler(t *testing.T) {
 			nil},
 	}
 
+	runtime.GOMAXPROCS(runtime.NumCPU())
+	ch := make(chan bool, len(testEuler))
+
 	for i := range testEuler {
-		test := &testEuler[i]
-		actual, err := Euler(test.f, test.x_i, test.y_i, test.to, test.eps)
+		go func(i int) {
+			defer func() {
+				ch <- true
+			}()
 
-		if err != test.err {
-			t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
-		}
+			test := &testEuler[i]
+			actual, err := Euler(test.f, test.x_i, test.y_i, test.to, test.eps)
 
-		act, err := actual(test.x_i)
+			if err != test.err {
+				t.Errorf("%v: actual = %v, expected = %v\n", i, err, test.err)
+			}
 
-		if err != nil {
-			t.Log("error !!!!\n")
-			t.FailNow()
-		}
+			act, err := actual(test.x_i)
 
-		if !EpsEqual(act, test.expected(test.x_i), 1e-3) {
-			t.Errorf("%v: actual = %v, expected = %v\n", i, act, test.expected(test.x_i))
-		}
+			if err != nil {
+				t.Log("error !!!!\n")
+				t.FailNow()
+			}
 
-		act, err = actual(test.to - test.eps*5)
+			if !EpsEqual(act, test.expected(test.x_i), 1e-3) {
+				t.Errorf("%v: actual = %v, expected = %v\n", i, act, test.expected(test.x_i))
+			}
 
-		if err != nil {
-			t.Logf("euler: %v\n", err)
-			t.FailNow()
-		}
+			act, err = actual(test.to - test.eps*5)
 
-		tmp := test.expected(test.to - test.eps)
+			if err != nil {
+				t.Logf("euler: %v\n", err)
+				t.FailNow()
+			}
 
-		if !EpsEqual(act, tmp, 1e-3) {
-			t.Errorf("%v: actual = %v, expected = %v\n", i, act, tmp)
-		}
+			tmp := test.expected(test.to - test.eps)
 
+			if !EpsEqual(act, tmp, 1e-3) {
+				t.Errorf("%v: actual = %v, expected = %v\n", i, act, tmp)
+			}
+		}(i)
+
+	}
+	for i := 0; i < len(testEuler); i++ {
+		<-ch
 	}
 }

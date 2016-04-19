@@ -229,3 +229,21 @@ func Pro(xs ...interface{}) (interface{}, error) {
 	return nil, ErrInvalid
 
 }
+
+func (v *Vec) Average() float64 {
+	tmp := 0.0
+	for i := 0; i < v.row; i++ {
+		tmp += v.At(i)
+	}
+
+	return tmp / float64(v.row)
+}
+
+func (m *Mat) Average() float64 {
+	tmp := 0.0
+	for i := 0; i < m.col; i++ {
+		tmp += m.m[i].Average()
+	}
+
+	return tmp / float64(m.col)
+}

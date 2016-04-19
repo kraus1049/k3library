@@ -39,6 +39,16 @@ type subTestInvalidArgument struct {
 	err  error
 }
 
+type vAverageTest struct {
+	xs       Vec
+	expected float64
+}
+
+type mAverageTest struct {
+	xs       Mat
+	expected float64
+}
+
 func TestSum(t *testing.T) {
 	v1 := NewVecSet(1, 2)
 	v2 := NewVecSet(2, 4)
@@ -279,4 +289,39 @@ func TestSubInvalidArgument(t *testing.T) {
 		}
 	}
 
+}
+
+func TestVAverage(t *testing.T) {
+	var testVAverage = []vAverageTest{
+		{NewVecSet(1.0), 1.0},
+		{NewVecSet(1, 2), 1.5},
+		{NewVecSet(1, 2, 3), 2.0},
+	}
+
+	for i := range testVAverage {
+		test := &testVAverage[i]
+		actual := test.xs.Average()
+
+		if actual != test.expected {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
+		}
+
+	}
+}
+
+func TestMAverage(t *testing.T) {
+	var testMAverage = []mAverageTest{
+		{NewMatSet([][]float64{{1}, {2}}), 1.5},
+		{NewMatSet([][]float64{{1, 2}, {3, 4}}), 2.5},
+		{NewMatSet([][]float64{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}), 5.0},
+	}
+
+	for i := range testMAverage {
+		test := &testMAverage[i]
+		actual := test.xs.Average()
+
+		if actual != test.expected {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
+		}
+	}
 }

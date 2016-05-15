@@ -2,6 +2,7 @@ package k3library_test
 
 import (
 	. "github.com/kraus1049/k3library"
+	"math"
 	"reflect"
 	"testing"
 )
@@ -46,6 +47,11 @@ type vAverageTest struct {
 
 type mAverageTest struct {
 	xs       Mat
+	expected float64
+}
+
+type vAbs struct {
+	xs       Vec
 	expected float64
 }
 
@@ -319,6 +325,26 @@ func TestMAverage(t *testing.T) {
 	for i := range testMAverage {
 		test := &testMAverage[i]
 		actual := test.xs.Average()
+
+		if actual != test.expected {
+			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)
+		}
+	}
+}
+
+func TestAbs(t *testing.T) {
+	var testAbs = []vAbs{
+		{NewVecSet(2),
+			2},
+		{NewVecSet(1, 2),
+			math.Sqrt(5)},
+		{NewVecSet(1, 2, 3),
+			math.Sqrt(14)},
+	}
+
+	for i := range testAbs {
+		test := &testAbs[i]
+		actual := test.xs.Abs()
 
 		if actual != test.expected {
 			t.Errorf("%v: actual = %v, expected = %v\n", i, actual, test.expected)

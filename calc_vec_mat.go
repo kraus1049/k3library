@@ -1,5 +1,9 @@
 package k3library
 
+import (
+	"math"
+)
+
 func Sum(xs ...interface{}) (interface{}, error) {
 	if !allTypeEqual(xs...) {
 		return nil, ErrInvalid
@@ -246,4 +250,13 @@ func (m *Mat) Average() float64 {
 	}
 
 	return tmp / float64(m.col)
+}
+
+func (v *Vec) Abs() float64 {
+	tmp := 0.0
+	for i := 0; i < v.row; i++ {
+		tmp += math.Pow(v.At(i), 2)
+	}
+
+	return math.Sqrt(tmp)
 }
